@@ -1,0 +1,38 @@
+{
+  "name": "cas-server",
+  "version": "0.1.0",
+  "description": "An implementation of Apereo's CAS protocol",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "cas",
+    "apereo",
+    "jasig"
+  ],
+  "homepage": "https://github.com/jscas/cas-server",
+  "bugs": "https://github.com/jscas/cas-server/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jscas/cas-server.git"
+  },
+  "author": "James Sumners",
+  "license": "MIT",
+  "dependencies": {
+    "boom": "^3.0.0",
+    "handlebars": "^4.0.5",
+    "hapi": "^11.1.2",
+    "hapi-boom-decorators": "^1.0.2",
+    "hapi-server-session": "^2.0.4",
+    "hoek": "^3.0.4",
+    "iron": "^3.0.1",
+    "laic": "^0.3.2",
+    "then-yield": "0.0.1",
+    "winston": "^2.1.1",
+    "yargs": "^3.31.0"
+  },
+  "devDependencies": {
+    "hapi-cas": "^0.1.1"
+  }
+}
