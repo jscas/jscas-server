@@ -27,7 +27,7 @@
     "hapi-server-session": "^2.0.4",
     "hoek": "^3.0.4",
     "iron": "^3.0.1",
-    "laic": "^0.3.2",
+    "laic": "^0.3.4",
     "then-yield": "0.0.1",
     "winston": "^2.1.1",
     "yargs": "^3.31.0"
