@@ -48,16 +48,20 @@ currently receive a context from `cas-server`.
 ```javascript
 {
   lt: 'string login ticket',
-  service: 'string url for the requesting service'
+  service: 'string url for the requesting service',
+  errorMessage: 'string detailing login failure'
 }
 ```
 
-Both of these values **must** be added to the login form as *hidden* values.
-You *may* display the `service` property to the user. It is **recommended**
-that you do not make the service URL a clickable link.
+The `lt` and `service` values **must** be added to the login form as *hidden*
+inputs. You *may* display the `service` property to the user. It is
+**recommended** that you do not make the service URL a clickable link.
 
 The login form **must** submit values for variables `username` and
 `password`.
+
+`errorMessage` will only be set if a login error occurred (most likely due to
+credentials validation failure).
 
 ### loginRedirect
 
