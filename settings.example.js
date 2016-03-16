@@ -62,6 +62,14 @@ module.exports = {
 
       // what to call your cas server session cookie
       name: 'casjs'
+    },
+
+    // options for the Marko template engine
+    // if you enable writeToDisk then the user running the server will need
+    // write access to lib/xmlTemplates
+    marko: {
+      writeToDisk: false,
+      checkUpToDate: true
     }
   },
 
