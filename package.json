@@ -4,7 +4,7 @@
   "description": "An implementation of Apereo's CAS protocol",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --ui qunit test"
   },
   "keywords": [
     "cas",
@@ -21,18 +21,22 @@
   "license": "MIT",
   "dependencies": {
     "boom": "^3.0.0",
-    "handlebars": "^4.0.5",
     "hapi": "^11.1.2",
     "hapi-boom-decorators": "^1.0.2",
     "hapi-server-session": "^2.0.4",
     "hoek": "^3.0.4",
     "iron": "^3.0.1",
     "laic": "^0.3.4",
+    "marko": "^3.0.0",
     "then-yield": "0.0.1",
     "winston": "^2.1.1",
     "yargs": "^3.31.0"
   },
   "devDependencies": {
-    "hapi-cas": "^0.1.1"
+    "chai": "^3.5.0",
+    "cheerio": "^0.20.0",
+    "hapi-cas": "^0.1.1",
+    "mocha": "^2.4.5",
+    "rimraf": "^2.5.2"
   }
 }
