@@ -64,11 +64,11 @@ test('valid extra attributes', function stdattrs(done) {
       standardAttributes: {
         authenticationDate: new Date('2016-03-16T15:00:00-05:00'),
         memberOf: ['one', 'two', 'three']
+      },
+      extraAttributes: {
+        foo: 'bar',
+        memberOf: ['four', 'five']
       }
-    },
-    extraAttributes: {
-      foo: 'bar',
-      memberOf: ['four', 'five']
     }
   });
   const $ = cheerio.load(html);
