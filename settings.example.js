@@ -12,6 +12,15 @@ module.exports = {
       port: 9000
     },
 
+    // http://hapijs.com/api#new-serveroptions (`cache` property)
+    // configure Hapi's internal cache management (via a catbox engine)
+    // this is used by the session management for storing its data
+    // thus, if you want your session information stored somewhere like
+    // a Redis server, this is where you supply that information
+    //
+    // set to `false`, or omit, to stick with Hapi's default memory engine
+    cache: false,
+
     // name for the Ticket Granting Cookie (TGC)
     tgcName: 'TGC-JSCAS',
 
