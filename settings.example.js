@@ -43,7 +43,7 @@ module.exports = {
 
       encoding: 'iron',
       // encryption key for Iron's encoding
-      password: 'some quite good password',
+      password: 'some quite good password at least 32 characters long',
 
       strictHeader: false
     },
