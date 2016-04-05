@@ -20,8 +20,12 @@ module.exports.name = 'mockAuth';
 module.exports.plugin = function mockAuth(options, context) {
   return {
     validate(username, password) {
-      return users.hasOwnProperty(username) &&
-        users[username].password === password;
+      if (users.hasOwnProperty(username) &&
+        users[username].password === password)
+      {
+        return Promise.resolve(true);
+      }
+      return Promise.reject(new Error('credential validation failed'));
     }
   }
 };

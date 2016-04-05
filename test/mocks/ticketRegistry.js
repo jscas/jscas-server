@@ -23,6 +23,13 @@ const tgt = {
   userId: 'fbar'
 };
 
+const tgtExpired = {
+  tid: 'expired-tgt',
+  created: new Date(Date.now() - 60000),
+  expires: new Date(Date.now() - 50000),
+  userId: 'fbar'
+};
+
 const st = {
   tid: 'valid-st',
   tgtId: 'valid-tgt',
@@ -106,10 +113,14 @@ module.exports.plugin = function mockTR(config, context) {
     },
 
     getTGT(ticketGrantingTicketId) {
-      if (ticketGrantingTicketId === tgt.tid) {
-        return Promise.resolve(tgt);
+      switch (ticketGrantingTicketId) {
+        case tgt.tid:
+          return Promise.resolve(tgt);
+        case tgtExpired.tid:
+          return Promise.resolve(tgtExpired);
+        default:
+          Promise.reject(noTicketError);
       }
-      return Promise.reject(noTicketError);
     },
 
     getST(serviceTicketId) {
