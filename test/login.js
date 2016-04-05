@@ -148,10 +148,8 @@ suite('Login POST method');
 test('rejects bad services', function postBad(done) {
   const request = {
     method: 'POST',
-    params: {
-      service: 'http://bad.example.com/'
-    },
     payload: {
+      service: 'http://bad.example.com/',
       username: 'fbar',
       password: '123456'
     }
@@ -173,10 +171,8 @@ test('rejects bad services', function postBad(done) {
 test('rejects bad login ticket', function postBad(done) {
   const request = {
     method: 'POST',
-    params: {
-      service: 'http://example.com/'
-    },
     payload: {
+      service: 'http://example.com/',
       username: 'fbar',
       password: '123456',
       lt: 'bad-lt'
@@ -190,7 +186,7 @@ test('rejects bad login ticket', function postBad(done) {
 
   reply.redirect = function redirect(dest) {
     expect(dest).to.equal(
-      '/login?service=' + encodeURIComponent(request.params.service)
+      '/login?service=' + encodeURIComponent(request.payload.service)
     );
     expect(request.session.errorMessage).to.exist;
     expect(request.session.errorMessage).to.equal('invalid login ticket');
@@ -203,10 +199,8 @@ test('rejects bad login ticket', function postBad(done) {
 test('rejects invalid credentials', function validLogin(done) {
   const request = {
     method: 'POST',
-    params: {
-      service: 'http://example.com/'
-    },
     payload: {
+      service: 'http://example.com/',
       username: 'fbar',
       password: '213456',
       lt: 'good-ticket'
@@ -223,7 +217,7 @@ test('rejects invalid credentials', function validLogin(done) {
 
   reply.redirect = function redirect(dest) {
     expect(dest).to.equal(
-      '/login?service=' + encodeURIComponent(request.params.service)
+      '/login?service=' + encodeURIComponent(request.payload.service)
     );
     done();
   };
@@ -234,10 +228,8 @@ test('rejects invalid credentials', function validLogin(done) {
 test('processes valid credentials', function validLogin(done) {
   const request = {
     method: 'POST',
-    params: {
-      service: 'http://example.com/'
-    },
     payload: {
+      service: 'http://example.com/',
       username: 'fbar',
       password: '123456',
       lt: 'good-ticket'
