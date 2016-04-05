@@ -4,7 +4,7 @@ const hapi = require('hapi');
 const server = new hapi.Server();
 
 server.connection({
-  address: '192.168.1.6',
+  address: '127.0.0.1',
   port: 9500
 });
 
@@ -24,7 +24,7 @@ server.register(require('hapi-cas'), (err) => {
     const options = {
       casProtocolVersion: 3,
       casServerUrl: 'http://127.0.0.1:9000',
-      localAppUrl: 'http://192.168.1.6:9500',
+      localAppUrl: 'http://127.0.0.1:9500',
       endPointPath: '/casHandler',
       renew: true
     };
