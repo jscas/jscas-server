@@ -24,7 +24,7 @@ const log = ioc.loadFile('lib/logger').get('logger');
 // phase one plugins must be initialized immediately after loading the
 // configuration and logger, otherwise dependent parts will not have
 // access to them
-const pluginsLoader = require(__dirname + '/lib/pluginsLoader');
+const pluginsLoader = require(path.join(__dirname, 'lib', 'pluginsLoader'));
 const phase1 = pluginsLoader.phase1();
 ioc.register('plugins', phase1, false);
 
