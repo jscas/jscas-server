@@ -32,7 +32,7 @@ The `context` will be the following object:
 
 ```javascript
 {
-  logger: {} // an instance of the Winston logging API
+  logger: {} // an instance of the pino logger
 }
 ```
 

@@ -18,7 +18,7 @@ if (argv.hasOwnProperty('config')) {
   }
 }
 
-// re-initialize the logger with the user supplied transports configuration
+// re-initialize the logger with the user supplied configuration
 const log = ioc.loadFile('lib/logger').get('logger');
 
 // phase one plugins must be initialized immediately after loading the
@@ -35,6 +35,7 @@ ioc.register('hooks', hooks, false);
 
 let server;
 if (argv._.indexOf('run') !== -1) {
+  log.debug('loading Hapi web server');
   server = require(__dirname + '/lib/loadServer')(argv);
   ioc.register('server', server, false);
   server.start(function(error) {

@@ -1,7 +1,5 @@
 'use strict';
 
-const winston = require('winston');
-
 const sessionTTL = 60 * 1000;
 
 module.exports = {
@@ -89,23 +87,10 @@ module.exports = {
   },
 
   // logging
-  winston: {
-    // only the core loggers are available by default
-    // if you want others then you'll have to install them yourself via npm
-    // https://github.com/winstonjs/winston/blob/master/docs/transports.md
-    transports: [
-      new winston.transports.Console({
-        level: 'debug',
-        colorize: true,
-        timestamp: true
-      }),
-      new winston.transports.File({
-        level: 'info',
-        colorize: false,
-        timestamp: true,
-        filename: '/tmp/cas-server.log'
-      })
-    ]
+  pino: {
+    // https://www.npmjs.com/package/pino
+    name: 'jscas-server',
+    level: 'debug'
   },
 
   plugins: {

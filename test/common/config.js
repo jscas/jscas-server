@@ -1,7 +1,5 @@
 'use strict';
 
-const winston = require('winston');
-
 module.exports = {
   server: {
     connection: {
@@ -46,12 +44,9 @@ module.exports = {
     serviceTicketTTL: 100
   },
 
-  winston: {
-    transports: [
-      new winston.transports.Console({
-        level: 'info'
-      })
-    ]
+  pino: {
+    name: 'mock-server',
+    level: 'debug'
   },
 
   plugins: {
