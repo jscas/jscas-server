@@ -4,8 +4,7 @@ const path = require('path');
 const cheerio = require('cheerio');
 const expect = require('chai').expect;
 const rimraf = require('rimraf');
-const laic = require('laic').laic.addNamespace('casServer');
-laic.register('config', {}, false);
+require('./common/setupIOC')();
 
 rimraf.sync(path.join(__dirname, '..', 'lib', 'xmlTemplats', '*.marko.js'));
 const xml = require(path.join(__dirname, '..', 'lib', 'xml'));
