@@ -9,7 +9,7 @@ server.connection({
 });
 
 server.register({
-  register: require('hapi-server-session'),
+  register: require('hapi-easy-session'),
   options: {
     expiresIn: 60 * 1000,
     key: 'nope',

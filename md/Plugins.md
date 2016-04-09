@@ -32,7 +32,10 @@ The `context` will be the following object:
 
 ```javascript
 {
-  logger: {} // an instance of the pino logger
+  logger: {}, // an instance of the pino logger
+  dataSources: {
+    knex: {} // an instance of knex.js
+  }
 }
 ```
 

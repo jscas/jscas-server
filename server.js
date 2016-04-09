@@ -21,6 +21,9 @@ if (argv.hasOwnProperty('config')) {
 // re-initialize the logger with the user supplied configuration
 const log = ioc.loadFile('lib/logger').get('logger');
 
+const dataSources = require(path.join(__dirname, 'lib', 'loadDataSources'));
+ioc.register('dataSources', dataSources, false);
+
 // phase one plugins must be initialized immediately after loading the
 // configuration and logger, otherwise dependent parts will not have
 // access to them

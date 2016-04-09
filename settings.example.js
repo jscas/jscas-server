@@ -98,6 +98,20 @@ module.exports = {
     level: 'debug'
   },
 
+  // data sources are passed to plugins so that all plugins may use
+  // the same databases
+  // each plugin should not which data sources it requires
+  dataSources: {
+    // http://knexjs.org/#Installation-client
+    // set to `false` to skip initializing knex
+    // othewise, set to a full knex configuration object for the server's
+    // environment, i.e. don't use environments segregation as is possible
+    // in a knexfile.js
+    // whichever database you use, you will need to install the driver
+    // alonside this configuration (e.g. `npm install pg`)
+    knex: false
+  },
+
   plugins: {
     // at least one authentication plugin is required
     // the first to validate wins
@@ -128,15 +142,6 @@ module.exports = {
 
     // a ticket registry plugin backed by a PostgreSQL database
     pgTicketRegistry: {
-      // knex.js compatible configuration object for the database connection
-      // this is required
-      db: {
-        client: 'postgresql',
-        connection: {
-          database: 'casserver',
-          user: 'casserver'
-        }
-      },
       // specify the lifetime of ticket types in milliseconds
       // you should really set these values
       // the default values set by the plugin are _extremely_ short
@@ -149,16 +154,6 @@ module.exports = {
     },
 
     // a service registry plugin backed by a PostgreSQL database
-    pgServiceRegistry: {
-      // knex.js compatible configuration object for the database connection
-      // this is required
-      db: {
-        client: 'postgresql',
-        connection: {
-          database: 'casserver',
-          user: 'casserver'
-        }
-      }
-    }
+    pgServiceRegistry: {}
   }
 };
