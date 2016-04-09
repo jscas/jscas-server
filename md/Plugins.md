@@ -35,6 +35,11 @@ The `context` will be the following object:
   logger: {}, // an instance of the pino logger
   dataSources: {
     knex: {} // an instance of knex.js
+  },
+  ticketLifetimes: {
+    loginTicketTTL: 'time in milliseconds',
+    ticketGrantingTicketTTL: 'time in milliseconds',
+    serviceTicketTTL: 'time in milliseconds'
   }
 }
 ```

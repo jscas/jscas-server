@@ -85,6 +85,7 @@ module.exports = {
     }
   },
 
+  // lifetimes for all ticket types
   tickets: {
     loginTicketTTL: 5 * 60 * 1000,
     ticketGrantingTicketTTL: sessionTTL,
@@ -141,17 +142,7 @@ module.exports = {
     },
 
     // a ticket registry plugin backed by a PostgreSQL database
-    pgTicketRegistry: {
-      // specify the lifetime of ticket types in milliseconds
-      // you should really set these values
-      // the default values set by the plugin are _extremely_ short
-      // the ones specified here are a good start
-      tickets: {
-        loginTicketTTL: 5 * 60 * 1000,
-        ticketGrantingTicketTTL: sessionTTL,
-        serviceTicketTTL: 60 * 1000
-      }
-    },
+    pgTicketRegistry: {},
 
     // a service registry plugin backed by a PostgreSQL database
     pgServiceRegistry: {}
