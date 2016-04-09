@@ -1,17 +1,13 @@
 'use strict';
 
+const logger = require('pino')({level: 'fatal'});
+
 module.exports = function setupIOC() {
   delete require.cache[require.resolve('laic')];
   const laic = require('laic').laic;
 
-  const noop = () => {};
-
   laic.addNamespacePath('casServer/lib');
-  laic.casServer.lib.register('logger', {
-    debug: noop,
-    error: noop,
-    info: noop
-  });
+  laic.casServer.lib.register('logger', logger);
   laic.casServer.register('config', require('./config'));
   laic.casServer.register('plugins', {
     auth: [require('../mocks/auth').plugin()],
