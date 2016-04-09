@@ -53,7 +53,7 @@ module.exports = {
     // if this is set to false, the intermediate page will be used
     use303: true,
 
-    // options for the hapi-server-session module
+    // https://www.npmjs.com/package/hapi-easy-session#options
     session: {
       cookie: {
         isSecure: false, // should be `true` in production
@@ -68,7 +68,12 @@ module.exports = {
       key: 'some really awesome secret key',
 
       // what to call your cas server session cookie
-      name: 'casjs'
+      name: 'casjs',
+
+      cache: {
+        segment: 'jscas-session',
+        expiresIn: sessionTTL
+      }
     },
 
     // options for the Marko template engine

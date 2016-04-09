@@ -23,7 +23,7 @@
     "boom": "^3.1.2",
     "hapi": "^13.3.0",
     "hapi-boom-decorators": "^1.1.3",
-    "hapi-server-session": "^2.0.4",
+    "hapi-easy-session": "^0.2.1",
     "hoek": "^3.0.4",
     "iron": "^4.0.0",
     "laic": "^0.3.4",
