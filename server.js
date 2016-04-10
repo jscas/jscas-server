@@ -4,7 +4,12 @@ const path = require('path');
 const ioc = require('laic').laic.addNamespace('casServer');
 ioc.loadFile('lib/logger');
 
-const argv = require(path.join(__dirname, 'lib', 'cli'));
+function reqlib() {
+  const args = [].concat([__dirname, 'lib'], Array.from(arguments));
+  return require(path.join.apply(null, args));
+}
+
+const argv = reqlib('cli');
 let config;
 if (argv.config) {
   config = argv.config;
@@ -25,13 +30,13 @@ try {
 // re-initialize the logger with the user supplied configuration
 const log = ioc.loadFile('lib/logger').get('logger');
 
-const dataSources = require(path.join(__dirname, 'lib', 'loadDataSources'));
+const dataSources = reqlib('loadDataSources');
 ioc.register('dataSources', dataSources, false);
 
 // phase one plugins must be initialized immediately after loading the
 // configuration and logger, otherwise dependent parts will not have
 // access to them
-const pluginsLoader = require(path.join(__dirname, 'lib', 'pluginsLoader'));
+const pluginsLoader = reqlib('pluginsLoader');
 const phase1 = pluginsLoader.phase1();
 ioc.register('plugins', phase1, false);
 
@@ -41,7 +46,7 @@ const hooks = {
 ioc.register('hooks', hooks, false);
 
 log.debug('loading Hapi web server');
-const server = require(__dirname + '/lib/loadServer')(argv);
+const server = reqlib('loadServer')(argv);
 ioc.register('server', server, false);
 server.start(function(error) {
   if (error) {
@@ -50,7 +55,7 @@ server.start(function(error) {
   }
   log.debug('web server started');
   log.info('web server address: %s', server.info.uri);
-  require(__dirname + '/lib/processManagement');
+  reqlib('processManagement');
 
   pluginsLoader.phase2(server, hooks);
 });
