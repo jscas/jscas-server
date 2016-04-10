@@ -5,17 +5,21 @@ const ioc = require('laic').laic.addNamespace('casServer');
 ioc.loadFile('lib/logger');
 
 const argv = require(path.join(__dirname, 'lib', 'cli'));
-
 let config;
-if (argv.hasOwnProperty('config')) {
-  try {
-    const fp = path.resolve(argv.config);
-    config = require(fp);
-    ioc.register('config', config, false);
-  } catch (e) {
-    console.error('could not load configuration: %s', e.message);
-    process.exit(1);
-  }
+if (argv.config) {
+  config = argv.config;
+} else if (argv.settings) {
+  config = argv.settings;
+} else {
+  config = './settings.js';
+}
+try {
+  const fp = path.resolve(config);
+  config = require(fp);
+  ioc.register('config', config, false);
+} catch (e) {
+  console.error('could not load configuration: %s', e.message);
+  process.exit(1);
 }
 
 // re-initialize the logger with the user supplied configuration
@@ -36,20 +40,17 @@ const hooks = {
 };
 ioc.register('hooks', hooks, false);
 
-let server;
-if (argv._.indexOf('run') !== -1) {
-  log.debug('loading Hapi web server');
-  server = require(__dirname + '/lib/loadServer')(argv);
-  ioc.register('server', server, false);
-  server.start(function(error) {
-    if (error) {
-      log.error('could not start web server: %s', error.message);
-      log.debug(error);
-    }
-    log.debug('web server started');
-    log.info('web server address: %s', server.info.uri);
-    require(__dirname + '/lib/processManagement');
+log.debug('loading Hapi web server');
+const server = require(__dirname + '/lib/loadServer')(argv);
+ioc.register('server', server, false);
+server.start(function(error) {
+  if (error) {
+    log.error('could not start web server: %s', error.message);
+    log.debug(error);
+  }
+  log.debug('web server started');
+  log.info('web server address: %s', server.info.uri);
+  require(__dirname + '/lib/processManagement');
 
-    pluginsLoader.phase2(server, hooks);
-  });
-}
+  pluginsLoader.phase2(server, hooks);
+});
