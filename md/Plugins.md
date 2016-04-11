@@ -36,6 +36,7 @@ The `context` will be the following object:
   dataSources: {
     knex: {} // an instance of knex.js
   },
+  marko: {}, // an instance of the Marko.js templating engine
   ticketLifetimes: {
     loginTicketTTL: 'time in milliseconds',
     ticketGrantingTicketTTL: 'time in milliseconds',
