@@ -61,7 +61,7 @@ ioc.register('hooks', hooks, false);
 log.debug('loading Hapi web server');
 const server = reqlib('loadServer')(argv);
 ioc.register('server', server, false);
-server.start(function(error) {
+server.start(function startServerCB(error) {
   if (error) {
     log.error('could not start web server: %s', error.message);
     log.debug(error);

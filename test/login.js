@@ -6,9 +6,10 @@ require('./common/setupIOC')();
 const loginRoutes = require('../lib/routes/login');
 
 function State() {
-  return function inner(cookieName, value) {
+  function inner(cookieName, value) {
     inner[cookieName] = value;
   }
+  return inner;
 }
 
 suite('Login GET method');
@@ -104,7 +105,7 @@ test('initiates new logins', function newLogin(done) {
 });
 
 // TODO: renewal isn't really implemented yet
-it('forces login renewal', function renewal(done) {
+test('forces login renewal', function renewal(done) {
   const state = new State();
   state('test-cookie', 'valid-tgt');
 

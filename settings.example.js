@@ -157,7 +157,7 @@ module.exports = {
     // view the plugin's Readme.md for details on the file structure
     // the default configuration use's the plugin's sample data file
     authJSON: {
-      //credentialStore: '/path/to/store.json'
+      // credentialStore: '/path/to/store.json'
     },
 
     // a ticket registry plugin backed by a PostgreSQL database
