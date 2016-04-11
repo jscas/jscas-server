@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require('path');
+const introduce = require('introduce')();
 const ioc = require('laic').laic.addNamespace('casServer');
 ioc.loadFile('lib/logger');
 
@@ -30,7 +31,7 @@ try {
 // re-initialize the logger with the user supplied configuration
 const log = ioc.loadFile('lib/logger').get('logger');
 
-const dataSources = reqlib('loadDataSources');
+const dataSources = introduce('lib/loadDataSources');
 ioc.register('dataSources', dataSources, false);
 
 const marko = require('marko');
@@ -49,7 +50,7 @@ ioc.register('marko', marko, false);
 // phase one plugins must be initialized immediately after loading the
 // configuration and logger, otherwise dependent parts will not have
 // access to them
-const pluginsLoader = reqlib('pluginsLoader');
+const pluginsLoader = introduce('lib/pluginsLoader');
 const phase1 = pluginsLoader.phase1();
 ioc.register('plugins', phase1, false);
 
@@ -59,7 +60,7 @@ const hooks = {
 ioc.register('hooks', hooks, false);
 
 log.debug('loading Hapi web server');
-const server = reqlib('loadServer')(argv);
+const server = introduce('lib/loadServer')(argv);
 ioc.register('server', server, false);
 server.start(function startServerCB(error) {
   if (error) {
