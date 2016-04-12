@@ -126,7 +126,16 @@ module.exports = {
     // in a knexfile.js.
     // Whichever database you use, you will need to install the driver
     // alonside this configuration (e.g. `npm install pg`).
-    knex: false
+    knex: false,
+
+    // http://mongoosejs.com/docs/connections.html
+    // Set to `false` to skip initializing Mongoose.
+    // If not `false`, the object must have properties `uri` and `options`
+    // as described in the aforementioned Mongoose documentation.
+    mongoose: false /*{
+      uri: 'mongodb://localhost/jscas',
+      options: null
+    }*/
   },
 
   plugins: {
