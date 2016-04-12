@@ -34,8 +34,10 @@ The `context` will be the following object:
 {
   logger: {}, // an instance of the pino logger
   dataSources: {
-    knex: {} // an instance of knex.js
+    knex: {}, // an instance of knex.js
+    mongoose: {} // an instance of the mongoose object modeler
   },
+  marko: {}, // an instance of the Marko.js templating engine
   ticketLifetimes: {
     loginTicketTTL: 'time in milliseconds',
     ticketGrantingTicketTTL: 'time in milliseconds',
