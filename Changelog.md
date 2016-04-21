@@ -1,3 +1,7 @@
+### 0.3.1
++ Remove unused hapi-boom-decorators dependency
++ Add catch all 4xx/5xx error pages
+
 ### 0.3.0
 + Drop `run` cli command. Only switches `--config` and `--settings`
   are available (they are aliases of each other)
