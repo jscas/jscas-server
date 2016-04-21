@@ -1,3 +1,6 @@
+### 0.3.2
++ Fix broken log definition in error page handler
+
 ### 0.3.1
 + Remove unused hapi-boom-decorators dependency
 + Add catch all 4xx/5xx error pages
