@@ -24,7 +24,7 @@ A ticket registry plugin's `plugin` method returns an object that matches:
   getTGT: function(ticketGrantingTicketId) {},
   getST: function(serviceTicketId) {},
   getTGTbyST: function(serviceTicketId) {},
-  trackServiceLogin: function(serviceTicket, ticketGrantingTicket) {}
+  trackServiceLogin: function(serviceTicket, ticketGrantingTicket, serviceUrl) {}
 }
 ```
 
@@ -133,7 +133,7 @@ an `Error` on rejection.
 The `Promise` returned by this method **must** pass a single ST on success or
 an `Error` on rejection.
 
-### trackServiceLogin(serviceTicket, ticketGrantingTicket)
+### trackServiceLogin(serviceTicket, ticketGrantingTicket, serviceUrl)
 
 Will be invoked during service ticket validation so that `/logout` can send
 logout messages to all services a user authenticated to with a specific
