@@ -197,7 +197,7 @@ test('rejects bad login ticket', function postBad(done) {
   loginRoutes[1].handler(request, reply);
 });
 
-test('rejects invalid credentials', function validLogin(done) {
+test.only('rejects invalid credentials', function validLogin(done) {
   const request = {
     method: 'POST',
     payload: {
