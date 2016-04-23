@@ -55,7 +55,8 @@ const phase1 = pluginsLoader.phase1();
 ioc.register('plugins', phase1, false);
 
 const hooks = {
-  userAttributes: {}
+  userAttributes: {},
+  preAuth: {}
 };
 ioc.register('hooks', hooks, false);
 
