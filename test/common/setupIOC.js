@@ -35,6 +35,7 @@ module.exports = function setupIOC() {
   laic.casServer.register('hooks', {
     userAttributes: {
       auth: require('../mocks/auth').postInit()
-    }
+    },
+    preAuth: {}
   });
 };
