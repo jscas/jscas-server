@@ -31,7 +31,9 @@ A ticket registry plugin's `plugin` method returns an object that matches:
 Each of the `gen` and `get` methods **must** return a corresponding ticket
 object as the parameter of a `Promise` resolution.
 
-Each ticket **must** match the object:
+## Tickets
+
+Each ticket **must** implement the base object:
 
 ```javascript
 {
@@ -47,10 +49,36 @@ The `valid` property **must** be set to `false` when the corresponding
 upon ticket expiration; the expiration time should always be verified during
 ticket validations.
 
-*Note:* a Service Ticket *may* have an additional `serviceId` property. This
-`serviceId` will be used during Single Log Out (SLO) if such is enabled. Thus,
-your ticket registry *should* support specifying a `serviceId` for new service
-tickets.
+See the subsections of this section for the requirements for each
+specific ticket type.
+
+## Login Ticket (LT)
+
+Merely implements the base ticket object.
+
+## Service Ticket (LT)
+
+Extends the base ticket object with the following properties:
+
++ `tgtId`: an identifier for the associated Ticket Granting Ticket. It *may* be
+  the actual Ticket Granting Ticket `tid`.
++ `serviceId`: will be used during Single Log Out (SLO) if such is enabled. The
+  `serviceId` will be used to link Ticket Granting Tickets to services stored
+  in a service registry.
+
+## Ticket Granting Ticket (TGT)
+
+Extends the base ticket object with the following properties:
+
++ `userId`: an identifier that ties the ticket to a specific user.
++ `services`: a list of services that have used this TGT. This list will be used
+  during SLO. Each service in the list must be an object with the properties:
+
+    * `serviceId`: the same service identfier as was present on the ST.
+    * `logoutUrl`: the URL presented by the service during LT validation.
+
+  The `serviceId` will be used to find the corresponding service in the service
+  registry during SLO.
 
 ## Methods
 
