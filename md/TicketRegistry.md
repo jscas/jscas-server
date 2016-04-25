@@ -24,7 +24,8 @@ A ticket registry plugin's `plugin` method returns an object that matches:
   getTGT: function(ticketGrantingTicketId) {},
   getST: function(serviceTicketId) {},
   getTGTbyST: function(serviceTicketId) {},
-  trackServiceLogin: function(serviceTicket, ticketGrantingTicket, serviceUrl) {}
+  trackServiceLogin: function(serviceTicket, ticketGrantingTicket, serviceUrl) {},
+  servicesLogForTGT: function(tid) {}
 }
 ```
 
@@ -167,3 +168,19 @@ Will be invoked during service ticket validation so that `/logout` can send
 logout messages to all services a user authenticated to with a specific
 ticket granting ticket. This method's returned `Promise` **may** not be
 checked.
+
+You should store the `serviceTicket.serviceId` and `seviceUrl` as an object
+with the properties:
+
++ `serviceId`
++ `logoutUrl`
+
+## servicesLogForTGT(tid)
+
+Will be invoked during SLO to retrieve the list of services that were tracked
+via `trackServiceLogin()`. The result **must** be a list of objects with
+properties:
+
++ `serviceId`: identifier to lookup the service in the service registry with.
++ `logoutUrl`: the URL to be used for SLO *unless* the service registry reports
+  a different URL.
