@@ -1,3 +1,17 @@
+### 0.4.0
++ Fix mongoose shutdown (make it exist)
++ Add a pre-authentication hook
++ Improve debug logging
++ Refine definition of ticket types in API documentation
++ Basic implementation of `/logout`
+  + Reference implementation requires new versions of:
+    + cas-server-db-schema (0.2.0)
+    + cas-server-pg-service-registry (0.3.1)
+    + cas-server-pg-ticket-registry (0.3.0)
+    + cas-server-registries-db (0.3.0)
+  + Does not support `url` or `service` parameters
+  + Does not support client side SLO, only server-side
+
 ### 0.3.2
 + Fix broken log definition in error page handler
 
