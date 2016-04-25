@@ -23,6 +23,7 @@ A ticket registry plugin's `plugin` method returns an object that matches:
   getLT: function(loginTicketId) {},
   getTGT: function(ticketGrantingTicketId) {},
   getST: function(serviceTicketId) {},
+  getSTbyTGT: function(ticketGrantingTicketId) {},
   getTGTbyST: function(serviceTicketId) {},
   trackServiceLogin: function(serviceTicket, ticketGrantingTicket, serviceUrl) {},
   servicesLogForTGT: function(tid) {}
@@ -161,6 +162,11 @@ an `Error` on rejection.
 
 The `Promise` returned by this method **must** pass a single ST on success or
 an `Error` on rejection.
+
+### getSTbyTGT(ticketGrantingTicketId)
+
+The `Promise` returned by this method **must** pass a single ST on success or
+and `Error` on rejection.
 
 ### trackServiceLogin(serviceTicket, ticketGrantingTicket, serviceUrl)
 
