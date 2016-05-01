@@ -167,7 +167,12 @@ an `Error` on rejection.
 ### getSTbyTGT(ticketGrantingTicketId)
 
 The `Promise` returned by this method **must** pass a single ST on success or
-and `Error` on rejection.
+an `Error` on rejection.
+
+### getTGTbyST(serviceTicketId)
+
+The `Promise` returned by this method **must*8 pass a single TGT on success or
+an `Error` on rejection.
 
 ### trackServiceLogin(serviceTicket, ticketGrantingTicket, serviceUrl)
 
