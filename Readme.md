@@ -19,15 +19,10 @@ proxy support will be added later.
 > The reference implementation uses a [MongoDB][mongodb] database.
 > Before starting the installation, you should have such a database setup.
 
-First, clone the [cas-server-db-schema][dbschema] repository and follow the
-instructions in its [Readme.md][schemaread].
-
-Next:
-
 ```bash
 $ git clone https://github.com/jscas/cas-server
 $ cd cas-server
-$ npm install # to install the base dependencies
+$ npm install --production # to install the base dependencies
 $ npm install mongoose # for the ticket registries
 $ npm install cas-server-mongo-registries
 $ npm install cas-server-auth-json
@@ -45,7 +40,7 @@ $ # edit the settings.js file according to the instructions within
 Once installed, running the server is as simple as:
 
 ```bash
-$ node server.js run -c ./settings.js
+$ node server.js -c ./settings.js
 ```
 
 ## Adding A Service
