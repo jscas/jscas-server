@@ -145,11 +145,11 @@ module.exports = {
       require('cas-server-auth-json')
     ],
 
-    // Only one ticket registry is allowed per server.
-    ticketRegistry: require('cas-server-pg-ticket-registry'),
+    // only one ticket registry is allowed per server
+    ticketRegistry: require('cas-server-mongo-registries').ticketRegistry,
 
-    // Only one service registry is allowed per server.
-    serviceRegistry: require('cas-server-pg-service-registry'),
+    // only one service registry is allowed per server
+    serviceRegistry: require('cas-server-mongo-registries').serviceRegistry,
 
     // If you need multiple themes, you should run multiple instances
     // and direct traffic to them through something like HAProxy.
@@ -170,9 +170,9 @@ module.exports = {
     },
 
     // a ticket registry plugin backed by a PostgreSQL database
-    pgTicketRegistry: {},
+    mongoTicketRegistry: {},
 
     // a service registry plugin backed by a PostgreSQL database
-    pgServiceRegistry: {}
+    mongoServiceRegistry: {}
   }
 };
