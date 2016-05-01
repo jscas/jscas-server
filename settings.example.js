@@ -126,7 +126,16 @@ module.exports = {
     // in a knexfile.js.
     // Whichever database you use, you will need to install the driver
     // alonside this configuration (e.g. `npm install pg`).
-    knex: false
+    knex: false,
+
+    // http://mongoosejs.com/docs/connections.html
+    // Set to `false` to skip initializing Mongoose.
+    // If not `false`, the object must have properties `uri` and `options`
+    // as described in the aforementioned Mongoose documentation.
+    mongoose: false /*{
+      uri: 'mongodb://localhost/jscas',
+      options: null
+    }*/
   },
 
   plugins: {
@@ -136,11 +145,11 @@ module.exports = {
       require('cas-server-auth-json')
     ],
 
-    // Only one ticket registry is allowed per server.
-    ticketRegistry: require('cas-server-pg-ticket-registry'),
+    // only one ticket registry is allowed per server
+    ticketRegistry: require('cas-server-mongo-registries').ticketRegistry,
 
-    // Only one service registry is allowed per server.
-    serviceRegistry: require('cas-server-pg-service-registry'),
+    // only one service registry is allowed per server
+    serviceRegistry: require('cas-server-mongo-registries').serviceRegistry,
 
     // If you need multiple themes, you should run multiple instances
     // and direct traffic to them through something like HAProxy.
@@ -157,13 +166,13 @@ module.exports = {
     // view the plugin's Readme.md for details on the file structure
     // the default configuration use's the plugin's sample data file
     authJSON: {
-      //credentialStore: '/path/to/store.json'
+      // credentialStore: '/path/to/store.json'
     },
 
     // a ticket registry plugin backed by a PostgreSQL database
-    pgTicketRegistry: {},
+    mongoTicketRegistry: {},
 
     // a service registry plugin backed by a PostgreSQL database
-    pgServiceRegistry: {}
+    mongoServiceRegistry: {}
   }
 };

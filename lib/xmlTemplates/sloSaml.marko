@@ -1,0 +1,9 @@
+<samlp:LogoutRequest
+    xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol"
+    xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+    ID="${data.sloId}"
+    Version="2.0"
+    IssueInstant="${new Date().toISOString()}">
+    <saml:NameID>@NOT_USED@</saml:NameID>
+    <samlp:SessionIndex>${data.st.tid}</samlp:SessionIndex>
+</samlp:LogoutRequest>

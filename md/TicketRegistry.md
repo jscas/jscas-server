@@ -23,14 +23,19 @@ A ticket registry plugin's `plugin` method returns an object that matches:
   getLT: function(loginTicketId) {},
   getTGT: function(ticketGrantingTicketId) {},
   getST: function(serviceTicketId) {},
-  getTGTbyST: function(serviceTicketId) {}
+  getSTbyTGT: function(ticketGrantingTicketId) {},
+  getTGTbyST: function(serviceTicketId) {},
+  trackServiceLogin: function(serviceTicket, ticketGrantingTicket, serviceUrl) {},
+  servicesLogForTGT: function(tid) {}
 }
 ```
 
 Each of the `gen` and `get` methods **must** return a corresponding ticket
 object as the parameter of a `Promise` resolution.
 
-Each ticket **must** match the object:
+## Tickets
+
+Each ticket **must** implement the base object:
 
 ```javascript
 {
@@ -46,10 +51,36 @@ The `valid` property **must** be set to `false` when the corresponding
 upon ticket expiration; the expiration time should always be verified during
 ticket validations.
 
-*Note:* a Service Ticket *may* have an additional `serviceId` property. This
-`serviceId` will be used during Single Log Out (SLO) if such is enabled. Thus,
-your ticket registry *should* support specifying a `serviceId` for new service
-tickets.
+See the subsections of this section for the requirements for each
+specific ticket type.
+
+## Login Ticket (LT)
+
+Merely implements the base ticket object.
+
+## Service Ticket (LT)
+
+Extends the base ticket object with the following properties:
+
++ `tgtId`: an identifier for the associated Ticket Granting Ticket. It *may* be
+  the actual Ticket Granting Ticket `tid`.
++ `serviceId`: will be used during Single Log Out (SLO) if such is enabled. The
+  `serviceId` will be used to link Ticket Granting Tickets to services stored
+  in a service registry.
+
+## Ticket Granting Ticket (TGT)
+
+Extends the base ticket object with the following properties:
+
++ `userId`: an identifier that ties the ticket to a specific user.
++ `services`: a list of services that have used this TGT. This list will be used
+  during SLO. Each service in the list must be an object with the properties:
+
+    * `serviceId`: the same service identfier as was present on the ST.
+    * `logoutUrl`: the URL presented by the service during LT validation.
+
+  The `serviceId` will be used to find the corresponding service in the service
+  registry during SLO.
 
 ## Methods
 
@@ -85,7 +116,8 @@ Will be invoked to generate a new Service Ticket. The `ticketGrantingTicketId`
 to be generated. The `expires` parameter *should* accept a `Date` object that
 specifies when the ST will no longer be valid. The `serviceId` parameter
 *should* be used to store a service identifier with the ST so that the CAS
-server may use it for Single Log Out.
+server may use it for Single Log Out; the value should be the `name` property
+of the service.
 
 This method *should* validate the TGT prior to issuing a new ST. If the TGT is
 invalid, e.g. doesn't exist or is expired, then this method should return
@@ -131,3 +163,36 @@ an `Error` on rejection.
 
 The `Promise` returned by this method **must** pass a single ST on success or
 an `Error` on rejection.
+
+### getSTbyTGT(ticketGrantingTicketId)
+
+The `Promise` returned by this method **must** pass a single ST on success or
+an `Error` on rejection.
+
+### getTGTbyST(serviceTicketId)
+
+The `Promise` returned by this method **must*8 pass a single TGT on success or
+an `Error` on rejection.
+
+### trackServiceLogin(serviceTicket, ticketGrantingTicket, serviceUrl)
+
+Will be invoked during service ticket validation so that `/logout` can send
+logout messages to all services a user authenticated to with a specific
+ticket granting ticket. This method's returned `Promise` **may** not be
+checked.
+
+You should store the `serviceTicket.serviceId` and `seviceUrl` as an object
+with the properties:
+
++ `serviceId`
++ `logoutUrl`
+
+## servicesLogForTGT(tid)
+
+Will be invoked during SLO to retrieve the list of services that were tracked
+via `trackServiceLogin()`. The result **must** be a list of objects with
+properties:
+
++ `serviceId`: identifier to lookup the service in the service registry with.
++ `logoutUrl`: the URL to be used for SLO *unless* the service registry reports
+  a different URL.

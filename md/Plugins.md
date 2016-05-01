@@ -15,6 +15,20 @@ loaded, is:
 
 Plugins are initialized in two phases, and only the first phase is required.
 
+**JSON Responses:** if your plugin defines an API that should be returning
+JSON as a response, then you *must* set `api = true` on the `request`. Example:
+
+```javascript
+const yourApiRoute = {
+  path: '/your-plugin/endpoint',
+  method: 'GET',
+  handler(request, reply) {
+    request.api = true;
+    reply({property: 'value'});
+  }
+};
+```
+
 [casp]: https://github.com/Jasig/cas/blob/master/cas-server-documentation/protocol/CAS-Protocol-Specification.md
 
 ## Plugin Type Specifications
@@ -34,8 +48,10 @@ The `context` will be the following object:
 {
   logger: {}, // an instance of the pino logger
   dataSources: {
-    knex: {} // an instance of knex.js
+    knex: {}, // an instance of knex.js
+    mongoose: {} // an instance of the mongoose object modeler
   },
+  marko: {}, // an instance of the Marko.js templating engine
   ticketLifetimes: {
     loginTicketTTL: 'time in milliseconds',
     ticketGrantingTicketTTL: 'time in milliseconds',
@@ -98,7 +114,11 @@ protocol flow. Available hooks are:
 ```javascript
 {
   // you can provide information about a given user
-  userAttributes: function userAttributes(userid) {}
+  userAttributes: function userAttributes(userid) {},
+
+  // you can do things prior to the validate method being invoked for each
+  // auth plugin
+  preAuth: function preAuthHook(request, reply, username, password, lt) {}
 }
 ```
 
@@ -133,3 +153,28 @@ If your hook successfully returns data then the object will be merged into a
 pre-defined object. This means subsequent hooks *may* return an object with
 properties that will overwrite yours. Once all registered `userAttributes` hooks
 have been processed, the final object will be stored in the server's registry.
+
+#### preAuth
+
+When you register a function with this hook you are accepting a lot of
+responsibility:
+
+1. Your plugin has the user's credentials in plain text.
+2. You can short circuit the request with your own reply.
+
+The values returned via your `preAuth` hook's `Promise` will not be used. If
+you return a rejection, it will still count as a failure in the server's logs,
+but authentication will proceed like normal. If your hook encounters an error,
+you should invoke the `reply` method yourself. Example:
+
+```javascript
+reply(new Error('something went horribly wrong'));
+```
+
+If an error is provided in the reply, then the server's generic error page
+will be displayed to the user along with your error message.
+
+`preAuth` hooks are invoked after the requesting service has been validated,
+and a login ticket has been created. The login ticket is provided via the
+`lt` parameter. If your plugin ultimately creates a ticket granting ticket,
+this login ticket should be invalidated.

@@ -8,29 +8,38 @@ server.connection({
   port: 9500
 });
 
-server.register({
-  register: require('hapi-easy-session'),
-  options: {
-    expiresIn: 60 * 1000,
-    key: 'nope',
-    cookie: {
-      isSecure: false
-    },
-    name: 'testApp'
-  }
-}, function (err) { if (err) { throw err; } });
-
-server.register(require('hapi-cas'), (err) => {
-    const options = {
-      casProtocolVersion: 3,
-      casServerUrl: 'http://127.0.0.1:9000',
-      localAppUrl: 'http://127.0.0.1:9500',
-      endPointPath: '/casHandler',
-      renew: true
-    };
-    server.auth.strategy('casauth', 'cas', options);
+server.register(
+  {
+    register: require('hapi-easy-session'),
+    options: {
+      expiresIn: 60 * 1000,
+      key: 'nope',
+      cookie: {
+        isSecure: false
+      },
+      name: 'testApp'
+    }
+  },
+  function cb(err) {
+    if (err) {
+      throw err;
+    }
   }
 );
+
+server.register(require('hapi-cas'), (err) => {
+  if (err) {
+    throw err;
+  }
+  const options = {
+    casProtocolVersion: 3,
+    casServerUrl: 'http://127.0.0.1:9000',
+    localAppUrl: 'http://127.0.0.1:9500',
+    endPointPath: '/casHandler',
+    renew: true
+  };
+  server.auth.strategy('casauth', 'cas', options);
+});
 
 server.route({
   path: '/',
@@ -40,7 +49,7 @@ server.route({
       strategy: 'casauth'
     }
   },
-  handler: function(req, reply) {
+  handler: function handler(req, reply) {
     reply(
       `Welcome, ${req.session.username}
       (${req.session.attributes.firstName} ${req.session.attributes.lastName})`
@@ -48,6 +57,6 @@ server.route({
   }
 });
 
-server.start(function() {
+server.start(function serverStartCB() {
   console.log('test app server started');
 });
