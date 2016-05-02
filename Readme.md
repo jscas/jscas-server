@@ -16,27 +16,22 @@ proxy support will be added later.
 > functionality such as the ticket and service registries. In such a case, the
 > installation requirements may vary.
 
-> The reference implementation uses a [PostgreSQL][psql] 9.4 or later database.
+> The reference implementation uses a [MongoDB][mongodb] database.
 > Before starting the installation, you should have such a database setup.
-
-First, clone the [cas-server-db-schema][dbschema] repository and follow the
-instructions in its [Readme.md][schemaread].
-
-Next:
 
 ```bash
 $ git clone https://github.com/jscas/cas-server
 $ cd cas-server
-$ npm install # to install the base dependencies
-$ npm install --no-optional jscas/cas-server-pg-ticket-registry
-$ npm install --no-optional jscas/cas-server-pg-service-registry
-$ npm install jscas/cas-server-auth-json
-$ npm install jscas/cas-server-theme
+$ npm install --production # to install the base dependencies
+$ npm install mongoose # for the ticket registries
+$ npm install cas-server-mongo-registries
+$ npm install cas-server-auth-json
+$ npm install cas-server-theme
 $ cp settings.example.js settings.js
 $ # edit the settings.js file according to the instructions within
 ```
 
-[psql]: http://www.postgresql.org/
+[mongodb]: http://www.mongodb.org/
 [dbschema]: https://github.com/jscas/cas-server-db-schema
 [schemaread]: https://github.com/jscas/cas-server-db-schema/Readme.md
 
@@ -45,16 +40,30 @@ $ # edit the settings.js file according to the instructions within
 Once installed, running the server is as simple as:
 
 ```bash
-$ node server.js run -c ./settings.js
+$ node server.js -c ./settings.js
 ```
 
 ## Adding A Service
 
-The reference [service registry][sr] plugin provides an end point for adding
-new services -- `/pgServiceRegistry/addService`. Read the plugin's Readme.md for
-details on how to use the end point.
+At the moment, you must add services by directly adding them to your database.
+Simply create a collection named 'jscasservices', and add a document like:
 
-[sr]: https://github.com/jscas/cas-server-pg-service-registry
+```json
+{
+  "name" : "testapp",
+  "comment" : "service for testing locally",
+  "url" : [
+    "http://localhost:9500/casHandler",
+    "http://127.0.0.1:9500/casHandler"
+  ],
+  "slo" : false,
+  "sloType" : 0,
+  "sloUrl" : ""
+}
+```
+
+Note: the MongoDB service registry requires explicit service URLs. You cannot
+store regular expressions for the service URLs.
 
 ## License
 

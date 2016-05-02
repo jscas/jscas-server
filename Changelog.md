@@ -1,3 +1,8 @@
+### 0.5.0
++ Update dependencies (node v6 will work)
++ Fix ST generation (send service name to registry)
++ Switch reference registries to MongoDB based implementation
+
 ### 0.4.0
 + Fix mongoose shutdown (make it exist)
 + Add a pre-authentication hook

@@ -116,7 +116,8 @@ Will be invoked to generate a new Service Ticket. The `ticketGrantingTicketId`
 to be generated. The `expires` parameter *should* accept a `Date` object that
 specifies when the ST will no longer be valid. The `serviceId` parameter
 *should* be used to store a service identifier with the ST so that the CAS
-server may use it for Single Log Out.
+server may use it for Single Log Out; the value should be the `name` property
+of the service.
 
 This method *should* validate the TGT prior to issuing a new ST. If the TGT is
 invalid, e.g. doesn't exist or is expired, then this method should return
@@ -166,7 +167,12 @@ an `Error` on rejection.
 ### getSTbyTGT(ticketGrantingTicketId)
 
 The `Promise` returned by this method **must** pass a single ST on success or
-and `Error` on rejection.
+an `Error` on rejection.
+
+### getTGTbyST(serviceTicketId)
+
+The `Promise` returned by this method **must*8 pass a single TGT on success or
+an `Error` on rejection.
 
 ### trackServiceLogin(serviceTicket, ticketGrantingTicket, serviceUrl)
 
