@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 module.exports = {
   server: {
@@ -58,4 +58,4 @@ module.exports = {
   },
 
   pluginsConf: {}
-};
+}

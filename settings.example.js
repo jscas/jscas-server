@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-const sessionTTL = 60 * 1000;
+const sessionTTL = 60 * 1000
 
 // Unless otherwise noted, each configuration property shown in this
 // example configuration is required to be defined.
@@ -132,10 +132,10 @@ module.exports = {
     // Set to `false` to skip initializing Mongoose.
     // If not `false`, the object must have properties `uri` and `options`
     // as described in the aforementioned Mongoose documentation.
-    mongoose: false /*{
+    mongoose: false /* {
       uri: 'mongodb://localhost/jscas',
       options: null
-    }*/
+    } */
   },
 
   plugins: {
@@ -175,4 +175,4 @@ module.exports = {
     // a service registry plugin backed by a PostgreSQL database
     mongoServiceRegistry: {}
   }
-};
+}

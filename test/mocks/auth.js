@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 const users = {
   'fbar': {
@@ -13,27 +13,25 @@ const users = {
     surname: 'foo',
     password: '654321'
   }
-};
+}
 
-module.exports.name = 'mockAuth';
+module.exports.name = 'mockAuth'
 
-module.exports.plugin = function mockAuth(options, context) {
+module.exports.plugin = function mockAuth (options, context) {
   return {
-    validate(username, password) {
-      if (users.hasOwnProperty(username) &&
-        users[username].password === password)
-      {
-        return Promise.resolve(true);
+    validate (username, password) {
+      if (users.hasOwnProperty(username) && users[username].password === password) {
+        return Promise.resolve(true)
       }
-      return Promise.reject(new Error('credential validation failed'));
+      return Promise.reject(new Error('credential validation failed'))
     }
   }
-};
+}
 
-module.exports.postInit = function mockAuthPost(context) {
-  return function userAttributes(user) {
+module.exports.postInit = function mockAuthPost (context) {
+  return function userAttributes (user) {
     if (!users.hasOwnProperty(user)) {
-      return Promise.reject('no such user');
+      return Promise.reject('no such user')
     }
 
     return Promise.resolve({
@@ -42,6 +40,6 @@ module.exports.postInit = function mockAuthPost(context) {
         firstName: users[user].firstName,
         lastName: users[user].surname
       }
-    });
+    })
   }
-};
+}

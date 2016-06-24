@@ -1,31 +1,31 @@
-'use strict';
+'use strict'
 
-const noServiceError = new Error('no service found');
+const noServiceError = new Error('no service found')
 
 const service = {
   name: 'a-service',
   url: 'http://example.com/',
   comment: 'A simple service'
-};
+}
 
-module.exports.name = 'mockServiceRegistry';
+module.exports.name = 'mockServiceRegistry'
 
-module.exports.plugin = function mockSR(config, context) {
+module.exports.plugin = function mockSR (config, context) {
   return {
-    getServiceWithName(name) {
+    getServiceWithName (name) {
       if (name === service.name) {
-        return Promise.resolve(service);
+        return Promise.resolve(service)
       }
-      return Promise.reject(noServiceError);
+      return Promise.reject(noServiceError)
     },
 
-    getServiceWithUrl(url) {
+    getServiceWithUrl (url) {
       if (url === service.url) {
-        return Promise.resolve(service);
+        return Promise.resolve(service)
       }
-      return Promise.reject(noServiceError);
+      return Promise.reject(noServiceError)
     },
 
-    close() {}
+    close () {}
   }
-};
+}
