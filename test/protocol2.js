@@ -3,6 +3,7 @@
 
 const expect = require('chai').expect
 const cheerio = require('cheerio')
+const streamToString = require('./common/streamToString')
 
 require('./common/setupIOC')()
 const protocol2 = require('../lib/routes/protocol2')
@@ -18,14 +19,16 @@ suite('Protocol 2', function () {
     }
 
     function reply (response) {
-      const $ = cheerio.load(response)
-      const ele = $('cas\\:authenticationSuccess')
-      expect(ele.length).to.equal(1)
+      streamToString(response, (xml) => {
+        const $ = cheerio.load(xml)
+        const ele = $('cas\\:authenticationSuccess')
+        expect(ele.length).to.equal(1)
 
-      const user = $('cas\\:user', ele)
-      expect(user.length).to.equal(1)
-      expect(user.text()).to.equal('fbar')
-      done()
+        const user = $('cas\\:user', ele)
+        expect(user.length).to.equal(1)
+        expect(user.text()).to.equal('fbar')
+        done()
+      })
     }
 
     protocol2[ 0 ].handler(request, reply)
@@ -41,14 +44,16 @@ suite('Protocol 2', function () {
     }
 
     function reply (response) {
-      const $ = cheerio.load(response)
-      const ele = $('cas\\:authenticationSuccess')
-      expect(ele.length).to.equal(1)
+      streamToString(response, (xml) => {
+        const $ = cheerio.load(xml)
+        const ele = $('cas\\:authenticationSuccess')
+        expect(ele.length).to.equal(1)
 
-      const user = $('cas\\:user', ele)
-      expect(user.length).to.equal(1)
-      expect(user.text()).to.equal('fbar')
-      done()
+        const user = $('cas\\:user', ele)
+        expect(user.length).to.equal(1)
+        expect(user.text()).to.equal('fbar')
+        done()
+      })
     }
 
     protocol2[ 0 ].handler(request, reply)
@@ -64,11 +69,13 @@ suite('Protocol 2', function () {
     }
 
     function reply (response) {
-      const $ = cheerio.load(response)
-      const ele = $('cas\\:authenticationFailure')
-      expect(ele.length).to.equal(1)
-      expect(ele.attr('code')).to.equal('INVALID_TICKET')
-      done()
+      streamToString(response, (xml) => {
+        const $ = cheerio.load(xml)
+        const ele = $('cas\\:authenticationFailure')
+        expect(ele.length).to.equal(1)
+        expect(ele.attr('code')).to.equal('INVALID_TICKET')
+        done()
+      })
     }
 
     protocol2[ 0 ].handler(request, reply)
@@ -84,11 +91,13 @@ suite('Protocol 2', function () {
     }
 
     function reply (response) {
-      const $ = cheerio.load(response)
-      const ele = $('cas\\:authenticationFailure')
-      expect(ele.length).to.equal(1)
-      expect(ele.attr('code')).to.equal('INVALID_TICKET')
-      done()
+      streamToString(response, (xml) => {
+        const $ = cheerio.load(xml)
+        const ele = $('cas\\:authenticationFailure')
+        expect(ele.length).to.equal(1)
+        expect(ele.attr('code')).to.equal('INVALID_TICKET')
+        done()
+      })
     }
 
     protocol2[ 0 ].handler(request, reply)
