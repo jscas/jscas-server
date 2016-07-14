@@ -10,27 +10,27 @@ function State () {
   return (cookieName, value) => { this[cookieName] = value }
 }
 
-suite('Logout')
+suite('Logout', function () {
+  test('processes basic logout request', function basicLogout (done) {
+    const state = new State()
+    state('test-cookie', 'valid-tgt')
 
-test('processes basic logout request', function basicLogout (done) {
-  const state = new State()
-  state('test-cookie', 'valid-tgt')
-
-  const request = {
-    method: 'get',
-    state: state,
-    session: {
-      isAuthenticated: true
+    const request = {
+      method: 'get',
+      state: state,
+      session: {
+        isAuthenticated: true
+      }
     }
-  }
 
-  function reply (message) {
-    expect(message).to.be.an.instanceof(Promise)
-    message.then((html) => {
-      expect(html).to.equal('<h1>logout</h1>')
-      done()
-    })
-  }
+    function reply (message) {
+      expect(message).to.be.an.instanceof(Promise)
+      message.then((html) => {
+        expect(html).to.equal('<h1>logout</h1>')
+        done()
+      })
+    }
 
-  logout.handler(request, reply)
+    logout.handler(request, reply)
+  })
 })

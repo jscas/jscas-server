@@ -28,7 +28,7 @@ gulp.task('pre-test', function preTest () {
 gulp.task('test', ['pre-test'], function testTask () {
   return gulp
     .src(['test/*.js'])
-    .pipe($.mocha({ui: 'qunit', reporter: 'min'}))
+    .pipe($.mocha({ui: 'tdd', reporter: 'min'}))
     .pipe($.istanbul.writeReports())
 })
 
