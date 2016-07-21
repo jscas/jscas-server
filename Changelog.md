@@ -1,3 +1,8 @@
+### 0.6.0
++ Update dependencies
++ Switch to using [Bluebird](http://bluebirdjs.com) for promises as
+  a cheap way to optimize login operations
+
 ### 0.5.0
 + Update dependencies (node v6 will work)
 + Fix ST generation (send service name to registry)
