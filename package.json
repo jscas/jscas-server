@@ -25,12 +25,15 @@
     "test"
   ],
   "dependencies": {
+    "bluebird": "^3.4.1",
+    "bluebird-co": "^2.1.2",
     "boom": "^3.2.2",
     "hapi": "^13.5.0",
     "hapi-easy-session": "^0.2.2",
     "hoek": "^4.0.0",
     "introduce": "^0.2.0",
     "iron": "^4.0.1",
+    "is-promise": "^2.1.0",
     "knex": "^0.11.7",
     "laic": "^0.3.4",
     "marko": "^3.7.2",
