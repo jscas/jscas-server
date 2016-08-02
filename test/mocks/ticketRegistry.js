@@ -73,8 +73,10 @@ module.exports.plugin = function mockTR (config, context) {
       switch (serviceId) {
         case 'expired-st':
           return Promise.resolve(stExpired)
-        default:
+        case 'a-service':
           return Promise.resolve(st)
+        default:
+          return Promise.reject(new Error('invalid service'))
       }
     },
 
@@ -108,6 +110,8 @@ module.exports.plugin = function mockTR (config, context) {
     getLT (loginTicketId) {
       if (loginTicketId === goodTicket.tid) {
         return Promise.resolve(goodTicket)
+      } else if (loginTicketId === badTicket.tid) {
+        return Promise.resolve(badTicket)
       }
       return Promise.reject(noTicketError)
     },
@@ -119,7 +123,7 @@ module.exports.plugin = function mockTR (config, context) {
         case tgtExpired.tid:
           return Promise.resolve(tgtExpired)
         default:
-          Promise.reject(noTicketError)
+          return Promise.reject(noTicketError)
       }
     },
 
