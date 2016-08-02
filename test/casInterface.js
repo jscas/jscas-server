@@ -11,8 +11,8 @@ suite('CAS', function () {
   suite('#createLoginTicket', function () {
     test('generates tickets', function * () {
       const ticket = yield cas.createLoginTicket()
-      expect(ticket.tid).to.exist;
-      expect(ticket.tid).to.equal('good-ticket');
+      expect(ticket.tid).to.exist
+      expect(ticket.tid).to.equal('good-ticket')
     })
   })
 
