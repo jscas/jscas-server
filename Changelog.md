@@ -1,3 +1,13 @@
+### 0.7.0
++ Update dependencies
+  + knex is no longer a hard dependency
++ Add a CAS API object and switch to using it for processing logins
+
+  The CAS API object abstracts interacting with the ticket and service
+  registries. This will allow exposing the object to plugin authors so that
+  they can implement custom login procedures. Currently the object is not
+  exposed to plugins.
+
 ### 0.6.0
 + Update dependencies
 + Switch to using [Bluebird](http://bluebirdjs.com) for promises as
