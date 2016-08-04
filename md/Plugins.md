@@ -118,7 +118,7 @@ protocol flow. Available hooks are:
 
   // you can do things prior to the validate method being invoked for each
   // auth plugin
-  preAuth: function preAuthHook(request, reply, username, password, lt) {}
+  preAuth: function preAuthHook({request, reply, username, password, loginTicket, cas}) {}
 }
 ```
 
@@ -161,6 +161,20 @@ responsibility:
 
 1. Your plugin has the user's credentials in plain text.
 2. You can short circuit the request with your own reply.
+
+`preAuth` hooks get invoked with an object passed in as the sole parameter.
+The object has the form:
+
+```js
+{
+  request: {}, // the incoming http request
+  reply: {}, // the Hapi reply object
+  username: '', // the username of the person authenticating
+  password: '', // the password for the person authenticating
+  loginTicket: {}, // the login ticket for this login attempt
+  cas: {} // the CAS API object
+}
+```
 
 The values returned via your `preAuth` hook's `Promise` will not be used. If
 you return a rejection, it will still count as a failure in the server's logs,
