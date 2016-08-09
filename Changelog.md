@@ -1,3 +1,28 @@
+### 0.8.0
++ Update `preAuth` hook signature
+
+  The `preAuth` hook signature was updated to accept a single parameter.
+  The passed in parameter is an object with properties matching the original
+  parameter list. However, the `loginTicket` property was removed and a
+  `cas` object added (maps to the object defined in `lib/casInterface.js`).
+  
+  This change affects the `clearpass` plugin.
+  
++ Removes support for login tickets
+
+  The login ticket is an [optional part](https://github.com/apereo/cas/issues/1939)
+  of the specification. Implementing them is too much of a burden and is more
+  easily solved via a CSRF prevention token that doesn't require a ticket
+  registry.
+  
+  This change affects theme and registry plugins.
+
++ New config block: `loginCSRF`
+
+  The login form now uses a CSRF prevention token that isn't a login ticket.
+  To support this, a new configuration block was added: `loginCSRF`. See
+  `settings.example.js` for details.
+
 ### 0.7.0
 + Update dependencies
   + knex is no longer a hard dependency
