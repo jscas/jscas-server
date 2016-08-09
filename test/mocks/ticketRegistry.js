@@ -48,6 +48,15 @@ const stExpired = {
   valid: true
 }
 
+const stTGTExpired = {
+  tid: 'st-tgt-expired',
+  tgtId: 'expired-tgt',
+  created: new Date(Date.now() - 60000),
+  expires: new Date(Date.now() - 50000),
+  serviceId: 1,
+  valid: false
+}
+
 module.exports.name = 'mockTicketRegistry'
 
 module.exports.plugin = function mockTR (config, context) {
@@ -122,7 +131,19 @@ module.exports.plugin = function mockTR (config, context) {
       if (serviceTicketId === st.tid) {
         return Promise.resolve(tgt)
       }
+      if (serviceTicketId === stTGTExpired.tid) {
+        return Promise.resolve(tgtExpired)
+      }
       return Promise.reject(noTicketError)
+    },
+
+    trackServiceLogin (st, tgt, serviceUrl) {
+      const newTGT = Object.assign({}, tgt)
+      newTGT.services = [{
+        serviceId: st.tid,
+        loginUrl: serviceUrl
+      }]
+      return Promise.resolve(newTGT)
     }
   }
 }
