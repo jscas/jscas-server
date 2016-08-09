@@ -47,14 +47,14 @@ currently receive a context from `cas-server`.
 
 ```javascript
 {
-  lt: 'string login ticket',
+  loginToken: 'string csrf prevention token',
   service: 'string url for the requesting service',
   errorMessage: 'string detailing login failure'
 }
 ```
 
-The `lt` and `service` values **must** be added to the login form as *hidden*
-inputs. You *may* display the `service` property to the user. It is
+The `loginToken` and `service` values **must** be added to the login form as
+*hidden* inputs. You *may* display the `service` property to the user. It is
 **recommended** that you do not make the service URL a clickable link.
 
 The login form **must** submit values for variables `username` and

@@ -1,10 +1,16 @@
 'use strict'
 /* eslint-env node, mocha */
 
+const Iron = require('iron')
+const isPromise = require('is-promise')
 const expect = require('chai').expect
 
 require('./common/setupIOC')()
 const loginRoutes = require('../lib/routes/login')
+
+const config = require('./common/config')
+const ironOptions = Iron.defaults
+ironOptions.ttl = config.loginCSRF.ttl
 
 function State () {
   function inner (cookieName, value) {
@@ -68,7 +74,7 @@ suite('Login GET method', function () {
     }
 
     function reply (message) {
-      expect(message).to.be.an.instanceof(Promise)
+      expect(isPromise(message)).to.be.true
       return reply
     }
 
@@ -94,7 +100,7 @@ suite('Login GET method', function () {
     }
 
     function reply (message) {
-      expect(message).to.be.an.instanceof(Promise)
+      expect(isPromise(message)).to.be.true
       message.then((html) => {
         expect(html).to.equal('<h1>login</h1>')
         done()
@@ -146,6 +152,15 @@ suite('Login GET method', function () {
 })
 
 suite('Login POST method', function () {
+  let loginToken
+  suiteSetup((done) => {
+    Iron.seal({loginToken: '123456'}, config.loginCSRF.password, ironOptions, (err, sealed) => {
+      if (err) return done(err)
+      loginToken = sealed
+      done()
+    })
+  })
+
   test('rejects bad services', function postBad (done) {
     const request = {
       method: 'POST',
@@ -157,7 +172,7 @@ suite('Login POST method', function () {
     }
 
     function reply (message) {
-      expect(message).to.be.an.instanceof(Promise)
+      expect(isPromise(message)).to.be.true
       return reply
     }
 
@@ -176,7 +191,7 @@ suite('Login POST method', function () {
         service: 'http://example.com/',
         username: 'fbar',
         password: '123456',
-        lt: 'bad-lt'
+        loginToken
       },
       session: {}
     }
@@ -190,7 +205,7 @@ suite('Login POST method', function () {
         '/login?service=' + encodeURIComponent(request.payload.service)
       )
       expect(request.session.errorMessage).to.exist
-      expect(request.session.errorMessage).to.equal('invalid login ticket')
+      expect(request.session.errorMessage).to.equal('invalid login token')
       done()
     }
 
@@ -204,9 +219,11 @@ suite('Login POST method', function () {
         service: 'http://example.com/',
         username: 'fbar',
         password: '213456',
-        lt: 'good-ticket'
+        loginToken
       },
-      session: {}
+      session: {
+        loginToken: '123456'
+      }
     }
 
     function reply () {
@@ -233,9 +250,11 @@ suite('Login POST method', function () {
         service: 'http://example.com/',
         username: 'fbar',
         password: '123456',
-        lt: 'good-ticket'
+        loginToken
       },
-      session: {}
+      session: {
+        loginToken: '123456'
+      }
     }
 
     function reply () {

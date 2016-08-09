@@ -8,14 +8,6 @@ require('./common/setupIOC')()
 const cas = require('../lib/casInterface')
 
 suite('CAS', function () {
-  suite('#createLoginTicket', function () {
-    test('generates tickets', function * () {
-      const ticket = yield cas.createLoginTicket()
-      expect(ticket.tid).to.exist
-      expect(ticket.tid).to.equal('good-ticket')
-    })
-  })
-
   suite('#createServiceTicket', function () {
     test('successfully creates service tickets', function * () {
       const ticket = yield cas.createServiceTicket('valid-tgt', 'a-service')
@@ -44,41 +36,17 @@ suite('CAS', function () {
 
   suite('#createTicketGrantingTicket', function () {
     test('creates valid tickets', function * () {
-      const loginTicket = yield cas.getLoginTicket('good-ticket')
-      const ticket = yield cas.createTicketGrantingTicket(loginTicket.tid, 'fbar')
+      const ticket = yield cas.createTicketGrantingTicket('fbar')
       expect(ticket.tid).to.exist
       expect(ticket.tid).to.equal('valid-tgt')
     })
 
     test('throws on error', function * () {
       try {
-        const loginTicket = yield cas.getLoginTicket('bad-ticket')
-        yield cas.createTicketGrantingTicket(loginTicket.tid, 'fbar')
+        yield cas.createTicketGrantingTicket('baduser')
       } catch (e) {
         expect(e).to.be.an.instanceof(Error)
         expect(e.message).to.contain('expired ticket')
-      }
-    })
-  })
-
-  suite('#getLoginTicket', function () {
-    test('retrieves login tickets', function * () {
-      const ticket = yield cas.getLoginTicket('good-ticket')
-      expect(ticket.tid).to.exist
-      expect(ticket.tid).to.equal('good-ticket')
-    })
-
-    test('retrieves expired tickets', function * () {
-      const ticket = yield cas.getLoginTicket('bad-ticket')
-      expect(ticket.expired).to.be.true
-    })
-
-    test('throws for missing ticket', function * () {
-      try {
-        yield cas.getLoginTicket('missing-ticket')
-      } catch (e) {
-        expect(e).to.be.an.instanceof(Error)
-        expect(e.message).to.contain('could not find ticket')
       }
     })
   })
@@ -116,30 +84,6 @@ suite('CAS', function () {
     test('throws for missing ticket', function * () {
       try {
         yield cas.getTicketGrantingTicket('missing-tgt')
-      } catch (e) {
-        expect(e).to.be.an.instanceof(Error)
-        expect(e.message).to.contain('could not find ticket')
-      }
-    })
-  })
-
-  suite('#invalidateLoginTicket', function () {
-    test('invalidates good tickets', function * () {
-      const ticket = yield cas.invalidateLoginTicket('good-ticket')
-      expect(ticket.valid).to.be.false
-    })
-  })
-
-  suite('#validateLoginTicket', function () {
-    test('returns ticket for good ticket', function * () {
-      const result = yield cas.validateLoginTicket('good-ticket')
-      expect(result.tid).to.exist
-      expect(result.tid).to.equal('good-ticket')
-    })
-
-    test('throws for invalid ticket', function * () {
-      try {
-        yield cas.validateLoginTicket('no-ticket')
       } catch (e) {
         expect(e).to.be.an.instanceof(Error)
         expect(e.message).to.contain('could not find ticket')

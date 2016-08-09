@@ -39,7 +39,6 @@ module.exports = {
   },
 
   tickets: {
-    loginTicketTTL: 100,
     ticketGrantingTicketTTL: 100,
     serviceTicketTTL: 100
   },
@@ -47,6 +46,11 @@ module.exports = {
   pino: {
     name: 'mock-server',
     level: 'debug'
+  },
+
+  loginCSRF: {
+    password: 'slkjfksjfksjfksjlfkjsdklfjskljfslkfj',
+    ttl: 5 * 60 * 1000
   },
 
   plugins: {

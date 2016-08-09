@@ -2,14 +2,14 @@
 
 const noTicketError = new Error('could not find ticket')
 
-const goodTicket = {
+const goodTicket = { // eslint-disable-line
   tid: 'good-ticket',
   created: new Date(),
   expires: new Date(Date.now() + 60000),
   valid: true
 }
 
-const badTicket = {
+const badTicket = { // eslint-disable-line
   tid: 'bad-ticket',
   created: new Date(Date.now() - 60000),
   expires: new Date(),
@@ -52,15 +52,11 @@ module.exports.name = 'mockTicketRegistry'
 
 module.exports.plugin = function mockTR (config, context) {
   return {
-    genLT (expires) {
-      return Promise.resolve(goodTicket)
-    },
-
-    genTGT (loginTicketId, userId, expires) {
-      if (loginTicketId === badTicket.tid) {
+    genTGT (userId, expires) {
+      if (userId === 'baduser') {
         return Promise.reject(new Error('expired ticket'))
       }
-      if (loginTicketId === goodTicket.tid && userId === 'fbar') {
+      if (userId === 'fbar') {
         return Promise.resolve(tgt)
       }
       return Promise.reject(noTicketError)
@@ -78,13 +74,6 @@ module.exports.plugin = function mockTR (config, context) {
         default:
           return Promise.reject(new Error('invalid service'))
       }
-    },
-
-    invalidateLT (loginTicketId) {
-      if (loginTicketId === goodTicket.tid) {
-        return Promise.resolve(Object.assign(goodTicket, {valid: false}))
-      }
-      return Promise.reject(noTicketError)
     },
 
     invalidateTGT (ticketGrantingTicketId) {
@@ -105,15 +94,6 @@ module.exports.plugin = function mockTR (config, context) {
 
     close () {
       return Promise.resolve(true)
-    },
-
-    getLT (loginTicketId) {
-      if (loginTicketId === goodTicket.tid) {
-        return Promise.resolve(goodTicket)
-      } else if (loginTicketId === badTicket.tid) {
-        return Promise.resolve(badTicket)
-      }
-      return Promise.reject(noTicketError)
     },
 
     getTGT (ticketGrantingTicketId) {

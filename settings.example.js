@@ -90,8 +90,6 @@ module.exports = {
   },
 
   // Lifetimes for all ticket types.
-  // The login ticket should have a lifetime that allows enough time for the
-  // user to enter their credentials and submit the form.
   // The TGT lifetime should match the server's session lifetime. It is used
   // to determine if a user, having been redirected from an external application
   // for authorization, is allowed to issue service tickets. If the TGT has
@@ -102,7 +100,6 @@ module.exports = {
   // to the requesting service. This should be a very short time, but long
   // enough to account for slow connections.
   tickets: {
-    loginTicketTTL: 5 * 60 * 1000,
     ticketGrantingTicketTTL: sessionTTL,
     serviceTicketTTL: 60 * 1000
   },
@@ -136,6 +133,12 @@ module.exports = {
       uri: 'mongodb://localhost/jscas',
       options: null
     } */
+  },
+
+  // Iron settings for CSRF thwarting during login.
+  loginCSRF: {
+    ttl: 30 * 1000, // 30 seconds or some other sane value
+    password: 'a really good password that is at least 32 characters'
   },
 
   plugins: {

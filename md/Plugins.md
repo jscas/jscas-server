@@ -53,7 +53,6 @@ The `context` will be the following object:
   },
   marko: {}, // an instance of the Marko.js templating engine
   ticketLifetimes: {
-    loginTicketTTL: 'time in milliseconds',
     ticketGrantingTicketTTL: 'time in milliseconds',
     serviceTicketTTL: 'time in milliseconds'
   }
@@ -171,7 +170,6 @@ The object has the form:
   reply: {}, // the Hapi reply object
   username: '', // the username of the person authenticating
   password: '', // the password for the person authenticating
-  loginTicket: {}, // the login ticket for this login attempt
   cas: {} // the CAS API object
 }
 ```
@@ -188,7 +186,4 @@ reply(new Error('something went horribly wrong'));
 If an error is provided in the reply, then the server's generic error page
 will be displayed to the user along with your error message.
 
-`preAuth` hooks are invoked after the requesting service has been validated,
-and a login ticket has been created. The login ticket is provided via the
-`lt` parameter. If your plugin ultimately creates a ticket granting ticket,
-this login ticket should be invalidated.
+`preAuth` hooks are invoked after the requesting service has been validated.

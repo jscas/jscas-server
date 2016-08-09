@@ -12,15 +12,12 @@ A ticket registry plugin's `plugin` method returns an object that matches:
 
 ```javascript
 {
-  genLT: function(expires) {},
-  genTGT: function(loginTicketId, userId, expires) {},
+  genTGT: function(userId, expires) {},
   genST: function(ticketGrantingTicketId, expires, serviceId) {},
-  invalidateLT: function(loginTicketId),
   invalidateTGT: function(ticketGrantingTicketId),
   invalidateST: function(serviceTicketId),
   clear: function() {},
   close: function() {},
-  getLT: function(loginTicketId) {},
   getTGT: function(ticketGrantingTicketId) {},
   getST: function(serviceTicketId) {},
   getSTbyTGT: function(ticketGrantingTicketId) {},
@@ -54,10 +51,6 @@ ticket validations.
 See the subsections of this section for the requirements for each
 specific ticket type.
 
-## Login Ticket (LT)
-
-Merely implements the base ticket object.
-
 ## Service Ticket (LT)
 
 Extends the base ticket object with the following properties:
@@ -84,27 +77,12 @@ Extends the base ticket object with the following properties:
 
 ## Methods
 
-### genLT(expires)
+### genTGT(userId, expires)
 
-Will be invoked to generate a new Login Ticket (LT). The `expires` parameter
-*should* accept a `Date` object that specifies when the LT will no longer be
-valid.
-
-The returned `Promise` **must** pass a LT object on resolution and an `Error`
-on rejection.
-
-### genTGT(loginTicketId, userId, expires)
-
-Will be invoked to generate a new Ticket Granting Ticket (TGT). The
-`loginTicketId` parameter *should* be used to link the new TGT to the LT that
-was used to allow the TGT to be generated. The `userId` parameter *should* be
-stored in such a way that it is tied to the new TGT. The `expires` parameter
-*should* accept a `Date` object that specifies when the TGT will no longer be
-valid.
-
-This method *should* validate the LT prior to issuing a new TGT. If the LT is
-invalid, e.g. doesn't exist or is expired, then this method should return
-a rejected `Promise`.
+Will be invoked to generate a new Ticket Granting Ticket (TGT). The `userId`
+parameter *should* be stored in such a way that it is tied to the new TGT. The
+`expires` parameter *should* accept a `Date` object that specifies when the TGT
+will no longer be valid.
 
 The returned `Promise` **must** pass a TGT object on resolution and an `Error`
 on rejection.
@@ -126,11 +104,6 @@ a rejected `Promise`.
 The returned `Promise` **must** pass a ST object on resolution and an `Error`
 on rejection.
 
-### invalidateLT(loginTicketId)
-
-This method will be invoked to mark a LT as no longer usable. The returned
-`Promise` *must* include the updated LT on success and an `Error` on rejection.
-
 ### invalidateTGT(ticketGrantingTicketId)
 
 This method will be invoked to mark a TGT as no longer usable. The returned
@@ -148,11 +121,6 @@ clean up any connections or timers that will prevent shutdown.
 
 The returned `Promise` *should* pass a `true` value on success and an `Error`
 on rejection.
-
-### getLT(loginTicketId)
-
-The `Promise` returned by this method **must** pass a single LT on success or
-an `Error` on rejection.
 
 ### getTGT(ticketGrantingTicketId)
 
