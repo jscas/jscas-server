@@ -1,3 +1,13 @@
+### 0.9.0 
++ Migrate more functionality to `casInterface`
+
++ Update route loading to support Hapi 15
+
++ Update dependencies
+
++ Fix errors with expired state cookies in situations where the page should
+  just load regardless of the old state
+
 ### 0.8.0
 + Update `preAuth` hook signature
 

@@ -68,6 +68,20 @@ suite('CAS', function () {
     })
   })
 
+  suite('#getServiceTicket', function () {
+    test('returns a valid ticket', function * () {
+      const ticket = yield cas.getServiceTicket('valid-st')
+      expect(ticket.tid).to.equal('valid-st')
+      expect(ticket.expired).to.be.false
+    })
+
+    test('returns expired ticket', function * () {
+      const ticket = yield cas.getServiceTicket('expired-st')
+      expect(ticket.tid).to.equal('expired-st')
+      expect(ticket.expired).to.be.true
+    })
+  })
+
   suite('#getTicketGrantingTicket', function () {
     test('returns a ticket for valid id', function * () {
       const ticket = yield cas.getTicketGrantingTicket('valid-tgt')
@@ -88,6 +102,43 @@ suite('CAS', function () {
         expect(e).to.be.an.instanceof(Error)
         expect(e.message).to.contain('could not find ticket')
       }
+    })
+  })
+
+  suite('#getTicketGrantingTicketBySerivceTicket', function () {
+    test('gets valid ticket', function * () {
+      const ticket = yield cas.getTicketGrantingTicketByServiceTicket('valid-st')
+      expect(ticket.tid).to.equal('valid-tgt')
+      expect(ticket.expired).to.be.false
+    })
+
+    test('gets expired ticket', function * () {
+      const ticket = yield cas.getTicketGrantingTicketByServiceTicket('st-tgt-expired')
+      expect(ticket.tid).to.equal('expired-tgt')
+      expect(ticket.expired).to.be.true
+    })
+  })
+
+  suite('#invalidateServiceTicket', function () {
+    test('invalidates a good ticket', function * () {
+      let ticket = yield cas.getServiceTicket('valid-st')
+      expect(ticket.valid).to.be.true
+      ticket = yield cas.invalidateServiceTicket(ticket.tid)
+      expect(ticket.valid).to.be.false
+    })
+  })
+
+  suite('#trackServiceLogin', function () {
+    test('updates a tgt correctly', function * () {
+      const tgt = yield cas.getTicketGrantingTicket('valid-tgt')
+      const st = yield cas.getServiceTicket('valid-st')
+      const updatedTGT = yield cas.trackServiceLogin(st, tgt, 'http://example.com/')
+
+      expect(updatedTGT.tid).to.equal(tgt.tid)
+      expect(updatedTGT.services).to.be.an.instanceof(Array)
+      expect(updatedTGT.services.length).to.equal(1)
+      expect(updatedTGT.services[0].loginUrl).to.equal('http://example.com/')
+      expect(updatedTGT.services[0].serviceId).to.equal(st.tid)
     })
   })
 })
