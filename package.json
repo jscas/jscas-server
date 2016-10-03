@@ -1,6 +1,6 @@
 {
   "name": "cas-server",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "An implementation of Apereo's CAS protocol",
   "main": "server.js",
   "scripts": {
