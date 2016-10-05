@@ -1,3 +1,12 @@
+### 0.10.0
++ Load datasources synchronously because some plugins may depend on the
+  connections being established during phase 1
+
++ Remove Marko from the phase 1 context because Marko templates may not work
+  if the module is not in the same path of the plugin that uses it. This can
+  happen if configuration is in its own project outside of the `cas-server`
+  project (installation)
+
 ### 0.9.0 
 + Migrate more functionality to `casInterface`
 
