@@ -78,14 +78,6 @@ module.exports = {
         segment: 'jscas-session',
         expiresIn: sessionTTL
       }
-    },
-
-    // Options for the Marko template engine.
-    // If you enable `writeToDisk` then the user running the server will need
-    // write access to `lib/xmlTemplates`.
-    marko: {
-      writeToDisk: false,
-      checkUpToDate: false
     }
   },
 
