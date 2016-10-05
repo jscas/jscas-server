@@ -51,7 +51,6 @@ The `context` will be the following object:
     knex: {}, // an instance of knex.js
     mongoose: {} // an instance of the mongoose object modeler
   },
-  marko: {}, // an instance of the Marko.js templating engine
   ticketLifetimes: {
     ticketGrantingTicketTTL: 'time in milliseconds',
     serviceTicketTTL: 'time in milliseconds'

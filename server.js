@@ -34,19 +34,6 @@ const log = ioc.loadFile('lib/logger').get('logger')
 introduce('lib/loadDataSources').then((dataSources) => {
   ioc.register('dataSources', dataSources, false)
 
-  const marko = require('marko')
-  const markoCompiler = require('marko/compiler')
-  const markoOptions = Object.assign(
-    {
-      writeToDisk: false,
-      checkUpToDate: true
-    },
-    (config.server) ? config.server.marko || {} : {}
-  )
-  markoCompiler.defaultOptions.writeToDisk = markoOptions.writeToDisk
-  markoCompiler.defaultOptions.checkUpToDate = markoOptions.checkUpToDate
-  ioc.register('marko', marko, false)
-
   // phase one plugins must be initialized immediately after loading the
   // configuration and logger, otherwise dependent parts will not have
   // access to them
