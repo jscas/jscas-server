@@ -1,3 +1,9 @@
+### 0.10.1
++ Support authentication plugins returning a boolean instead of a rejection.
+
+  The `jscas-ad-auth` plugin returns `false` on failure instead of throwing an
+  error. This caused the server to accept garbage usernames.
+
 ### 0.10.0
 + Load datasources synchronously because some plugins may depend on the
   connections being established during phase 1
