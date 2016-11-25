@@ -101,7 +101,12 @@ module.exports = {
   pino: {
     // https://www.npmjs.com/package/pino
     name: 'jscas-server',
-    level: 'debug'
+    level: 'debug',
+
+    // Set to `true` to enable pretty printing of log messages. This is meant
+    // to make logs easier to read during development. Regular JSON logs are
+    // more versatile for production.
+    pretty: false
   },
 
   // Data sources are passed to plugins so that all plugins may use
