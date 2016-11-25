@@ -9,6 +9,20 @@ proxy support will be added later.
 [cas]: http://jasig.github.io/cas/4.1.x/index.html
 [casp]: https://github.com/Jasig/cas/blob/master/cas-server-documentation/protocol/CAS-Protocol-Specification.md
 
+### API Stability Notice
+
+We are using [Semantic Versioning][semver]. With this versioning scheme we are
+able to drastically change any aspect of the API, or the server itself, during
+the initial version 0 development ([point 4][p4]).
+
+**Until version 1.0.0 anything about** ***cas-server*** **may change with any release.**
+
+Please keep up with the [changelog](Changelog.md). All important changes will
+be listed there.
+
+[semver]: http://semver.org/
+[p4]: http://semver.org/#spec-item-4
+
 ## Install
 
 > These install instructions will guide you through installing the reference
