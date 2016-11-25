@@ -6,6 +6,8 @@ const expect = require('chai').expect
 require('./common/setupIOC')()
 const protocol1 = require('../lib/routes/protocol1')
 
+function noop () {}
+
 suite('Protocol 1', function () {
   test('validates service ticket in parameters', function validateST (done) {
     const request = {
@@ -13,7 +15,8 @@ suite('Protocol 1', function () {
         service: 'http://example.com/',
         ticket: 'valid-st'
       },
-      method: 'get'
+      method: 'get',
+      log: noop
     }
 
     function reply (response) {
@@ -30,7 +33,8 @@ suite('Protocol 1', function () {
         service: 'http://example.com/',
         ticket: 'valid-st'
       },
-      method: 'get'
+      method: 'get',
+      log: noop
     }
 
     function reply (response) {
@@ -47,7 +51,8 @@ suite('Protocol 1', function () {
         service: 'http://example.com/',
         ticket: 'unknown'
       },
-      method: 'get'
+      method: 'get',
+      log: noop
     }
 
     function reply (response) {
@@ -64,7 +69,8 @@ suite('Protocol 1', function () {
         service: 'http://example.com/',
         ticket: 'expired-st'
       },
-      method: 'get'
+      method: 'get',
+      log: noop
     }
 
     function reply (response) {
