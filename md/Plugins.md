@@ -54,7 +54,8 @@ The `context` will be the following object:
   ticketLifetimes: {
     ticketGrantingTicketTTL: 'time in milliseconds',
     serviceTicketTTL: 'time in milliseconds'
-  }
+  },
+  Promise: {} // the Promise library used by the server
 }
 ```
 
