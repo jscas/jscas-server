@@ -41,20 +41,22 @@ server.register(require('hapi-cas'), (err) => {
   server.auth.strategy('casauth', 'cas', options)
 })
 
-server.route({
-  path: '/',
-  method: 'GET',
-  config: {
-    auth: {
-      strategy: 'casauth'
-    }
-  },
-  handler: function handler (req, reply) {
-    reply(
-      `Welcome, ${req.session.username}
+setImmediate(() => {
+  server.route({
+    path: '/',
+    method: 'GET',
+    config: {
+      auth: {
+        strategy: 'casauth'
+      }
+    },
+    handler: function handler (req, reply) {
+      reply(
+        `Welcome, ${req.session.username}
       (${req.session.attributes.firstName} ${req.session.attributes.lastName})`
-    )
-  }
+      )
+    }
+  })
 })
 
 server.start(function serverStartCB () {
