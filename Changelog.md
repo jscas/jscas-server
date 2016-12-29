@@ -1,3 +1,47 @@
+### 0.11.0
++ Update depdencies.
++ Add `hapi-pino` for request logging.
++ Add `md/Logging.md` doc to establish logging standard and update code accordingly.
++ Add API stablity notice to readme.
++ Add `Promise` object to plugin Phase 1 context.
+
+  The `Promise` object is an instance of the [Bluebird][bluebird] promise
+  library. The [bluebird-co][bbco] library is also added to the object. This
+  allows plugin developers to use the same promise library as the server, and
+  get some free coroutine handlers.
+  
+  Bluebird was chosen as an easy performance improvement since it is
+  [faster than native promises][faster-promises].
++ Switch to [cas-server-pg-registries][pg-registries] as the default service
+  and ticket registries.
+  
+  Upon speaking with @mcollina at Node Interactive 2016 (North America), it
+  was decided to drop the MongoDB registries due to the way [Mongoose][mongoose]
+  does some things. Specifically, it is really slow at merging document references.
+  
+  We had originally switched to the MongoDB registries to improve performance.
+  This was because the original PostgreSQL registries were very slow. The issue
+  with those registries is that they rely on the [Objection][objection] ORM.
+  A combination of the natural slowness of ORMs and misunderstanding of the
+  way Objection works led to the poor performance.
+  
+  The new PostgreSQL registries do not use any ORM. They directly query the
+  database through hand crafted SQL statements. These registires should not
+  pose a performance risk.
++ `postgres` data source added.
++ `knex` as a supported data source has been removed. It has been replaced
+  with the `postgres` data source.
++ `settings.example.js` updated to reflect `postgres`, `knex`, and new registries.
++ {breaking} Ticket registry specification updated to require `getSTbyTGT` to
+  return an array of results instead of the first match.
+  
+[bluebird]: http://bluebirdjs.com/docs/getting-started.html
+[bbco]: https://www.npmjs.com/package/bluebird-co
+[faster-promises]: http://bluebirdjs.com/docs/benchmarks.html
+[pg-registries]: https://github.com/jscas/cas-server-pg-registries
+[mongoose]: https://www.npmjs.com/package/mongoose
+[objection]: https://www.npmjs.com/package/objection
+
 ### 0.10.1
 + Support authentication plugins returning a boolean instead of a rejection.
 

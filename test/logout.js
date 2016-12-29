@@ -6,6 +6,8 @@ const expect = require('chai').expect
 require('./common/setupIOC')()
 const logout = require('../lib/routes/logout')[0]
 
+function noop () {}
+
 function State () {
   return (cookieName, value) => { this[cookieName] = value }
 }
@@ -20,7 +22,8 @@ suite('Logout', function () {
       state: state,
       session: {
         isAuthenticated: true
-      }
+      },
+      log: noop
     }
 
     function reply (message) {

@@ -8,6 +8,8 @@ const streamToString = require('./common/streamToString')
 require('./common/setupIOC')()
 const protocol3 = require('../lib/routes/protocol3')
 
+function noop () {}
+
 suite('Protocol 3', function () {
   test('validates service ticket in parameters', function validateST (done) {
     const request = {
@@ -15,7 +17,8 @@ suite('Protocol 3', function () {
         service: 'http://example.com/',
         ticket: 'valid-st'
       },
-      method: 'get'
+      method: 'get',
+      log: noop
     }
 
     function reply (response) {
@@ -46,7 +49,8 @@ suite('Protocol 3', function () {
         service: 'http://example.com/',
         ticket: 'valid-st'
       },
-      method: 'get'
+      method: 'get',
+      log: noop
     }
 
     function reply (response) {
@@ -77,7 +81,8 @@ suite('Protocol 3', function () {
         service: 'http://example.com/',
         ticket: 'unknown'
       },
-      method: 'get'
+      method: 'get',
+      log: noop
     }
 
     function reply (response) {
@@ -99,7 +104,8 @@ suite('Protocol 3', function () {
         service: 'http://example.com/',
         ticket: 'expired-st'
       },
-      method: 'get'
+      method: 'get',
+      log: noop
     }
 
     function reply (response) {

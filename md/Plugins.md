@@ -48,13 +48,14 @@ The `context` will be the following object:
 {
   logger: {}, // an instance of the pino logger
   dataSources: {
-    knex: {}, // an instance of knex.js
-    mongoose: {} // an instance of the mongoose object modeler
+    mongoose: {}, // an instance of the mongoose object modeler
+    postgres: {} // an `pg` connection pool instance
   },
   ticketLifetimes: {
     ticketGrantingTicketTTL: 'time in milliseconds',
     serviceTicketTTL: 'time in milliseconds'
-  }
+  },
+  Promise: {} // the Promise library used by the server
 }
 ```
 

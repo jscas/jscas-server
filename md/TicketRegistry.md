@@ -70,7 +70,7 @@ Extends the base ticket object with the following properties:
   during SLO. Each service in the list must be an object with the properties:
 
     * `serviceId`: the same service identfier as was present on the ST.
-    * `logoutUrl`: the URL presented by the service during LT validation.
+    * `logoutUrl`: the URL to be used for SLO.
 
   The `serviceId` will be used to find the corresponding service in the service
   registry during SLO.
@@ -134,12 +134,12 @@ an `Error` on rejection.
 
 ### getSTbyTGT(ticketGrantingTicketId)
 
-The `Promise` returned by this method **must** pass a single ST on success or
-an `Error` on rejection.
+The `Promise` returned by this method **must** pass an array of ST on success or
+an `Error` on rejection. An empty array *may* be considered a success.
 
 ### getTGTbyST(serviceTicketId)
 
-The `Promise` returned by this method **must*8 pass a single TGT on success or
+The `Promise` returned by this method **must** pass a single TGT on success or
 an `Error` on rejection.
 
 ### trackServiceLogin(serviceTicket, ticketGrantingTicket, serviceUrl)
@@ -149,13 +149,7 @@ logout messages to all services a user authenticated to with a specific
 ticket granting ticket. This method's returned `Promise` **may** not be
 checked.
 
-You should store the `serviceTicket.serviceId` and `seviceUrl` as an object
-with the properties:
-
-+ `serviceId`
-+ `logoutUrl`
-
-## servicesLogForTGT(tid)
+### servicesLogForTGT(tid)
 
 Will be invoked during SLO to retrieve the list of services that were tracked
 via `trackServiceLogin()`. The result **must** be a list of objects with

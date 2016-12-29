@@ -12,6 +12,8 @@ const config = require('./common/config')
 const ironOptions = Iron.defaults
 ironOptions.ttl = config.loginCSRF.ttl
 
+function noop () {}
+
 function State () {
   function inner (cookieName, value) {
     inner[cookieName] = value
@@ -32,7 +34,8 @@ suite('Login GET method', function () {
       state: state,
       session: {
         isAuthenticated: true
-      }
+      },
+      log: noop
     }
 
     function reply () {
@@ -70,7 +73,8 @@ suite('Login GET method', function () {
       state: state,
       session: {
         isAuthenticated: true
-      }
+      },
+      log: noop
     }
 
     function reply (message) {
@@ -96,7 +100,8 @@ suite('Login GET method', function () {
       },
       session: {
         isAuthenticated: false
-      }
+      },
+      log: noop
     }
 
     function reply (message) {
@@ -124,7 +129,8 @@ suite('Login GET method', function () {
       },
       session: {
         isAuthenticated: true
-      }
+      },
+      log: noop
     }
 
     function reply () {
@@ -168,7 +174,8 @@ suite('Login POST method', function () {
         service: 'http://bad.example.com/',
         username: 'fbar',
         password: '123456'
-      }
+      },
+      log: noop
     }
 
     function reply (message) {
@@ -193,7 +200,8 @@ suite('Login POST method', function () {
         password: '123456',
         loginToken
       },
-      session: {}
+      session: {},
+      log: noop
     }
 
     function reply () {
@@ -223,7 +231,8 @@ suite('Login POST method', function () {
       },
       session: {
         loginToken: '123456'
-      }
+      },
+      log: noop
     }
 
     function reply () {
@@ -254,7 +263,8 @@ suite('Login POST method', function () {
       },
       session: {
         loginToken: '123456'
-      }
+      },
+      log: noop
     }
 
     function reply () {
