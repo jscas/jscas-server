@@ -113,22 +113,24 @@ module.exports = {
   // the same databases.
   // Each plugin should note which data sources it requires.
   dataSources: {
-    // http://knexjs.org/#Installation-client
-    // Set to `false` to skip initializing Knex.
-    // Othewise, set to a full Knex configuration object for the server's
-    // environment, i.e. don't use environments segregation as is possible
-    // in a knexfile.js.
-    // Whichever database you use, you will need to install the driver
-    // alonside this configuration (e.g. `npm install pg`).
-    knex: false,
-
     // http://mongoosejs.com/docs/connections.html
     // Set to `false` to skip initializing Mongoose.
     // If not `false`, the object must have properties `uri` and `options`
     // as described in the aforementioned Mongoose documentation.
-    mongoose: false /* {
+    mongoose: false, /* {
       uri: 'mongodb://localhost/jscas',
       options: null
+    } */
+
+    // Set to `false` to skip initilizing a PostgreSQL database connection.
+    // Otherwise, set to a configuration object compliant with the driver's
+    // pool interface -- https://github.com/brianc/node-pg-pool#create .
+    // If this is not set to `false`, you must also install the driver:
+    // `npm install pg`.
+    postgres: false /* {
+      user: 'a-username',
+      password: 'a-password',
+      database: 'a-db-name'
     } */
   },
 
@@ -146,10 +148,10 @@ module.exports = {
     ],
 
     // only one ticket registry is allowed per server
-    ticketRegistry: require('cas-server-mongo-registries').ticketRegistry,
+    ticketRegistry: require('cas-server-pg-registries').ticketRegistry,
 
     // only one service registry is allowed per server
-    serviceRegistry: require('cas-server-mongo-registries').serviceRegistry,
+    serviceRegistry: require('cas-server-pg-registries').serviceRegistry,
 
     // If you need multiple themes, you should run multiple instances
     // and direct traffic to them through something like HAProxy.
