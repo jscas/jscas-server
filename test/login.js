@@ -4,6 +4,7 @@
 const Iron = require('iron')
 const isPromise = require('is-promise')
 const expect = require('chai').expect
+const logger = require('abstract-logging')
 
 require('./common/setupIOC')()
 const loginRoutes = require('../lib/routes/login')
@@ -11,8 +12,6 @@ const loginRoutes = require('../lib/routes/login')
 const config = require('./common/config')
 const ironOptions = Iron.defaults
 ironOptions.ttl = config.loginCSRF.ttl
-
-function noop () {}
 
 function State () {
   function inner (cookieName, value) {
@@ -44,7 +43,7 @@ suite('Login GET method', function () {
       session: {
         isAuthenticated: true
       },
-      log: noop
+      logger
     }
 
     function reply () {
@@ -83,7 +82,7 @@ suite('Login GET method', function () {
       session: {
         isAuthenticated: true
       },
-      log: noop
+      logger
     }
 
     function reply (message) {
@@ -110,7 +109,7 @@ suite('Login GET method', function () {
       session: {
         isAuthenticated: false
       },
-      log: noop
+      logger
     }
 
     function reply (message) {
@@ -138,7 +137,7 @@ suite('Login GET method', function () {
       session: {
         isAuthenticated: true
       },
-      log: noop
+      logger
     }
 
     function reply (message) {
@@ -160,7 +159,7 @@ suite('Login GET method', function () {
             loginToken: '123456',
             renewal: true
           },
-          log: noop
+          logger
         }
 
         const reply2 = function () { return reply2 }
@@ -205,7 +204,7 @@ suite('Login POST method', function () {
         username: 'fbar',
         password: '123456'
       },
-      log: noop
+      logger
     }
 
     function reply (message) {
@@ -231,7 +230,7 @@ suite('Login POST method', function () {
         loginToken
       },
       session: {},
-      log: noop
+      logger
     }
 
     function reply () {
@@ -262,7 +261,7 @@ suite('Login POST method', function () {
       session: {
         loginToken: '123456'
       },
-      log: noop
+      logger
     }
 
     function reply () {
@@ -294,7 +293,7 @@ suite('Login POST method', function () {
       session: {
         loginToken: '123456'
       },
-      log: noop
+      logger
     }
 
     function reply () {

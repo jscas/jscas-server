@@ -2,13 +2,12 @@
 /* eslint-env node, mocha */
 
 const expect = require('chai').expect
+const logger = require('abstract-logging')
 const cheerio = require('cheerio')
 const streamToString = require('./common/streamToString')
 
 require('./common/setupIOC')()
 const protocol3 = require('../lib/routes/protocol3')
-
-function noop () {}
 
 suite('Protocol 3', function () {
   test('validates service ticket in parameters', function validateST (done) {
@@ -18,7 +17,7 @@ suite('Protocol 3', function () {
         ticket: 'valid-st'
       },
       method: 'get',
-      log: noop
+      logger
     }
 
     function reply (response) {
@@ -50,7 +49,7 @@ suite('Protocol 3', function () {
         ticket: 'valid-st'
       },
       method: 'get',
-      log: noop
+      logger
     }
 
     function reply (response) {
@@ -82,7 +81,7 @@ suite('Protocol 3', function () {
         ticket: 'unknown'
       },
       method: 'get',
-      log: noop
+      logger
     }
 
     function reply (response) {
@@ -105,7 +104,7 @@ suite('Protocol 3', function () {
         ticket: 'expired-st'
       },
       method: 'get',
-      log: noop
+      logger
     }
 
     function reply (response) {

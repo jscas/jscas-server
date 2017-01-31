@@ -2,11 +2,10 @@
 /* eslint-env node, mocha */
 
 const expect = require('chai').expect
+const logger = require('abstract-logging')
 
 require('./common/setupIOC')()
 const logout = require('../lib/routes/logout')[0]
-
-function noop () {}
 
 function State () {
   return (cookieName, value) => { this[cookieName] = value }
@@ -23,7 +22,7 @@ suite('Logout', function () {
       session: {
         isAuthenticated: true
       },
-      log: noop
+      logger
     }
 
     function reply (message) {

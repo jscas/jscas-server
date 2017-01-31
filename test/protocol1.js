@@ -2,11 +2,10 @@
 /* eslint-env node, mocha */
 
 const expect = require('chai').expect
+const logger = require('abstract-logging')
 
 require('./common/setupIOC')()
 const protocol1 = require('../lib/routes/protocol1')
-
-function noop () {}
 
 suite('Protocol 1', function () {
   test('validates service ticket in parameters', function validateST (done) {
@@ -16,7 +15,7 @@ suite('Protocol 1', function () {
         ticket: 'valid-st'
       },
       method: 'get',
-      log: noop
+      logger
     }
 
     function reply (response) {
@@ -34,7 +33,7 @@ suite('Protocol 1', function () {
         ticket: 'valid-st'
       },
       method: 'get',
-      log: noop
+      logger
     }
 
     function reply (response) {
@@ -52,7 +51,7 @@ suite('Protocol 1', function () {
         ticket: 'unknown'
       },
       method: 'get',
-      log: noop
+      logger
     }
 
     function reply (response) {
@@ -70,7 +69,7 @@ suite('Protocol 1', function () {
         ticket: 'expired-st'
       },
       method: 'get',
-      log: noop
+      logger
     }
 
     function reply (response) {

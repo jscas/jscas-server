@@ -43,6 +43,7 @@
     "uuid": "^3.0.1"
   },
   "devDependencies": {
+    "abstract-logging": "^1.0.0",
     "chai": "^3.5.0",
     "cheerio": "^0.22.0",
     "gulp": "^3.9.1",
