@@ -12,7 +12,7 @@ const xml = require(path.join(__dirname, '..', 'lib', 'xml'))
 
 suite('xml rendering', function () {
   test('invalid service ticket', function ist (done) {
-    const html = xml.invalidST.renderSync({
+    const html = xml.invalidST.renderToString({
       code: 42,
       message: 'no clue'
     })
@@ -24,14 +24,14 @@ suite('xml rendering', function () {
   })
 
   test('valid only username', function valuser (done) {
-    const html = xml.validST.renderSync({ username: 'foo' })
+    const html = xml.validST.renderToString({ username: 'foo' })
     const $ = cheerio.load(html)
     expect($('cas\\:user').text()).to.equal('foo')
     done()
   })
 
   test('valid standard attributes', function stdattrs (done) {
-    const html = xml.validST.renderSync({
+    const html = xml.validST.renderToString({
       username: 'foo',
       attributes: {
         standardAttributes: {
@@ -59,7 +59,7 @@ suite('xml rendering', function () {
   })
 
   test('valid extra attributes', function stdattrs (done) {
-    const html = xml.validST.renderSync({
+    const html = xml.validST.renderToString({
       username: 'foo',
       attributes: {
         standardAttributes: {
