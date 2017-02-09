@@ -32,13 +32,14 @@ messages). For example, let's look at a plugin that provides a request handler:
 'use strict'
 
 function routeHandler (request, reply) {
-  request.log(['trace', 'fooPlugin'], 'handling /foo request')
+  const logger = request.logger.child({plugin: 'fooPlugin'})
+  logger.trace('handling /foo request')
   try {
     const result = someFunctionThatMightThrow(request.params.bar)
     reply(result)
   } catch (err) {
-    request.log(['error', 'fooPlugin'], `/foo request failed: ${err.message}`)
-    request.log(['debug', 'fooPlugin'], err.stack)
+    logger.trace('/foo request failed: %s', err.message)
+    logger.debug(err.stack)
     reply().code(500)
   }
 }

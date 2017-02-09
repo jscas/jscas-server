@@ -4,6 +4,7 @@
 const Iron = require('iron')
 const isPromise = require('is-promise')
 const expect = require('chai').expect
+const logger = require('abstract-logging')
 
 require('./common/setupIOC')()
 const loginRoutes = require('../lib/routes/login')
@@ -11,8 +12,6 @@ const loginRoutes = require('../lib/routes/login')
 const config = require('./common/config')
 const ironOptions = Iron.defaults
 ironOptions.ttl = config.loginCSRF.ttl
-
-function noop () {}
 
 function State () {
   function inner (cookieName, value) {
@@ -22,6 +21,15 @@ function State () {
 }
 
 suite('Login GET method', function () {
+  let loginToken
+  suiteSetup((done) => {
+    Iron.seal({loginToken: '123456'}, config.loginCSRF.password, ironOptions, (err, sealed) => {
+      if (err) return done(err)
+      loginToken = sealed
+      done()
+    })
+  })
+
   test('skips already authenticated sessions', function skipAuth (done) {
     const state = new State()
     state('test-cookie', 'valid-tgt')
@@ -35,7 +43,7 @@ suite('Login GET method', function () {
       session: {
         isAuthenticated: true
       },
-      log: noop
+      logger
     }
 
     function reply () {
@@ -58,7 +66,7 @@ suite('Login GET method', function () {
       done()
     }
 
-    loginRoutes[ 0 ].handler(request, reply)
+    loginRoutes[0].handler(request, reply)
   })
 
   test('reject authenticated session with expired ticket', function expired (done) {
@@ -74,7 +82,7 @@ suite('Login GET method', function () {
       session: {
         isAuthenticated: true
       },
-      log: noop
+      logger
     }
 
     function reply (message) {
@@ -87,7 +95,7 @@ suite('Login GET method', function () {
       done()
     }
 
-    loginRoutes[ 0 ].handler(request, reply)
+    loginRoutes[0].handler(request, reply)
   })
 
   test('initiates new logins', function newLogin (done) {
@@ -101,7 +109,7 @@ suite('Login GET method', function () {
       session: {
         isAuthenticated: false
       },
-      log: noop
+      logger
     }
 
     function reply (message) {
@@ -112,10 +120,9 @@ suite('Login GET method', function () {
       })
     }
 
-    loginRoutes[ 0 ].handler(request, reply)
+    loginRoutes[0].handler(request, reply)
   })
 
-// TODO: renewal isn't really implemented yet
   test('forces login renewal', function renewal (done) {
     const state = new State()
     state('test-cookie', 'valid-tgt')
@@ -130,30 +137,52 @@ suite('Login GET method', function () {
       session: {
         isAuthenticated: true
       },
-      log: noop
+      logger
     }
 
-    function reply () {
-      return reply
+    function reply (message) {
+      expect(isPromise(message)).to.be.true
+      expect(request.session.renewal).to.be.true
+      message.then((html) => {
+        expect(html).to.equal('<h1>login</h1>')
+        const request2 = {
+          method: 'POST',
+          payload: {
+            service: 'http://example.com/',
+            username: 'fbar',
+            password: '123456',
+            loginToken
+          },
+          state: state,
+          session: {
+            isAuthenticated: true,
+            loginToken: '123456',
+            renewal: true
+          },
+          logger
+        }
+
+        const reply2 = function () { return reply2 }
+        reply2.redirect = function redirect (dest) {
+          expect(dest).to.equal('http://example.com/?ticket=valid-st')
+          return reply2
+        }
+
+        reply2.code = function code (num) {
+          expect(num).to.equal(303)
+          return reply2
+        }
+
+        reply2.state = function state (name, value) {
+          expect(name).to.equal('test-cookie')
+          expect(value).to.equal('valid-tgt')
+          done()
+        }
+        loginRoutes[1].handler(request2, reply2)
+      })
     }
 
-    reply.redirect = function redirect (dest) {
-      expect(dest).to.equal('http://example.com/?ticket=valid-st')
-      return reply
-    }
-
-    reply.code = function code (num) {
-      expect(num).to.equal(303)
-      return reply
-    }
-
-    reply.state = function state (name, value) {
-      expect(name).to.equal('test-cookie')
-      expect(value).to.equal('valid-tgt')
-      done()
-    }
-
-    loginRoutes[ 0 ].handler(request, reply)
+    loginRoutes[0].handler(request, reply)
   })
 })
 
@@ -175,7 +204,7 @@ suite('Login POST method', function () {
         username: 'fbar',
         password: '123456'
       },
-      log: noop
+      logger
     }
 
     function reply (message) {
@@ -188,7 +217,7 @@ suite('Login POST method', function () {
       done()
     }
 
-    loginRoutes[ 1 ].handler(request, reply)
+    loginRoutes[1].handler(request, reply)
   })
 
   test('rejects bad login ticket', function postBad (done) {
@@ -201,7 +230,7 @@ suite('Login POST method', function () {
         loginToken
       },
       session: {},
-      log: noop
+      logger
     }
 
     function reply () {
@@ -217,7 +246,7 @@ suite('Login POST method', function () {
       done()
     }
 
-    loginRoutes[ 1 ].handler(request, reply)
+    loginRoutes[1].handler(request, reply)
   })
 
   test('rejects invalid credentials', function validLogin (done) {
@@ -232,7 +261,7 @@ suite('Login POST method', function () {
       session: {
         loginToken: '123456'
       },
-      log: noop
+      logger
     }
 
     function reply () {
@@ -249,7 +278,7 @@ suite('Login POST method', function () {
       done()
     }
 
-    loginRoutes[ 1 ].handler(request, reply)
+    loginRoutes[1].handler(request, reply)
   })
 
   test('processes valid credentials', function validLogin (done) {
@@ -264,7 +293,7 @@ suite('Login POST method', function () {
       session: {
         loginToken: '123456'
       },
-      log: noop
+      logger
     }
 
     function reply () {
@@ -291,6 +320,6 @@ suite('Login POST method', function () {
       done()
     }
 
-    loginRoutes[ 1 ].handler(request, reply)
+    loginRoutes[1].handler(request, reply)
   })
 })

@@ -144,6 +144,10 @@ module.exports.plugin = function mockTR (config, context) {
         loginUrl: serviceUrl
       }]
       return Promise.resolve(newTGT)
+    },
+
+    servicesLogForTGT () {
+      return Promise.resolve([])
     }
   }
 }

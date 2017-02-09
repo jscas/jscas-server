@@ -6,6 +6,13 @@ versions 1.0, 2.0, and 3.0 of the [protocol][casp]. It currently supports
 the authentication and service validation mechanisms of all three versions;
 proxy support will be added later.
 
+Protocol compatibility special note: this server will prefer adhering to the
+latest version of the protocol when supporting all versions would be too
+cumbersome. For example, the potential redirect on logout. In version 2.0 the
+service could send a `url` parameter. In version 3.0, that was deprecated in
+favor of a `service` parameter. This server does not recognize the `url`
+parameter at all.
+
 [cas]: http://jasig.github.io/cas/4.1.x/index.html
 [casp]: https://github.com/Jasig/cas/blob/master/cas-server-documentation/protocol/CAS-Protocol-Specification.md
 

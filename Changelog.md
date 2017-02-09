@@ -1,5 +1,18 @@
+### 0.12.0
++ Update dependencies.
++ Add support for `renewal` parameter to `/login`.
++ Update usage of deprecated Marko template methods.
++ Migrate request logging to `request.logger` instead of `request.log`.
+
+  This change is meant to improve performance. Using `request.log` meant we
+  were waiting on Hapi and Pino to process tags. Also, we couldn't use format
+  strings, e.g. `log('foo %s', 'bar')`. This meant unnecessary creation of
+  strings from template strings.
++ Add support for `service` parameter on `/logout`. The server will redirect
+  you back to the service if it matches a service URL in the service registry.
+
 ### 0.11.0
-+ Update depdencies.
++ Update dependencies.
 + Add `hapi-pino` for request logging.
 + Add `md/Logging.md` doc to establish logging standard and update code accordingly.
 + Add API stablity notice to readme.
