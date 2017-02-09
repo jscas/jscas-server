@@ -1,3 +1,6 @@
+### 0.12.1
++ Fix `package.json` so we can actually publish.
+
 ### 0.12.0
 + Update dependencies.
 + Add support for `renewal` parameter to `/login`.
