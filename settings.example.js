@@ -106,7 +106,10 @@ module.exports = {
     // Set to `true` to enable pretty printing of log messages. This is meant
     // to make logs easier to read during development. Regular JSON logs are
     // more versatile for production.
-    pretty: false
+    //
+    // This can also be set to a pretty print configuratin object as is outlined
+    // in the Pino documentation.
+    prettyPrint: false
   },
 
   // Data sources are passed to plugins so that all plugins may use
