@@ -1,35 +1,36 @@
 'use strict'
 
 const path = require('path')
-const introduce = require('introduce')()
-const ioc = require('laic').laic.addNamespace('casServer')
-ioc.loadFile('lib/logger')
 
 function reqlib () {
   const args = [].concat([__dirname, 'lib'], Array.from(arguments))
   return require(path.join.apply(null, args))
 }
 
-const argv = reqlib('cli')
-let config
-if (argv.config) {
-  config = argv.config
-} else if (argv.settings) {
-  config = argv.settings
-} else {
-  config = './settings.js'
-}
+const configPath = reqlib('cli')
+let config = configPath || './settings.js'
 try {
   const fp = path.resolve(config)
   config = require(fp)
-  ioc.register('config', config, false)
 } catch (e) {
   console.error('could not load configuration: %s', e.message)
   process.exit(1)
 }
+const log = reqlib('logger')(config)
 
-// re-initialize the logger with the user supplied configuration
-const log = ioc.loadFile('lib/logger').get('logger')
+const opbeat = require('opbeat')
+if (config.opbeat) {
+  const opbeatConfig = (typeof config.opbeat === 'object')
+    ? Object.assign({}, config.opbeat, {logger: log})
+    : {logger: log}
+  opbeat.start(opbeatConfig)
+}
+log.info('OpBeat client activated: %s', opbeat.active)
+
+const introduce = require('introduce')()
+const ioc = require('laic').laic.addNamespace('casServer')
+ioc.register('config', config, false)
+ioc.addNamespace('lib').register('logger', log, false)
 
 introduce('lib/loadDataSources').then((dataSources) => {
   ioc.register('dataSources', dataSources, false)
@@ -48,7 +49,7 @@ introduce('lib/loadDataSources').then((dataSources) => {
   ioc.register('hooks', hooks, false)
 
   log.debug('loading Hapi web server')
-  const server = introduce('lib/loadServer')(argv)
+  const server = introduce('lib/loadServer')()
   ioc.register('server', server, false)
   server.start(function startServerCB (error) {
     if (error) {

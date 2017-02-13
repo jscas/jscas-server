@@ -1,6 +1,6 @@
 {
   "name": "cas-server",
-  "version": "0.12.1",
+  "version": "0.13.0",
   "description": "An implementation of Apereo's CAS protocol",
   "main": "server.js",
   "scripts": {
@@ -37,7 +37,7 @@
     "is-promise": "^2.1.0",
     "laic": "^0.3.4",
     "marko": "^3.14.2",
-    "nopt": "^4.0.1",
+    "opbeat": "^4.11.0",
     "pino": "^3.4.0",
     "request": "^2.79.0",
     "uuid": "^3.0.1"

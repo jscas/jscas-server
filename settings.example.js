@@ -5,6 +5,15 @@ const sessionTTL = 60 * 1000
 // Unless otherwise noted, each configuration property shown in this
 // example configuration is required to be defined.
 module.exports = {
+  // Set `true` to enable OpBeat integration. This will use the environment
+  // variables specific to configure the OpBeat client. If you set this
+  // to an object, then that object will be passed to OpBeat's `.start()`
+  // method as the configuration.
+  //
+  // See https://opbeat.com/docs/articles/nodejs-agent-api/#start for information
+  // on configuring OpBeat.
+  opbeat: false,
+
   // Configuration for components directly releated to the Hapi web
   // server instance.
   server: {
@@ -106,7 +115,10 @@ module.exports = {
     // Set to `true` to enable pretty printing of log messages. This is meant
     // to make logs easier to read during development. Regular JSON logs are
     // more versatile for production.
-    pretty: false
+    //
+    // This can also be set to a pretty print configuratin object as is outlined
+    // in the Pino documentation.
+    prettyPrint: false
   },
 
   // Data sources are passed to plugins so that all plugins may use
