@@ -1,3 +1,17 @@
+### 0.13.0
++ [breaking] Changes Pino configuration option `pretty` to `prettyPrint`.
+ 
+  Pino now natively supports enabling pretty printing via the `prettyPrint`
+  option being passed to its constructor. So we now directly use it.
++ Adds support for OpBeat instrumentation.
+
+  The [OpBeat][opbeat] client has been integrated into the server.
+  The integration is minimal; it does not directly send any errors to the
+  service. This may change in later version. See the notes in
+  `settings.example.js` and the Readme for more information.
+  
+  [opbeat]: https://opbeat.com/
+
 ### 0.12.1
 + Fix `package.json` so we can actually publish.
 
