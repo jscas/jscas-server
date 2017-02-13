@@ -56,6 +56,22 @@ $ # edit the settings.js file according to the instructions within
 [dbschema]: https://github.com/jscas/cas-server-db-schema
 [schemaread]: https://github.com/jscas/cas-server-db-schema/Readme.md
 
+### OpBeat Integration
+
+The server has built-in support for [OpBeat][opbeat] reporting. By default, this
+is disabled. You can enable it within your `settings.js` file. Currently, this
+server does not directly register any errors with the OpBeat client. This may
+change in future versions.
+
+Special note: when writing your `settings.js` script you *must* avoid requiring
+any modules that the OpBeat client instruments. You can view the list of these
+modules in the [client's source code][opbeat-modules]. We initialize the OpBeat
+client *after* we load the `settings.js` script; thus the client would not
+be able to hook into the instrumented modules if you require any there.
+
+[opbeat]: https://opbeat.com/
+[opbeat-modules]: https://github.com/opbeat/opbeat-node/blob/master/lib/instrumentation/index.js#L11
+
 ### Database
 
 You must have a [PostgreSQL][postgres] database and user available. The user

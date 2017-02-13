@@ -18,6 +18,15 @@ try {
 }
 const log = reqlib('logger')(config)
 
+const opbeat = require('opbeat')
+if (config.opbeat) {
+  const opbeatConfig = (typeof config.opbeat === 'object')
+    ? Object.assign({}, config.opbeat, {logger: log})
+    : {logger: log}
+  opbeat.start(opbeatConfig)
+}
+log.info('OpBeat client activated: %s', opbeat.active)
+
 const introduce = require('introduce')()
 const ioc = require('laic').laic.addNamespace('casServer')
 ioc.register('config', config, false)
