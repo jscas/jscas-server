@@ -1,3 +1,6 @@
+### 0.13.1
++ Fix bug that was preventing modules from loading correctly.
+
 ### 0.13.0
 + [breaking] Changes Pino configuration option `pretty` to `prettyPrint`.
  
