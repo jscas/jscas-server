@@ -27,7 +27,7 @@ if (config.opbeat) {
 }
 log.info('OpBeat client activated: %s', opbeat.active)
 
-const introduce = require('introduce')()
+const introduce = require('introduce')(__dirname)
 const ioc = require('laic').laic.addNamespace('casServer')
 ioc.register('config', config, false)
 ioc.addNamespace('lib').register('logger', log, false)
