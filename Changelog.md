@@ -1,3 +1,9 @@
+### 0.14.0
++ [breaking] Change the `server.cache` configuration property to `server.catbox`.
+
+  This change allows us to define the configuration while retaining OpBeat
+  instrumentation for catbox drivers like Redis or MongoDB.
+
 ### 0.13.1
 + Fix bug that was preventing modules from loading correctly.
 

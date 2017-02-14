@@ -22,14 +22,33 @@ module.exports = {
       port: 9000
     },
 
-    // http://hapijs.com/api#new-serveroptions (`cache` property)
-    // Configure Hapi's internal cache management (via a catbox engine).
-    // This is used by the session management for storing its data.
-    // Thus, if you want your session information stored somewhere like
-    // a Redis server, this is where you supply that information.
+    // Define a catbox object, as shown in the commented out example, to
+    // use in place of Hapi's internal cache management. This is used by the
+    // session management for storing its data. Thus, if you want your session
+    // information stored somewhere like a Redis server, this is where you
+    // supply that information.
+    //
+    // You must install the module you wish to use. The server merely attempts
+    // to load it if you have defined configuration here. We do this so that
+    // OpBeat instrumentation can be used. Otherwise, you'd be requiring the
+    // module here, which would be before the OpBeat client is initalized.
+    // Thus preventing the client from instrumenting any driver, e.g. MongoDB,
+    // that the chosen catbox uses.
     //
     // Set to `false`, or omit, to stick with Hapi's default memory engine.
-    cache: false,
+    catbox: false,
+
+    // Example catbox configuration. The `moduleConfig` object will be merged
+    // into an object that contains an `engine` property set to `require(moduleName)`.
+    /*
+    catbox: {
+      moduleName: 'catbox-mongodb',
+      moduleConfig: {
+        uri: 'mongodb://127.0.0.1',
+        partition: 'jscas'
+      }
+    },
+    */
 
     // Name for the Ticket Granting Cookie (TGC).
     tgcName: 'TGC-JSCAS',
