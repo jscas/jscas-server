@@ -62,6 +62,7 @@ introduce('lib/loadDataSources').then((dataSources) => {
     reqlib('processManagement')
 
     setImmediate(() => pluginsLoader.phase2(server, hooks))
+    setImmediate(() => process.send && process.send('ready'))
   })
 }).catch(function (err) {
   log.error('could not load datasources: %s', err.message)
