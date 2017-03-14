@@ -24,12 +24,15 @@ if (config.opbeat) {
     ? Object.assign({}, config.opbeat, {logger: log})
     : {logger: log}
   opbeat.start(opbeatConfig)
+} else {
+  opbeat.start({active: false, logLevel: 'fatal'})
 }
 log.info('OpBeat client activated: %s', opbeat.active)
 
 const introduce = require('introduce')(__dirname)
 const ioc = require('laic').laic.addNamespace('casServer')
 ioc.register('config', config, false)
+ioc.register('opbeat', opbeat, false)
 ioc.addNamespace('lib').register('logger', log, false)
 
 introduce('lib/loadDataSources').then((dataSources) => {

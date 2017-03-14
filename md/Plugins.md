@@ -55,6 +55,7 @@ The `context` will be the following object:
     ticketGrantingTicketTTL: 'time in milliseconds',
     serviceTicketTTL: 'time in milliseconds'
   },
+  opbeat: {}, // OpBeat client for instrumentation
   Promise: {} // the Promise library used by the server
 }
 ```
