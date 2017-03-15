@@ -31,7 +31,7 @@ module.exports.plugin = function mockAuth (options, context) {
 module.exports.postInit = function mockAuthPost (context) {
   return function userAttributes (user) {
     if (!users.hasOwnProperty(user)) {
-      return Promise.reject('no such user')
+      return Promise.reject(new Error('no such user'))
     }
 
     return Promise.resolve({

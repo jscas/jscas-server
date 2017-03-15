@@ -4,9 +4,13 @@
   "description": "An implementation of Apereo's CAS protocol",
   "main": "server.js",
   "scripts": {
-    "test": "gulp test",
-    "lint": "gulp lint"
+    "test": "tap --no-cov 'test/**/*.test.js'",
+    "lint": "standard"
   },
+  "precommit": [
+    "lint",
+    "test"
+  ],
   "keywords": [
     "cas",
     "apereo",
@@ -20,10 +24,6 @@
   },
   "author": "James Sumners",
   "license": "MIT",
-  "precommit": [
-    "lint",
-    "test"
-  ],
   "dependencies": {
     "bluebird": "^3.4.7",
     "bluebird-co": "^2.2.0",
@@ -44,18 +44,11 @@
   },
   "devDependencies": {
     "abstract-logging": "^1.0.0",
-    "chai": "^3.5.0",
     "cheerio": "^0.22.0",
-    "gulp": "^3.9.1",
-    "gulp-istanbul": "^1.1.1",
-    "gulp-load-plugins": "^1.5.0",
-    "gulp-mocha": "^3.0.1",
-    "gulp-standard": "^8.0.3",
     "hapi-cas": "^0.5.0",
-    "istanbul": "^0.4.5",
-    "mocha": "^3.2.0",
     "pre-commit": "^1.2.2",
     "rimraf": "^2.5.4",
-    "thunk-mocha": "^1.0.8"
+    "standard": "^9.0.1",
+    "tap": "^10.3.0"
   }
 }
