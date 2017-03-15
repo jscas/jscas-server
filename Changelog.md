@@ -1,3 +1,8 @@
+### 0.15.0
++ Update dependencies.
++ Add OpBeat client to plugin phase1 init context.
++ Switch to `node-tap` for testing.
+
 ### 0.14.0
 + [breaking] Change the `server.cache` configuration property to `server.catbox`.
 
