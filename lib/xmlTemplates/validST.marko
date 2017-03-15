@@ -11,16 +11,16 @@
          as defined in the schema. `standardAttributes` should be an object
          with key names matching the element names in the schema.
       -->
-      <var attrs="${data.attributes.standardAttributes}">
-        <cas:authenticationDate if(attrs.authenticationDate)>${attrs.authenticationDate}</cas:authenticationDate>
-        <cas:longTermAuthenticationRequestTokenUsed if(attrs.longTermAuthenticationRequestTokenUsed)>
-          ${attrs.longTermAuthenticationRequestTokenUsed}
-        </cas:longTermAuthenticationRequestTokenUsed>
-        <cas:isFromNewLogin if(attrs.isFromNewLogin)>${attrs.isFromNewLogin}</cas:isFromNewLogin>
-        <if(attrs.memberOf)>
-          <cas:memberOf for(group in attrs.memberOf)>${group}</cas:memberOf>
-        </if>
-      </var>
+      <!-- This floating $ denotes a JS block in Marko v4 -->
+      $ let attrs=data.attributes.standardAttributes
+      <cas:authenticationDate if(attrs.authenticationDate)>${attrs.authenticationDate}</cas:authenticationDate>
+      <cas:longTermAuthenticationRequestTokenUsed if(attrs.longTermAuthenticationRequestTokenUsed)>
+        ${attrs.longTermAuthenticationRequestTokenUsed}
+      </cas:longTermAuthenticationRequestTokenUsed>
+      <cas:isFromNewLogin if(attrs.isFromNewLogin)>${attrs.isFromNewLogin}</cas:isFromNewLogin>
+      <if(attrs.memberOf)>
+        <cas:memberOf for(group in attrs.memberOf)>${group}</cas:memberOf>
+      </if>
     </if>
 
     <if(data.attributes.extraAttributes)>
