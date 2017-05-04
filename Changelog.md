@@ -1,3 +1,6 @@
+### 0.15.1
++ See https://github.com/jscas/cas-server/releases for all future release notes.
+
 ### 0.15.0
 + Update dependencies.
 + Add OpBeat client to plugin phase1 init context.
@@ -14,7 +17,7 @@
 
 ### 0.13.0
 + [breaking] Changes Pino configuration option `pretty` to `prettyPrint`.
- 
+
   Pino now natively supports enabling pretty printing via the `prettyPrint`
   option being passed to its constructor. So we now directly use it.
 + Adds support for OpBeat instrumentation.
@@ -23,7 +26,7 @@
   The integration is minimal; it does not directly send any errors to the
   service. This may change in later version. See the notes in
   `settings.example.js` and the Readme for more information.
-  
+
   [opbeat]: https://opbeat.com/
 
 ### 0.12.1
@@ -53,22 +56,22 @@
   library. The [bluebird-co][bbco] library is also added to the object. This
   allows plugin developers to use the same promise library as the server, and
   get some free coroutine handlers.
-  
+
   Bluebird was chosen as an easy performance improvement since it is
   [faster than native promises][faster-promises].
 + Switch to [cas-server-pg-registries][pg-registries] as the default service
   and ticket registries.
-  
+
   Upon speaking with @mcollina at Node Interactive 2016 (North America), it
   was decided to drop the MongoDB registries due to the way [Mongoose][mongoose]
   does some things. Specifically, it is really slow at merging document references.
-  
+
   We had originally switched to the MongoDB registries to improve performance.
   This was because the original PostgreSQL registries were very slow. The issue
   with those registries is that they rely on the [Objection][objection] ORM.
   A combination of the natural slowness of ORMs and misunderstanding of the
   way Objection works led to the poor performance.
-  
+
   The new PostgreSQL registries do not use any ORM. They directly query the
   database through hand crafted SQL statements. These registires should not
   pose a performance risk.
@@ -78,7 +81,7 @@
 + `settings.example.js` updated to reflect `postgres`, `knex`, and new registries.
 + {breaking} Ticket registry specification updated to require `getSTbyTGT` to
   return an array of results instead of the first match.
-  
+
 [bluebird]: http://bluebirdjs.com/docs/getting-started.html
 [bbco]: https://www.npmjs.com/package/bluebird-co
 [faster-promises]: http://bluebirdjs.com/docs/benchmarks.html
@@ -101,7 +104,7 @@
   happen if configuration is in its own project outside of the `cas-server`
   project (installation)
 
-### 0.9.0 
+### 0.9.0
 + Migrate more functionality to `casInterface`
 
 + Update route loading to support Hapi 15
@@ -118,16 +121,16 @@
   The passed in parameter is an object with properties matching the original
   parameter list. However, the `loginTicket` property was removed and a
   `cas` object added (maps to the object defined in `lib/casInterface.js`).
-  
+
   This change affects the `clearpass` plugin.
-  
+
 + Removes support for login tickets
 
   The login ticket is an [optional part](https://github.com/apereo/cas/issues/1939)
   of the specification. Implementing them is too much of a burden and is more
   easily solved via a CSRF prevention token that doesn't require a ticket
   registry.
-  
+
   This change affects theme and registry plugins.
 
 + New config block: `loginCSRF`
