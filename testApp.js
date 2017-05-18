@@ -1,5 +1,6 @@
 'use strict'
 
+const log = require('pino')({prettyPrint: true, level: 'trace'})
 const hapi = require('hapi')
 const server = new hapi.Server()
 
@@ -17,7 +18,8 @@ server.register(
       cookie: {
         isSecure: false
       },
-      name: 'testApp'
+      name: 'testApp',
+      logger: log
     }
   },
   function cb (err) {
@@ -60,5 +62,5 @@ setImmediate(() => {
 })
 
 server.start(function serverStartCB () {
-  console.log('test app server started')
+  log.info('test app server started: http://%s:%s', server.info.address, server.info.port)
 })

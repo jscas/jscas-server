@@ -29,7 +29,7 @@
     "bluebird-co": "^2.2.0",
     "boom": "^4.3.1",
     "hapi": "^16.1.1",
-    "hapi-easy-session": "^0.2.2",
+    "hapi-easy-session": "^1.0.0",
     "hapi-pino": "^1.4.1",
     "hoek": "^4.1.1",
     "introduce": "^0.2.0",
@@ -38,7 +38,7 @@
     "laic": "^0.3.4",
     "marko": "^4.2.8",
     "opbeat": "^4.13.1",
-    "pino": "^4.5.1",
+    "pino": "^4.5.2",
     "request": "^2.81.0",
     "uuid": "^3.0.1"
   },
