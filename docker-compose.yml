@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  cas:
+    build:
+      context: .
+      dockerfile: docker/server.dockerfile
+    volumes:
+      - './:/app'
+    ports:
+      - '9000:9000'
+    hostname: cas
+    domainname: example.com
+    networks:
+      casdemo:
+        ipv4_address: 10.0.0.5
+
+  app:
+    build:
+      context: .
+      dockerfile: docker/app.dockerfile
+    volumes:
+      - './docker/sample-app:/app'
+    ports:
+      - '3000:3000'
+    hostname: app
+    domainname: example.com
+    networks:
+      casdemo:
+        ipv4_address: 10.0.0.6
+    extra_hosts:
+      - 'cas.example.com:10.0.0.5'
+
+networks:
+  casdemo:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.0.0/24

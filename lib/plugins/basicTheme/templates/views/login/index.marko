@@ -1,0 +1,20 @@
+<form method="post" target="/login">
+  <input id="username" name="username" placeholder="username"><br>
+  <input id="password" name="password" placeholder="password" type="password">
+  <input id="csrfToken" name="csrfToken" type="hidden" value="${input.csrfToken}">
+  <input id="service" name="service" type="hidden" value="${input.service}">
+  <button type="submit">Login</button>
+</form>
+
+<p>
+  Upon logging in you will be redirected to:
+  <strong>${input.service}</strong>
+</p>
+
+<div if(input.error)>
+  <h2>Uh oh!</h2>
+  <p>${input.error.message}</p>
+  <p if(input.isdebug)>
+    <code><pre>${input.error.stack}</pre></code>
+  </p>
+</div>
