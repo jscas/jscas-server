@@ -15,7 +15,7 @@ be valid for exactly one use. They must also automatically expire within a
 certain timeframe without having been used.
 
 + `tid` (string): a unique identifier for the ticket. It should be URL/cookie
-safe. A cryptographically secure random generate should be used to generate
+safe. A cryptographically secure random generator should be used to generate
 this id.
 + `created` (Date): the date and time at which the ticket was issued.
 + `expires` (Date): the date and time upon which the ticket will expire if it
@@ -37,7 +37,7 @@ They provide an audit trail for authorizations provided they are retained in
 a long lived database.
 
 + `tid` (string): a unique identifier for the ticket. It should be URL/cookie
-safe. A cryptographically secure random generate should be used to generate
+safe. A cryptographically secure random generator should be used to generate
 this id.
 + `userId` (string): an identifer for the user this ticket is assigned to. It
 is most likely to be the user's username.
