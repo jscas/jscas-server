@@ -9,6 +9,7 @@ documentation in a web browser.
 
 ## TOC
 
+- [Hooks](/docs/Hooks.md): details on lifecycle hooks provided by *JSCAS*.
 - [Plugins](/docs/Plugins.md): details the plugins API and how to implement specific
 plugin types.
 - [Tickets](/docs/Tickets.md): details what "tickets" are and how *JSCAS* expects
