@@ -30,7 +30,7 @@ with the server. To try it out:
 
 1. Clone the repository: `git clone https://github.com/jscas/cas-server.git`
 1. Navigate to the directory: `cd cas-server`
-1. Update hosts file: `echo '127.0.0.1 app.example.com cas.example.com >> /etc/hosts`
+1. Update hosts file: `echo '127.0.0.1 app.example.com cas.example.com' >> /etc/hosts`
 1. Run [docker-compose][docker-compose]: `docker-compose up`
 1. Navigate to `http://app.example.com:3000` in a web browser
 
