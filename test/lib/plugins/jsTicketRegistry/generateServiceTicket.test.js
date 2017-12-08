@@ -46,7 +46,7 @@ test('generates new service tickets with default expiration', (t) => {
     t.type(st.tid, 'string')
     t.ok(st.serviceId)
     t.is(st.serviceId, 'fooservice')
-    t.ok(st.expires < new Date(Date.now() + 1000))
+    t.ok(st.expires < new Date(Date.now() + 2000))
   })
 })
 
