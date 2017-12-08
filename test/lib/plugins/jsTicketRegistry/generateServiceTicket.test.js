@@ -26,7 +26,7 @@ test('generates new service tickets', (t) => {
   const server = clone(serverProto)
   plugin(server, {}, async () => {
     const tgt = await server.jscasPlugins.ticketRegistry.genTGT('foo', new Date(Date.now() + 1000))
-    const st = await server.jscasPlugins.ticketRegistry.genST(tgt.tid, new Date(Date.now + 1000), 'fooservice')
+    const st = await server.jscasPlugins.ticketRegistry.genST(tgt.tid, 'fooservice', new Date(Date.now + 1000))
     t.type(st, Object)
     t.ok(st.tid)
     t.type(st.tid, 'string')
@@ -35,14 +35,29 @@ test('generates new service tickets', (t) => {
   })
 })
 
+test('generates new service tickets with default expiration', (t) => {
+  t.plan(6)
+  const server = clone(serverProto)
+  plugin(server, {ticketLife: 1000}, async () => {
+    const tgt = await server.jscasPlugins.ticketRegistry.genTGT('foo', new Date(Date.now() + 1000))
+    const st = await server.jscasPlugins.ticketRegistry.genST(tgt.tid, 'fooservice')
+    t.type(st, Object)
+    t.ok(st.tid)
+    t.type(st.tid, 'string')
+    t.ok(st.serviceId)
+    t.is(st.serviceId, 'fooservice')
+    t.ok(st.expires < new Date(Date.now() + 1000))
+  })
+})
+
 test('returns current service ticket if not expired', (t) => {
   t.plan(1)
   const server = clone(serverProto)
   plugin(server, {}, async () => {
     const tgt = await server.jscasPlugins.ticketRegistry.genTGT('foo', new Date(Date.now() + 1000))
-    const st1 = await server.jscasPlugins.ticketRegistry.genST(tgt.tid, new Date(Date.now() + 1000), 'fooservice')
+    const st1 = await server.jscasPlugins.ticketRegistry.genST(tgt.tid, 'fooservice', new Date(Date.now() + 1000))
     setTimeout(() => {
-      server.jscasPlugins.ticketRegistry.genST(tgt.tid, new Date(), 'fooservice')
+      server.jscasPlugins.ticketRegistry.genST(tgt.tid, 'fooservice', new Date())
         .then((st2) => {
           t.strictDeepEqual(st2, st1)
         })
@@ -56,9 +71,9 @@ test('returns new service ticket if expired', (t) => {
   const server = clone(serverProto)
   plugin(server, {}, async () => {
     const tgt = await server.jscasPlugins.ticketRegistry.genTGT('foo', new Date(Date.now() + 1000))
-    const st1 = await server.jscasPlugins.ticketRegistry.genST(tgt.tid, new Date(Date.now() + 100), 'fooservice')
+    const st1 = await server.jscasPlugins.ticketRegistry.genST(tgt.tid, 'fooservice', new Date(Date.now() + 100))
     setTimeout(() => {
-      server.jscasPlugins.ticketRegistry.genST(tgt.tid, new Date(Date.now() + 100), 'fooservice')
+      server.jscasPlugins.ticketRegistry.genST(tgt.tid, 'fooservice', new Date(Date.now() + 100))
         .then((st2) => {
           t.strictDeepInequal(st2, st1)
         })

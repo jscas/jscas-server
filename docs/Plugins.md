@@ -172,7 +172,7 @@ A ticket registry plugin is a vital part of the *JSCAS* server. Only one
 ticket registry may be present. A ticket registry is an object with the
 methods:
 
-+ `async function genST (tgtId, expires, serviceId)`: used to generate a new
++ `async function genST (tgtId, serviceId, expires)`: used to generate a new
 service ticket for the `serviceId` (likely the service URL) that is tied to a
 ticket granting ticket with id `tgtId`. The ticket will expire at the date and
 time specified by `expires` (an instance of `Date`). The method should return
