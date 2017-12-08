@@ -494,3 +494,115 @@ test('returns server error when ticket access fails', (t) => {
       .catch(t.threw)
   })
 })
+
+test('redirects to /login with no service and bad credentials', (t) => {
+  t.plan(7)
+  const server = clone(serverProto)
+  server.jscasPlugins.auth.push({
+    validate: async function (username, password) {
+      t.is(username, 'foo')
+      t.is(password, '654321')
+      return false
+    }
+  })
+
+  plugin(server, {}, () => {
+    const req = {
+      body: {
+        csrfToken: 'csrf123',
+        username: 'foo',
+        password: '654321'
+      },
+      session: {renewal: false},
+      log: nullLogger,
+      isValidCsrfToken (token) {
+        t.is(token, 'csrf123')
+        return true
+      }
+    }
+    const reply = {
+      type (val) {
+        t.is(val, 'text/html')
+        return this
+      },
+
+      code (num) {
+        t.is(num, 302)
+        return this
+      },
+
+      redirect (url) {
+        t.is(url, '/login')
+        return 'redirect'
+      }
+    }
+
+    server.postLogin(req, reply)
+      .then((result) => {
+        t.is(result, 'redirect')
+      })
+      .catch(t.threw)
+  })
+})
+
+test('redirects to /success with no service and good credentials', (t) => {
+  t.plan(10)
+  const server = clone(serverProto)
+  server.jscasInterface = {
+    createTicketGrantingTicket: async function (username) {
+      t.is(username, 'foo')
+      return {tid: '123456', expires: new Date(Date.now() + 1000)}
+    }
+  }
+  server.jscasPlugins.auth.push({
+    validate: async function (username, password) {
+      t.is(username, 'foo')
+      t.is(password, '654321')
+      return true
+    }
+  })
+
+  plugin(server, {}, () => {
+    const req = {
+      body: {
+        csrfToken: 'csrf123',
+        username: 'foo',
+        password: '654321'
+      },
+      session: {renewal: false},
+      log: nullLogger,
+      isValidCsrfToken (token) {
+        t.is(token, 'csrf123')
+        return true
+      }
+    }
+    const reply = {
+      type (val) {
+        t.is(val, 'text/html')
+        return this
+      },
+
+      code (num) {
+        t.is(num, 303)
+        return this
+      },
+
+      redirect (url) {
+        t.is(url, '/success')
+        return 'redirect'
+      },
+
+      setCookie (name, value, options) {
+        t.is(name, 'tgt-cookie')
+        t.is(value, '123456')
+        return this
+      }
+    }
+
+    server.postLogin(req, reply)
+      .then((result) => {
+        t.is(result, 'redirect')
+      })
+      .catch(t.threw)
+  })
+})

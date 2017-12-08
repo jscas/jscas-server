@@ -27,6 +27,19 @@ test('returns basic login page', (t) => {
   })
 })
 
+test('returns basic login page without service', (t) => {
+  t.plan(3)
+  const server = clone(serverProto)
+  plugin(server, {}, () => {
+    const html = server.jscasPlugins.theme.login({
+      csrfToken: '123456'
+    })
+    t.notMatch(html, /<strong>http:\/\/example\.com/)
+    t.match(html, /value="123456">/)
+    t.notMatch(html, /<h2>Uh oh/)
+  })
+})
+
 test('returns a login page with an error', (t) => {
   t.plan(5)
   const server = clone(serverProto)

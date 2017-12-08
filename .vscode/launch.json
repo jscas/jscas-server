@@ -9,6 +9,20 @@
       "request": "launch",
       "name": "Test: basicTheme",
       "program": "${workspaceFolder}/test/lib/plugins/basicTheme.test.js"
+    },
+
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Test: /login POST",
+      "program": "${workspaceFolder}/test/lib/routes/login/post.test.js"
+    },
+
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Test: jsTicketRegistry: generateServiceTicket",
+      "program": "${workspaceFolder}/test/lib/plugins/jsTicketRegistry/generateServiceTicket.test.js"
     }
   ]
 }
