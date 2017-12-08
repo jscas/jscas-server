@@ -124,7 +124,8 @@ function serverListenCB (err) {
   const address = server.server.address()
   log.info('web server started: %s:%s', address.address, address.port)
 
-  // TODO: register process management stuff
+  process.on('SIGINT', server.close)
+  process.on('SIGTERM', server.close)
 
   if (process.send) process.send('ready')
 }
