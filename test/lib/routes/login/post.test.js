@@ -21,11 +21,12 @@ const serverProto = {
 }
 
 test('returns unknown service page', (t) => {
-  t.plan(4)
+  t.plan(5)
   const server = clone(serverProto)
   server.jscasInterface = {
-    getService: async function () {
-      throw Error('invalid service')
+    getService: async function (serviceUrl) {
+      t.is(serviceUrl, 'http://example.com')
+      return undefined
     }
   }
   server.jscasPlugins.theme = {
