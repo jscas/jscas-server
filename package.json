@@ -32,6 +32,7 @@
   "dependencies": {
     "abstract-cache": "^1.0.0",
     "clone": "^2.1.1",
+    "conflate": "^1.4.0",
     "csrf": "^3.0.6",
     "fastify": "^0.35.5",
     "fastify-caching": "^2.0.0",
