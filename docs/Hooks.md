@@ -11,6 +11,12 @@ validation when the validation is done via protocol version 3 (or version 3
 over version 2). A `userAttributes` hook returns a hash of details about a
 given user, e.g. their email address or the groups they belong to.
 
+Each registered hook is iterated in order of registration. Information from
+subsequent hooks will be merged into the information of the previous hook. This
+merge is superficially deep. This means `{foo: 'bar', baz: [{foo: 'bar'}]}` and
+`{foo: 'foobar', baz:[{foo: 'foo'}]}` will be merged into
+`{foo: 'foobar', baz: [{foo: 'bar'}, {foo: 'foo'}]}`.
+
 Example:
 
 ```js
