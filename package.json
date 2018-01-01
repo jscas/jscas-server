@@ -6,7 +6,7 @@
   "nixconfigPrefix": "jscas_",
   "scripts": {
     "test": "tap --no-cov 'test/**/*.test.js'",
-    "test-ci": "tap --cov 'text/**/*.test.js'",
+    "test-ci": "tap --cov 'test/**/*.test.js'",
     "lint": "standard | snazzy",
     "lint-ci": "standard",
     "todo": "npx leasot -i './**/node_modules/**/*' './**/*.js' || true",
