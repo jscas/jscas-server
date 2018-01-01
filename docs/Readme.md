@@ -9,6 +9,7 @@ documentation in a web browser.
 
 ## TOC
 
+- [API](/docs/API.md): details about the included API for plugin authors.
 - [Configuration](/docs/Configuration.md): descriptions of the available
 configuration parameters.
 - [Hooks](/docs/Hooks.md): details on lifecycle hooks provided by *JSCAS*.
