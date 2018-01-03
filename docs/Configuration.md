@@ -137,7 +137,7 @@ This parameter accepts an object with the following properties:
 lifetime, in milliseconds, that a service ticket is valid. The default lifetime
 is 10 seconds. This should be a very short time since a service ticket is only
 valid for one service verification.
-+ `ticketGrantingTicket: an object with the properties `cookieName` and `ttl`
++ `ticketGrantingTicket`: an object with the properties `cookieName` and `ttl`
 The `cookieName` defaults to `'jscas-tgt'`. The `ttl` defaults to `1800000`;
 this is the time, in milliseconds, that the ticket granting ticket will be
 valid. This should match the maximum age of the session.
@@ -167,13 +167,14 @@ user interface. This is a **required** plugin.
 provides the service registry. This is a **required** plugin.
 + `ticketRegistry` (Default: `~/jsTicketRegistry`): name of the module that
 provides the ticket registry. This is a **required** plugin.
-+ `auth` (Default: `['~jsIdP']`): this is an array of plugins that provide
++ `auth` (Default: `['~/jsIdP']`): this is an array of plugins that provide
 authenticators. At least one authenticator is **required**.
 + `misc` (Default: `[]`): this is an array of plugins that provide
 miscellaneous additional functionality. No plugins are required in this
 category.
 
 <a id="plugins-conf"></a>
+### `pluginsConf`
 
 This parameter defines the configuration for each of the supplied
 [plugins](#plugins).
