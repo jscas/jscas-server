@@ -63,6 +63,7 @@
     "cheerio": "^0.22.0",
     "clear-require": "^2.0.0",
     "flush-write-stream": "^1.0.2",
+    "get-port": "^3.2.0",
     "leasot": "^4.13.0",
     "mock-require": "^2.0.2",
     "nock": "^9.1.5",

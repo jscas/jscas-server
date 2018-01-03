@@ -34,7 +34,8 @@ test('returns login page for new session and empty service', (t) => {
   plugin(server, {}, () => {
     const req = {
       query: {service: undefined, renew: undefined},
-      session: {csrfToken: 'csrf123'}
+      session: {csrfToken: 'csrf123'},
+      log: nullLogger
     }
     const reply = {
       type (val) {
