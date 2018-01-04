@@ -51,8 +51,9 @@
     "make-promises-safe": "^1.1.0",
     "marko": "^4.7.4",
     "merge-options": "^1.0.0",
-    "nixconfig": "^1.0.1",
-    "pino": "^4.10.2",
+    "nixconfig": "^1.1.0",
+    "nixconfig-yaml": "^1.0.0",
+    "pino": "^4.10.3",
     "request": "^2.81.0",
     "rndm": "^1.2.0",
     "uid-safe": "^2.1.5"
