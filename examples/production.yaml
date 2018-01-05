@@ -1,0 +1,66 @@
+---
+# This is an example configuration with defaults that can be used as a
+# starting point for a production environment.
+
+logger:
+  name: jscas-server
+  level: info
+
+server:
+  address: 127.0.0.1
+  port: 9000
+
+caching:
+  privacy: no-cache
+  cacheSegment: jscas
+  cache:
+    driver:
+      name: abstract-cache-redis
+      options:
+        ioredis:
+          host: 127.0.0.1
+          port: 6379
+
+dataSources:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+
+# This block is used only within the yaml configuration to
+# reduce replication.
+cookieOptions: &COOKIEOPTS
+  domain: .cas.example.com
+  path: '/'
+  expires: 1800000
+  secure: true
+  sameSite: true
+  httpOnly: true
+
+cookie: *COOKIEOPTS
+
+session:
+  # !!! YOU REALLY NEED TO CHANGE THIS FROM THE DEFAULT !!!
+  secretKey: some-secret-password-at-least-32-characters-long
+  sessionMaxAge: 1800000
+  cookie: *COOKIEOPTS
+
+tickets:
+  serviceTicket:
+    ttl: 10000
+
+  ticketGrantingTicket:
+    cookieName: jscas-tgt
+    ttl: 1800000
+
+v3overv2: false
+
+# These plugins should be swapped out for ones useful in production.
+plugins:
+  theme: ~/basicTheme
+  serviceRegistry: ~/jsServiceRegistry
+  ticketRegistry: ~/jsTicketRegistry
+  auth:
+    - ~/jsIdP
+  misc: []
+
+pluginsConf: {}

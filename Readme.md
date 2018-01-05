@@ -42,8 +42,52 @@ since Chrome doesn't work correctly with local test URLs otherwise.
 
 ## Install
 
-> TODO: cover using a cloned install and a `npm i -g` install
+### Via Git
 
+```sh
+$ git clone https://github.com/jscas/cas-server
+$ cd cas-server
+$ npm install --production
+$ npx jscas-server -s > jscas.yaml
+$ npm install --production abstract-cache-redis
+$ nixconfig_config_home=$(pwd) npx jscas-server
+```
+
+### As A Dependency
+
+It is possible to add *JSCAS* as a dependency of a project. This allows one
+to create a project that is specifically the configuration for the server
+instance:
+
+```sh
+$ mkdir my-cas-server && cd my-cas-server
+$ echo "{}" > package.json
+$ npm install --save cas-server
+```
+
+At this point a configuration will be needed. So let's use the included
+example configuration:
+
+```sh
+$ npx jscas-server -s > jscas.yaml
+```
+
+This configuration relies on an Redis server being present. So, assuming
+Redis is already running on the local host (otherwise modify the configuration
+accordingly):
+
+```sh
+$ npm install --save abstract-cache-redis
+```
+
+And now, the server is ready to start:
+
+```sh
+$ NODE_PATH=$(pwd)/node_modules nixconfig_config_home=$pwd npx jscas-server
+```
+
+At this point the server is listening on port `9000` with a very basic,
+*non-production*, configuration.
 
 ## License
 

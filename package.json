@@ -16,6 +16,9 @@
     "lint",
     "test"
   ],
+  "bin": {
+    "jscas-server": "./bin.js"
+  },
   "keywords": [
     "cas",
     "apereo",
@@ -46,6 +49,7 @@
     "fastify-redis": "^0.3.0",
     "fastify-server-session": "^1.0.5",
     "fastify-url-data": "^1.1.0",
+    "getopts": "^2.0.0",
     "isdebug": "^1.0.0",
     "lru_map": "^0.3.3",
     "make-promises-safe": "^1.1.0",
