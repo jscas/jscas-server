@@ -10,6 +10,9 @@ const serverProto = {
     theme: {},
     auth: []
   },
+  jscasHooks: {
+    preAuth: []
+  },
   jscasInterface: {},
   jscasTGTCookie: 'tgt-cookie',
 
@@ -589,6 +592,93 @@ test('redirects to /success with no service and good credentials', (t) => {
 
       redirect (url) {
         t.is(url, '/success')
+        return 'redirect'
+      },
+
+      setCookie (name, value, options) {
+        t.is(name, 'tgt-cookie')
+        t.is(value, '123456')
+        return this
+      }
+    }
+
+    server.postLogin(req, reply)
+      .then((result) => {
+        t.is(result, 'redirect')
+      })
+      .catch(t.threw)
+  })
+})
+
+test('processes registered preAuth hooks', (t) => {
+  t.plan(17)
+  const server = clone(serverProto)
+  server.jscasInterface = {
+    createServiceTicket: async function (tgtId, name) {
+      t.is(tgtId, '123456')
+      t.is(name, 'foo')
+      return {tid: '67890'}
+    },
+
+    createTicketGrantingTicket: async function (username) {
+      t.is(username, 'foo')
+      return {tid: '123456'}
+    },
+
+    getService: async function (serviceUrl) {
+      t.is(serviceUrl, 'http://example.com')
+      return {name: 'foo', url: serviceUrl}
+    }
+  }
+  server.jscasPlugins.auth.push({
+    validate: async function (username, password) {
+      t.is(username, 'foo')
+      t.is(password, '654321')
+      return true
+    }
+  })
+
+  // successful hook
+  server.jscasHooks.preAuth.push(async function (username, password, serviceUrl) {
+    t.is(username, 'foo')
+    t.is(password, '654321')
+    t.is(serviceUrl, 'http://example.com')
+    return true
+  })
+  // unsuccessful hook (should continue login)
+  server.jscasHooks.preAuth.push(async function () {
+    t.is(1, 1)
+    throw Error('ignored error')
+  })
+
+  plugin(server, {}, () => {
+    const req = {
+      body: {
+        service: 'http://example.com',
+        csrfToken: 'csrf123',
+        username: 'foo',
+        password: '654321'
+      },
+      session: {renewal: false},
+      log: nullLogger,
+      isValidCsrfToken (token) {
+        t.is(token, 'csrf123')
+        return true
+      }
+    }
+    const reply = {
+      type (val) {
+        t.is(val, 'text/html')
+        return this
+      },
+
+      code (num) {
+        t.is(num, 303)
+        return this
+      },
+
+      redirect (url) {
+        t.is(url, 'http://example.com?ticket=67890')
         return 'redirect'
       },
 

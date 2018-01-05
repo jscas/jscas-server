@@ -1,9 +1,39 @@
+<a id="hooks"></a>
 # Hooks
 
 Hooks are events within the various parts of the authorization lifecycle that
 allow plugins to accomplish specific tasks. The currently provided hooks are
 described in this document.
 
+<a id="hooks-preauth"></a>
+## preAuth
+
+Registered `preAuth` hooks are iterated prior to validating a submitted
+username and password credentials pair during the normal login procedure. Other
+login mechanisms may or may not support this hook.
+
+This hook expects an asynchronous function with the signature:
+`async function hook (username, password, serviceUrl) {}`. The hook should
+throw on a fatal error, which will be logged at the error level and ignored.
+Otherwise, it should return `true`. Each parameter is a string value.
+
+Example:
+
+```js
+const fp = require('fastify-plugin')
+module.exports = fp(function (server, options, next) {
+  server.registerHook('preAuth', async function (username, password, serviceUrl) {
+    if (serviceUrl === 'http://example.com') {
+      server.log.info('User `%s` is accessing service: %s', username, serviceUrl)
+    }
+    return true
+  })
+  next()
+})
+module.exports.pluginName = 'misc-preAuth-plugin'
+```
+
+<a id="hooks-userattrs"></a>
 ## userAttributes
 
 Registered `userAttributes` hooks are iterated upon successful service ticket

@@ -9,6 +9,9 @@ const serverProto = {
   jscasPlugins: {
     theme: {}
   },
+  jscasHooks: {
+    preAuth: []
+  },
   jscasInterface: {},
   jscasTGTCookie: 'tgt-cookie',
 

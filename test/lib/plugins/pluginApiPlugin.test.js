@@ -16,7 +16,8 @@ const serverProto = {
     misc: []
   },
   jscasHooks: {
-    userAttributes: []
+    userAttributes: [],
+    preAuth: []
   }
 }
 
@@ -39,17 +40,28 @@ test('registers authenticators', (t) => {
 })
 
 test('registers hook functions', (t) => {
-  t.plan(4)
+  t.plan(10)
   const server = clone(serverProto)
   plugin(server, {}, async () => {
+    server.registerHook('preAuth', async function (username, password, serviceUrl) {
+      t.is(username, 'foo')
+      t.is(password, 'bar')
+      t.is(serviceUrl, 'http://example.com')
+      return true
+    })
+    t.is(server.jscasHooks.preAuth.length, 1)
+    const preAuthResult = await server.jscasHooks.preAuth[0]('foo', 'bar', 'http://example.com')
+    t.type(preAuthResult, 'boolean')
+    t.is(preAuthResult, true)
+
     server.registerHook('userAttributes', async function (username) {
       t.is(username, 'foo')
       return {foo: true}
     })
     t.is(server.jscasHooks.userAttributes.length, 1)
-    const result = await server.jscasHooks.userAttributes[0]('foo')
-    t.type(result, Object)
-    t.is(result.foo, true)
+    const userAttrResult = await server.jscasHooks.userAttributes[0]('foo')
+    t.type(userAttrResult, Object)
+    t.is(userAttrResult.foo, true)
   })
 })
 
