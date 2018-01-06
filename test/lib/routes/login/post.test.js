@@ -610,7 +610,7 @@ test('redirects to /success with no service and good credentials', (t) => {
   })
 })
 
-test('processes registered preAuth hooks', (t) => {
+test('processes registered preAuth hooks', {only: true}, (t) => {
   t.plan(17)
   const server = clone(serverProto)
   server.jscasInterface = {
@@ -639,17 +639,21 @@ test('processes registered preAuth hooks', (t) => {
   })
 
   // successful hook
-  server.jscasHooks.preAuth.push(async function (username, password, serviceUrl) {
+  async function successHook ({username, password, serviceUrl, session}) {
     t.is(username, 'foo')
     t.is(password, '654321')
     t.is(serviceUrl, 'http://example.com')
     return true
-  })
+  }
+  successHook[Symbol.for('jscas-hook-id')] = 1
+  server.jscasHooks.preAuth.push(successHook)
   // unsuccessful hook (should continue login)
-  server.jscasHooks.preAuth.push(async function () {
+  async function failHook () {
     t.is(1, 1)
     throw Error('ignored error')
-  })
+  }
+  failHook[Symbol.for('jscas-hook-id')] = 2
+  server.jscasHooks.preAuth.push(failHook)
 
   plugin(server, {}, () => {
     const req = {
