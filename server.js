@@ -57,17 +57,21 @@ if (!pluginsToLoad) {
   process.exit(1)
 }
 function resolvePlugin (inputName) {
-  const pname = (inputName.startsWith('~/'))
-  ? path.join(__dirname, 'lib', 'plugins', inputName.substr(2))
-  : inputName
-  try {
-    return require(pname)
-  } catch (e) {
-    log.fatal('could not load required plugin: %s', e.message)
-    log.debug(e.stack)
-    process.kill(process.pid, 'SIGTERM')
-    process.exit(1)
+  if (inputName.startsWith('~/')) {
+    const internalName = path.join(__dirname, 'lib', 'plugins', inputName.substr(2))
+    return require(internalName)
   }
+  if (inputName.includes('>')) {
+    const parts = inputName.split('>')
+    try {
+      const plugin = require(parts[0])
+      return plugin[parts[1]]
+    } catch (e) {
+      log.error('could not find nested plugin `%s` from `%s`', parts[1], inputName)
+      throw e
+    }
+  }
+  return require(inputName)
 }
 const ticketRegistryPlugin = resolvePlugin(pluginsToLoad.ticketRegistry)
 const serviceRegistryPlugin = resolvePlugin(pluginsToLoad.serviceRegistry)

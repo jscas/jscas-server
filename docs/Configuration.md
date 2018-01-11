@@ -161,6 +161,20 @@ corresponding plugin. If the name begins with `~/`, then the plugin is loaded
 from the server's `lib/plugins/` directory; this is only useful for the
 bundled demonstration plugins.
 
+Any plugin name containing `>` indicates a nested plugin. Such plugins are a
+module that exports a hash of plugins. For example, if a plugin named `foo`
+returns the object:
+
+```js
+{
+  bar: function () {},
+  baz: function () {}
+}
+```
+
+Then the name `foo>bar` will load the `bar` plugin exported by the `foo`
+module.
+
 This parameter accepts an object with the following properties:
 
 + `theme` (Default: `~/basicTheme`): name of the module that provides the
