@@ -27,7 +27,7 @@ test('successfully creates service tickets', (t) => {
   t.plan(4)
   const context = clone(contextProto)
   context.ticketRegistry = {
-    genST: async function (tgtId, date, serviceName) {
+    genST: async function (tgtId, serviceName, date) {
       t.is(tgtId, 'valid-tgt')
       t.is(serviceName, 'a-service')
       return {tid: 'valid-st'}
