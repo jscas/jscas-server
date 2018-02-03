@@ -1,6 +1,11 @@
 settings.js
 *.marko.js
 
+# Lock files
+package-lock.json
+shrinkwrap.yaml
+yarn.lock
+
 # Logs
 logs
 *.log
