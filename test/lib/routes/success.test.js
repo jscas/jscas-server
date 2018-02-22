@@ -14,7 +14,7 @@ const serverProto = {
 }
 
 test('returns the success page', (t) => {
-  t.plan(1)
+  t.plan(2)
   const server = clone(serverProto)
   server.jscasPlugins.theme = {
     noService () {
@@ -23,6 +23,10 @@ test('returns the success page', (t) => {
   }
   const req = {}
   const reply = {
+    type (contentType) {
+      t.is(contentType, 'text/html')
+      return this
+    },
     send (html) {
       t.is(html, 'success page')
     }
