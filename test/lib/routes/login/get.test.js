@@ -186,6 +186,54 @@ test('returns unauthorized for invalid ticket granting ticket', (t) => {
   })
 })
 
+test('returns unauthorized for missing ticket granting ticket', (t) => {
+  t.plan(4)
+  const server = clone(serverProto)
+  server.jscasPlugins.theme = {
+    unauthorized: function () {
+      return 'unauthorized'
+    }
+  }
+  server.jscasInterface = {
+    getService: async function (url) {
+      t.is(url, 'http://example.com')
+      return {name: 'foo'}
+    },
+
+    getTicketGrantingTicket: async function (tid) {
+      t.fail('should not be invoked')
+    }
+  }
+
+  plugin(server, {}, () => {
+    const req = {
+      query: {
+        service: 'http://example.com',
+        renew: undefined
+      },
+      session: {isAuthenticated: true},
+      cookies: {},
+      log: nullLogger
+    }
+    const reply = {
+      type (val) {
+        t.is(val, 'text/html')
+        return this
+      },
+      code (num) {
+        t.is(num, 403)
+        return this
+      }
+    }
+
+    server.getLogin(req, reply)
+      .then((result) => {
+        t.is(result, 'unauthorized')
+      })
+      .catch(t.threw)
+  })
+})
+
 test('returns login error for expired ticket granting ticket', (t) => {
   t.plan(10)
   const server = clone(serverProto)
