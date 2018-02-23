@@ -30,7 +30,7 @@
       "type": "node",
       "request": "launch",
       "name": "Test: integration",
-      "program": "${workspaceFolder}/test/integration/server.test.js"
+      "program": "${workspaceFolder}/test/integration/v3server.test.js"
     },
 
     {
