@@ -84,6 +84,7 @@ server
   .register(ticketRegistryPlugin, pluginsConf[ticketRegistryPlugin.pluginName])
   .register(serviceRegistryPlugin, pluginsConf[serviceRegistryPlugin.pluginName])
   .register(themePlugin, pluginsConf[themePlugin.pluginName])
+  .register(resolvePlugin('~/errorHandlers'))
   .register(resolvePlugin('~/casInterfacePlugin'))
   .register(resolvePlugin('~/csrf'))
   .register(require('./lib/routes/login'), {cookie: config.get('cookie')})
