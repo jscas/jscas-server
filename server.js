@@ -14,8 +14,7 @@ const abcache = require('abstract-cache')(cachingConfig.cache)
 server
   .register(require('fastify-no-icon'))
   .register(require('fastify-formbody'))
-  // TODO: configure helmet -- https://github.com/fastify/fastify-helmet/issues/13
-  .register(require('fastify-helmet'))
+  .register(require('fastify-helmet'), config.get('helmet'))
   .register(require('fastify-cookie'))
   .register(fastifyCaching, {
     privacy: cachingConfig.privacy || fastifyCaching.privacy.NOCACHE,

@@ -71,6 +71,14 @@ under.
 object. An alternate `driver` should be specified to prevent the usage
 of the in-memory storage.
 
+<a id="helmet"></a>
+### `helmet`
+
+An configuration object to pass to [fastify-helmet][fastify-helmet]. The
+default value is `{}`.
+
+[fastify-helmet]: https://github.com/fastify/fastify-helmet
+
 <a id="data-sources"></a>
 ### `dataSources`
 
