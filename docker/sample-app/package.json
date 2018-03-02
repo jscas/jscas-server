@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "fastify": "^1.0.0-rc.2",
+    "fastify": "^1.0.0-rc.3",
     "fastify-caching": "^2.0.3",
     "fastify-cas": "^1.0.3",
     "fastify-cookie": "^1.2.1",

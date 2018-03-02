@@ -37,7 +37,7 @@
     "clone": "^2.1.1",
     "conflate": "^1.4.0",
     "csrf": "^3.0.6",
-    "fastify": "^1.0.0-rc.2",
+    "fastify": "^1.0.0-rc.3",
     "fastify-caching": "^2.0.3",
     "fastify-cookie": "^1.2.1",
     "fastify-formbody": "^1.2.5",
@@ -72,9 +72,9 @@
     "get-port": "^3.2.0",
     "leasot": "^4.13.0",
     "mock-require": "^3.0.1",
-    "nock": "^9.2.2",
+    "nock": "^9.2.3",
     "pre-commit": "^1.2.2",
-    "snazzy": "^7.0.0",
+    "snazzy": "^7.1.1",
     "standard": "^11.0.0",
     "tap": "^11.1.1"
   }
