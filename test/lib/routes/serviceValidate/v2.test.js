@@ -24,7 +24,7 @@ const serverProto = {
 }
 
 test('returns invalid xml for unknown service', (t) => {
-  t.plan(3)
+  t.plan(4)
   const server = clone(serverProto)
   server.validateService = async function (url) {
     t.is(url, 'unknown')
@@ -37,8 +37,13 @@ test('returns invalid xml for unknown service', (t) => {
       ticket: '123456'
     }
   }
+  const reply = {
+    type (val) {
+      t.is(val, 'text/xml')
+    }
+  }
   plugin(server, {}, async () => {
-    const xml = await server.serviceValidate(req)
+    const xml = await server.serviceValidate(req, reply)
     const $ = cheerio.load(xml)
     const ele = $('cas\\:authenticationFailure')
     t.is(ele.attr('code'), '1')
@@ -47,7 +52,7 @@ test('returns invalid xml for unknown service', (t) => {
 })
 
 test('returns invalid xml for unknown ticket id', (t) => {
-  t.plan(4)
+  t.plan(5)
   const server = clone(serverProto)
   server.validateService = async function (url) {
     t.is(url, 'http://example.com')
@@ -64,8 +69,13 @@ test('returns invalid xml for unknown ticket id', (t) => {
       ticket: '123456'
     }
   }
+  const reply = {
+    type (val) {
+      t.is(val, 'text/xml')
+    }
+  }
   plugin(server, {}, async () => {
-    const xml = await server.serviceValidate(req)
+    const xml = await server.serviceValidate(req, reply)
     const $ = cheerio.load(xml)
     const ele = $('cas\\:authenticationFailure')
     t.is(ele.attr('code'), '1')
@@ -74,7 +84,7 @@ test('returns invalid xml for unknown ticket id', (t) => {
 })
 
 test('returns invalid xml for broken invalidation', (t) => {
-  t.plan(5)
+  t.plan(6)
   const server = clone(serverProto)
   server.validateService = async function (url) {
     t.is(url, 'http://example.com')
@@ -95,8 +105,13 @@ test('returns invalid xml for broken invalidation', (t) => {
       ticket: '123456'
     }
   }
+  const reply = {
+    type (val) {
+      t.is(val, 'text/xml')
+    }
+  }
   plugin(server, {}, async () => {
-    const xml = await server.serviceValidate(req)
+    const xml = await server.serviceValidate(req, reply)
     const $ = cheerio.load(xml)
     const ele = $('cas\\:authenticationFailure')
     t.is(ele.attr('code'), '1')
@@ -104,8 +119,45 @@ test('returns invalid xml for broken invalidation', (t) => {
   })
 })
 
+test('returns invalid xml for renewal via sso', (t) => {
+  t.plan(3)
+  const server = clone(serverProto)
+  server.validateService = async function (url) {
+    t.fail('should not be invoked')
+  }
+  server.validateST = async function (tid) {
+    t.fail('should not be invoked')
+  }
+  server.invalidateST = async function (tid) {
+    t.fail('should not be invoked')
+  }
+  const req = {
+    log: nullLogger,
+    query: {
+      service: 'http://example.com',
+      ticket: '123456',
+      renew: true
+    },
+    session: {
+      isAuthenticated: true
+    }
+  }
+  const reply = {
+    type (val) {
+      t.is(val, 'text/xml')
+    }
+  }
+  plugin(server, {}, async () => {
+    const xml = await server.serviceValidate(req, reply)
+    const $ = cheerio.load(xml)
+    const ele = $('cas\\:authenticationFailure')
+    t.is(ele.attr('code'), 'INVALID_TICKET')
+    t.match(ele.text(), /SSO login when renew/)
+  })
+})
+
 test('returns invalid xml for broken tgt retrieval', (t) => {
-  t.plan(6)
+  t.plan(7)
   const server = clone(serverProto)
   server.validateService = async function (url) {
     t.is(url, 'http://example.com')
@@ -130,8 +182,13 @@ test('returns invalid xml for broken tgt retrieval', (t) => {
       ticket: '123456'
     }
   }
+  const reply = {
+    type (val) {
+      t.is(val, 'text/xml')
+    }
+  }
   plugin(server, {}, async () => {
-    const xml = await server.serviceValidate(req)
+    const xml = await server.serviceValidate(req, reply)
     const $ = cheerio.load(xml)
     const ele = $('cas\\:authenticationFailure')
     t.is(ele.attr('code'), '1')

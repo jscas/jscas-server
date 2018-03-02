@@ -22,7 +22,7 @@ const serverProto = {
 // Note: most tests are covered by v2.test.js
 
 test('returns invalid xml for unknown service', (t) => {
-  t.plan(3)
+  t.plan(4)
   const server = clone(serverProto)
   server.validateService = async function (url) {
     t.is(url, 'unknown')
@@ -35,8 +35,13 @@ test('returns invalid xml for unknown service', (t) => {
       ticket: '123456'
     }
   }
+  const reply = {
+    type (val) {
+      t.is(val, 'text/xml')
+    }
+  }
   plugin(server, {}, async () => {
-    const xml = await server.p3serviceValidate(req)
+    const xml = await server.p3serviceValidate(req, reply)
     const $ = cheerio.load(xml)
     const ele = $('cas\\:authenticationFailure')
     t.is(ele.attr('code'), '1')
