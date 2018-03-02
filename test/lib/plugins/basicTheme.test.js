@@ -10,7 +10,8 @@ const serverProto = {
   },
   registerTheme (obj) {
     this.jscasPlugins.theme = obj
-  }
+  },
+  get (path, handler) {}
 }
 
 test('returns basic login page', (t) => {
@@ -21,7 +22,7 @@ test('returns basic login page', (t) => {
       service: 'http://example.com',
       csrfToken: '123456'
     })
-    t.match(html, /<strong>http:\/\/example\.com/)
+    t.match(html, /bold">http:\/\/example\.com/)
     t.match(html, /value="123456">/)
     t.notMatch(html, /<h2>Uh oh/)
   })
@@ -49,10 +50,10 @@ test('returns a login page with an error', (t) => {
       csrfToken: '123456',
       error: Error('testing')
     })
-    t.match(html, /<strong>http:\/\/example\.com/)
+    t.match(html, /bold">http:\/\/example\.com/)
     t.match(html, /value="123456">/)
     t.match(html, /<h2>Uh oh/)
-    t.match(html, /<p>testing/)
+    t.match(html, /<p>Error: testing/)
     t.notMatch(html, /<code><pre>/)
   })
 })
@@ -67,10 +68,10 @@ test('returns a login page with an error and stack trace', (t) => {
       csrfToken: '123456',
       error: Error('testing')
     })
-    t.match(html, /<strong>http:\/\/example\.com/)
+    t.match(html, /bold">http:\/\/example\.com/)
     t.match(html, /value="123456">/)
     t.match(html, /<h2>Uh oh/)
-    t.match(html, /<p>testing/)
+    t.match(html, /<p>Error: testing/)
     t.match(html, /<code><pre>/)
   })
   t.tearDown(() => delete process.env.DEBUG)

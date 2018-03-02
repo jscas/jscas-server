@@ -1,20 +1,36 @@
-<form method="post" action="/login">
-  <input id="username" name="username" placeholder="username"><br>
-  <input id="password" name="password" placeholder="password" type="password">
-  <input id="csrfToken" name="csrfToken" type="hidden" value="${input.csrfToken}">
-  <input if(input.service) id="service" name="service" type="hidden" value="${input.service}">
-  <button type="submit">Login</button>
-</form>
-
-<p if(input.service)>
-  Upon logging in you will be redirected to:
-  <strong>${input.service}</strong>
-</p>
-
-<div if(input.error)>
-  <h2>Uh oh!</h2>
-  <p>${input.error.message}</p>
-  <p if(input.isdebug)>
-    <code><pre>${input.error.stack}</pre></code>
+<div class="col col-xs-8 col-md-6 bg-dark h-100 text-white">
+  <logo />
+  <p if(input.service) class="text-center">
+    Upon logging in you will be redirected to:
+    <span class="font-weight-bold">${input.service}</span>.
   </p>
+  <p if(!input.service) class="text-center">
+    Welcome to JSCAS. Enter your credentials to authenticate yourself.
+  </p>
+</div>
+<div class="col col-xs-8 col-md-6 bg-light h-100">
+  <p class="lead text-center">LogIn</p>
+  <form method="post" action="/login">
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="username" class="form-control" name="username" placeholder="username">
+      <p class="forgotLinks text-right text-primary">Forgot Username?</p>
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" class="form-control" name="password" placeholder="password">
+      <p class="forgotLinks text-right text-primary">Forgot Password?</p>
+    </div>
+    <input id="csrfToken" name="csrfToken" type="hidden" value="${input.csrfToken}">
+    <input if(input.service) id="service" name="service" type="hidden" value="${input.service}">
+    <button class="btn btn-primary" type="submit" name="loginBtn">Login</button>
+  </form>
+
+  <div if(input.error) class="alert alert-warning border border-warning mt-3">
+    <h2>Uh oh!</h2>
+    <p>Error: ${input.error.message}</p>
+    <p if(input.isdebug)>
+      <code><pre>${input.error.stack}</pre></code>
+    </p>
+  </div>
 </div>
