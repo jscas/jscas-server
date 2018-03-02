@@ -52,7 +52,8 @@ test('returns no for unknown service', (t) => {
     query: {
       service: 'http://example.com',
       ticket: '123456'
-    }
+    },
+    session: {}
   }
   plugin(server, {}, async () => {
     const result = await server.getHandler(req, {})
@@ -74,7 +75,8 @@ test('returns no for service lookup failure', (t) => {
     query: {
       service: 'http://example.com',
       ticket: '123456'
-    }
+    },
+    session: {}
   }
   plugin(server, {}, async () => {
     const result = await server.getHandler(req, {})
@@ -101,7 +103,8 @@ test('returns no for expired service ticket', (t) => {
     query: {
       service: 'http://example.com',
       ticket: '123456'
-    }
+    },
+    session: {}
   }
   plugin(server, {}, async () => {
     const result = await server.getHandler(req, {})
@@ -128,7 +131,8 @@ test('returns no for service ticket lookup failure', (t) => {
     query: {
       service: 'http://example.com',
       ticket: '123456'
-    }
+    },
+    session: {}
   }
   plugin(server, {}, async () => {
     const result = await server.getHandler(req, {})
@@ -160,6 +164,36 @@ test('returns no for broken ticket invalidation', (t) => {
     query: {
       service: 'http://example.com',
       ticket: '123456'
+    },
+    session: {}
+  }
+  plugin(server, {}, async () => {
+    const result = await server.getHandler(req, {})
+    t.is(result, 'no\n')
+  })
+})
+
+test('returns no for renewal with sso', (t) => {
+  t.plan(1)
+  const server = clone(serverProto)
+  server.jscasInterface = {
+    getService: async function () {
+      t.fail('should not be invoked')
+    },
+
+    getServiceTicket: async function () {
+      t.fail('should not be invoked')
+    }
+  }
+  const req = {
+    log: nullLogger,
+    query: {
+      service: 'http://example.com',
+      ticket: '123456'
+    },
+    session: {
+      isAuthenticated: true,
+      renewal: true
     }
   }
   plugin(server, {}, async () => {
@@ -192,7 +226,8 @@ test('returns yes successful validation', (t) => {
     query: {
       service: 'http://example.com',
       ticket: '123456'
-    }
+    },
+    session: {}
   }
   plugin(server, {}, async () => {
     const result = await server.getHandler(req, {})
