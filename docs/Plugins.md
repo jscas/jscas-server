@@ -189,6 +189,9 @@ ticket that has the given ticket id `tgtId`.
 was used to generate the service ticket identified by `stId`.
 + `async function invalidateST (stId)`: used to set the `valid` property of a
 service ticket to `false`. It should return the newly invalidated service ticket.
++ `async function invalidateTGT (tgtId)`: used to set the `valid` property of a
+ticket granting ticket to `false`. It may return the newly invalidated
+ticket granting ticket.
 + `async function servicesLogForTGT (tgtId)`: used to get the list of services
 that requested authorization against the ticket granting ticket identified by
 `tgtId`. It should always return an `Array`.
