@@ -429,9 +429,6 @@ test('generates a service ticket for a good ticket granting ticket', (t) => {
       },
       session: {isAuthenticated: true},
       cookies: {'tgt-cookie': '654321'},
-      setCookie () {
-        t.pass()
-      },
       log: nullLogger
     }
     const reply = {
@@ -448,6 +445,10 @@ test('generates a service ticket for a good ticket granting ticket', (t) => {
       redirect (url) {
         t.is(url, 'http://example.com?ticket=67890')
         return 'redirect'
+      },
+
+      setCookie () {
+        t.pass()
       }
     }
 
