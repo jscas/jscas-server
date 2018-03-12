@@ -398,6 +398,11 @@ test('returns server error when cannot generate service ticket', (t) => {
 
 test('generates a service ticket for a good ticket granting ticket', (t) => {
   t.plan(8)
+  const options = {
+    cookie: {
+      expires: 1000
+    }
+  }
   const server = clone(serverProto)
   server.jscasInterface = {
     createServiceTicket: async function (tgtId) {
@@ -416,7 +421,7 @@ test('generates a service ticket for a good ticket granting ticket', (t) => {
     }
   }
 
-  plugin(server, {}, () => {
+  plugin(server, options, () => {
     const req = {
       query: {
         service: 'http://example.com',

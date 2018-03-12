@@ -27,6 +27,11 @@ test('returns logout view for missing tgt', (t) => {
       return 'logout view'
     }
   }
+  const options = {
+    cookie: {
+      expires: 1000
+    }
+  }
   const req = {
     log: nullLogger,
     cookies: {},
@@ -44,7 +49,7 @@ test('returns logout view for missing tgt', (t) => {
       return this
     }
   }
-  plugin(server, {}, async () => {
+  plugin(server, options, async () => {
     const result = await server.getHandler(req, reply)
     t.is(result, 'logout view')
   })
@@ -62,6 +67,11 @@ test('returns logout view for invalid service url', (t) => {
     getService: async function (url) {
       t.is(url, 'invalid')
       return undefined
+    }
+  }
+  const options = {
+    cookie: {
+      expires: 1000
     }
   }
   const req = {
@@ -86,7 +96,7 @@ test('returns logout view for invalid service url', (t) => {
       return this
     }
   }
-  plugin(server, {}, async () => {
+  plugin(server, options, async () => {
     const result = await server.getHandler(req, reply)
     t.is(result, 'logout view')
     t.is(req.session.isAuthenticated, false)
@@ -107,6 +117,11 @@ test('returns logout view for service retrieval exception', (t) => {
       throw Error('broken interface')
     }
   }
+  const options = {
+    cookie: {
+      expires: 1000
+    }
+  }
   const req = {
     log: nullLogger,
     cookies: {
@@ -129,7 +144,7 @@ test('returns logout view for service retrieval exception', (t) => {
       return this
     }
   }
-  plugin(server, {}, async () => {
+  plugin(server, options, async () => {
     const result = await server.getHandler(req, reply)
     t.is(result, 'logout view')
     t.is(req.session.isAuthenticated, false)
@@ -148,6 +163,11 @@ test('returns redirect for valid service url', (t) => {
     getService: async function (url) {
       t.is(url, 'http://example.com')
       return {name: 'foo', url}
+    }
+  }
+  const options = {
+    cookie: {
+      expires: 1000
     }
   }
   const req = {
@@ -173,7 +193,7 @@ test('returns redirect for valid service url', (t) => {
       return 'redirect'
     }
   }
-  plugin(server, {}, async () => {
+  plugin(server, options, async () => {
     const result = await server.getHandler(req, reply)
     t.is(result, 'redirect')
     t.is(req.session.isAuthenticated, false)
@@ -207,6 +227,11 @@ test('returns redirect for valid service url and sends slo reqs', (t) => {
       }]
     }
   }
+  const options = {
+    cookie: {
+      expires: 1000
+    }
+  }
   const req = {
     log: nullLogger,
     cookies: {
@@ -238,7 +263,7 @@ test('returns redirect for valid service url and sends slo reqs', (t) => {
     })
     .reply(200)
 
-  plugin(server, {}, async () => {
+  plugin(server, options, async () => {
     const result = await server.getHandler(req, reply)
     t.is(result, 'redirect')
     t.is(req.session.isAuthenticated, false)

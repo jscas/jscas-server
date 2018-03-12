@@ -303,7 +303,7 @@ test('successfully authenticates and redirects for non-renewal', (t) => {
     }
   })
 
-  plugin(server, {cookie: {a: 'b'}}, () => {
+  plugin(server, {cookie: {a: 'b', expires: 1000}}, () => {
     const req = {
       body: {
         service: 'http://example.com',
@@ -338,7 +338,7 @@ test('successfully authenticates and redirects for non-renewal', (t) => {
       setCookie (name, value, options) {
         t.is(name, 'tgt-cookie')
         t.is(value, '123456')
-        t.strictDeepEqual(options, {a: 'b'})
+        t.is(options.a, 'b')
         return this
       }
     }
@@ -379,7 +379,7 @@ test('successfully authenticates and redirects for renewal', (t) => {
     }
   })
 
-  plugin(server, {cookie: {a: 'b'}}, () => {
+  plugin(server, {cookie: {a: 'b', expires: 1000}}, () => {
     const req = {
       body: {
         service: 'http://example.com',
@@ -417,7 +417,7 @@ test('successfully authenticates and redirects for renewal', (t) => {
       setCookie (name, value, options) {
         t.is(name, 'tgt-cookie')
         t.is(value, '123456')
-        t.strictDeepEqual(options, {a: 'b'})
+        t.is(options.a, 'b')
         return this
       }
     }
@@ -550,6 +550,11 @@ test('redirects to /login with no service and bad credentials', (t) => {
 
 test('redirects to /success with no service and good credentials', (t) => {
   t.plan(10)
+  const options = {
+    cookie: {
+      expires: 1000
+    }
+  }
   const server = clone(serverProto)
   server.jscasInterface = {
     createTicketGrantingTicket: async function (username) {
@@ -565,7 +570,7 @@ test('redirects to /success with no service and good credentials', (t) => {
     }
   })
 
-  plugin(server, {}, () => {
+  plugin(server, options, () => {
     const req = {
       body: {
         csrfToken: 'csrf123',
@@ -612,6 +617,11 @@ test('redirects to /success with no service and good credentials', (t) => {
 
 test('processes registered preAuth hooks', {only: true}, (t) => {
   t.plan(17)
+  const options = {
+    cookie: {
+      expires: 1000
+    }
+  }
   const server = clone(serverProto)
   server.jscasInterface = {
     createServiceTicket: async function (tgtId, name) {
@@ -655,7 +665,7 @@ test('processes registered preAuth hooks', {only: true}, (t) => {
   failHook[Symbol.for('jscas-hook-id')] = 2
   server.jscasHooks.preAuth.push(failHook)
 
-  plugin(server, {}, () => {
+  plugin(server, options, () => {
     const req = {
       body: {
         service: 'http://example.com',
