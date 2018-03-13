@@ -56,6 +56,7 @@
     "marko": "^4.9.1",
     "merge-options": "^1.0.0",
     "nixconfig": "^1.1.0",
+    "nixconfig-toml": "^1.0.0",
     "nixconfig-yaml": "^1.0.0",
     "pino": "^4.13.0",
     "request": "^2.81.0",

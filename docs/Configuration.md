@@ -1,10 +1,11 @@
 # Configuration
 
-*JSCAS* uses [nixconfig](https://npm.im/nixconfig) and
-[nixconfig-yaml](https://npm.im/nixconfig-yaml) for loading configuration,
-and it specifies the configuration name as `jscas`. Thus, a `jscas.js`,
-`jscas.json`, `jscas.yaml`, or `jscas.yml` file within any of the following
-directories will be loaded:
+*JSCAS* uses [nixconfig](https://npm.im/nixconfig),
+[nixconfig-toml](https://npm.im/nixconfig-toml), and
+[nixconfig-yaml](https://npm.im/nixconfig-yaml) for loading configuration.
+This nixconfig name is `jscas`. Thus, a `jscas.js`, `jscas.json`, `jscas.toml`,
+`jscas.yaml`, or `jscas.yml` file within any of the following directories will
+be loaded:
 
 + `/etc`
 + `/etc/jscas`
