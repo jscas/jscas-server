@@ -125,9 +125,6 @@ function serverListenCB (err) {
     process.exit(1)
   }
 
-  const address = server.server.address()
-  log.info('web server started: %s:%s', address.address, address.port)
-
   process.on('SIGINT', server.close)
   process.on('SIGTERM', server.close)
 
