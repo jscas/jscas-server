@@ -86,12 +86,16 @@ server
   .register(resolvePlugin('~/errorHandlers'))
   .register(resolvePlugin('~/casInterfacePlugin'))
   .register(resolvePlugin('~/csrf'))
+  .register(resolvePlugin('~/ticketUtils'))
   .register(require('./lib/routes/login'), {cookie: config.get('cookie')})
   .register(require('./lib/routes/logout'), {cookie: config.get('cookie')})
   .register(require('./lib/routes/serviceValidate'), {useV3: config.get('v3overv2')})
   .register(require('./lib/routes/slash'))
   .register(require('./lib/routes/success'))
   .register(require('./lib/routes/validate'))
+  .register(require('./lib/routes/samlValidate'), {
+    sessionMaxAge: config.get('session.sessionMaxAge')
+  })
 
 for (const type of ['auth', 'misc']) {
   if (!pluginsToLoad[type]) continue

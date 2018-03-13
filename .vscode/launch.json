@@ -36,6 +36,20 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "Test: samlValidate > contentTypeParser",
+      "program": "${workspaceFolder}/test/lib/routes/samlValidate/contentTypeParser.test.js"
+    },
+
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Test: samlValidate > plugin",
+      "program": "${workspaceFolder}/test/lib/routes/samlValidate/plugin.test.js"
+    },
+
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Run Server",
       "program": "${workspaceFolder}/server.js",
       "env": {

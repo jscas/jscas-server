@@ -62,7 +62,8 @@
     "request": "^2.81.0",
     "rndm": "^1.2.0",
     "uid-generator": "^1.0.0",
-    "uid-safe": "^2.1.5"
+    "uid-safe": "^2.1.5",
+    "xml-js": "^1.6.2"
   },
   "devDependencies": {
     "abstract-logging": "^1.0.0",
