@@ -125,8 +125,8 @@ function serverListenCB (err) {
     process.exit(1)
   }
 
-  process.on('SIGINT', server.close)
-  process.on('SIGTERM', server.close)
+  process.on('SIGINT', server.close.bind(server))
+  process.on('SIGTERM', server.close.bind(server))
 
   if (process.send) process.send('ready')
 }
