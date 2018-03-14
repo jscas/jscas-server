@@ -89,7 +89,7 @@ test('issues a valid response', (t) => {
 
   const req = {
     query: {
-      service: 'http://example.com'
+      TARGET: 'http://example.com'
     }
   }
   const reply = {
