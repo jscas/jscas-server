@@ -109,3 +109,153 @@ test('issues a valid response', (t) => {
     t.match(response, /group2/)
   })
 })
+
+test('issues a invalid response when cannot find tgt', (t) => {
+  t.plan(8)
+  const server = clone(serverProto)
+  server.jscasHooks = {
+    userAttributes: [
+      async function (userId) {
+        t.is(userId, 'foo')
+        return {
+          memberOf: ['group1', 'group2'],
+          sAMAccountName: 'foo'
+        }
+      }
+    ]
+  }
+  server.validateService = async function (url) {
+    t.is(url, 'http://example.com')
+    return {}
+  }
+  server.validateST = async function (tid) {
+    t.is(tid, 'ST-1-u4hrm3td92cLxpCvrjylcas.example.com')
+    return {}
+  }
+  server.invalidateST = async function (tid) {
+    t.pass()
+    return {}
+  }
+  server.getTGT = async function (stId) {
+    return {
+      isError: true,
+      message: 'to be caught'
+    }
+  }
+
+  const req = {
+    query: {
+      TARGET: 'http://example.com'
+    }
+  }
+  const reply = {
+    type (input) {
+      t.is(input, 'text/xml')
+      return this
+    }
+  }
+
+  plugin(server, {}, async () => {
+    const response = await server.samlValidate(req, reply, validPostBody)
+    t.ok(response)
+    t.type(response, 'string')
+    t.match(response, /cas:serviceResponse/)
+    t.match(response, /could not be found/)
+  })
+})
+
+test('issues a invalid response when cannot invalidate service ticket', (t) => {
+  t.plan(7)
+  const server = clone(serverProto)
+  server.jscasHooks = {
+    userAttributes: [
+      async function (userId) {
+        t.is(userId, 'foo')
+        return {
+          memberOf: ['group1', 'group2'],
+          sAMAccountName: 'foo'
+        }
+      }
+    ]
+  }
+  server.validateService = async function (url) {
+    t.is(url, 'http://example.com')
+    return {}
+  }
+  server.validateST = async function (tid) {
+    t.is(tid, 'ST-1-u4hrm3td92cLxpCvrjylcas.example.com')
+    return {}
+  }
+  server.invalidateST = async function (tid) {
+    return {
+      isError: true,
+      message: 'to be caught'
+    }
+  }
+
+  const req = {
+    query: {
+      TARGET: 'http://example.com'
+    }
+  }
+  const reply = {
+    type (input) {
+      t.is(input, 'text/xml')
+      return this
+    }
+  }
+
+  plugin(server, {}, async () => {
+    const response = await server.samlValidate(req, reply, validPostBody)
+    t.ok(response)
+    t.type(response, 'string')
+    t.match(response, /cas:serviceResponse/)
+    t.match(response, /could not be invalidated/)
+  })
+})
+
+test('issues a invalid response when cannot validate service', (t) => {
+  t.plan(6)
+  const server = clone(serverProto)
+  server.jscasHooks = {
+    userAttributes: [
+      async function (userId) {
+        t.is(userId, 'foo')
+        return {
+          memberOf: ['group1', 'group2'],
+          sAMAccountName: 'foo'
+        }
+      }
+    ]
+  }
+  server.validateService = async function (url) {
+    t.is(url, 'http://example.com')
+    return {}
+  }
+  server.validateST = async function (tid) {
+    return {
+      isError: true,
+      message: 'to be caught'
+    }
+  }
+
+  const req = {
+    query: {
+      TARGET: 'http://example.com'
+    }
+  }
+  const reply = {
+    type (input) {
+      t.is(input, 'text/xml')
+      return this
+    }
+  }
+
+  plugin(server, {}, async () => {
+    const response = await server.samlValidate(req, reply, validPostBody)
+    t.ok(response)
+    t.type(response, 'string')
+    t.match(response, /cas:serviceResponse/)
+    t.match(response, /was not recognized/)
+  })
+})
