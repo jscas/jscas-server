@@ -13,6 +13,7 @@ const abcache = require('abstract-cache')(cachingConfig.cache)
 
 server
   .register(require('fastify-no-icon'))
+  .register(require('fastify-url-data'))
   .register(require('fastify-formbody'))
   .register(require('fastify-helmet'), config.get('helmet'))
   .register(require('fastify-cookie'))
@@ -87,6 +88,7 @@ server
   .register(resolvePlugin('~/casInterfacePlugin'))
   .register(resolvePlugin('~/csrf'))
   .register(resolvePlugin('~/ticketUtils'))
+  .register(resolvePlugin('~/aliasParameters'))
   .register(require('./lib/routes/login'), {cookie: config.get('cookie')})
   .register(require('./lib/routes/logout'), {cookie: config.get('cookie')})
   .register(require('./lib/routes/serviceValidate'), {useV3: config.get('v3overv2')})

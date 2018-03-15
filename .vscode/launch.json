@@ -8,6 +8,13 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "Test: aliasParameters",
+      "program": "${workspaceFolder}/test/lib/plugins/aliasParameters.test.js"
+    },
+
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Test: basicTheme",
       "program": "${workspaceFolder}/test/lib/plugins/basicTheme.test.js"
     },
