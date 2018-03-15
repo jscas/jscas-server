@@ -5,7 +5,7 @@ const test = require('tap').test
 const fastify = require('fastify')
 const plugin = require('../../../lib/plugins/aliasParameters')
 
-test('aliases service to TARGET', (t) => {
+test('aliases TARGET to service', (t) => {
   t.plan(3)
   const server = fastify()
   t.tearDown(() => server.close())
@@ -23,7 +23,7 @@ test('aliases service to TARGET', (t) => {
     server.server.unref()
     if (err) t.threw(err)
     http.get(
-      `http://localhost:${server.server.address().port}/login?service=foobar`,
+      `http://localhost:${server.server.address().port}/login?TARGET=foobar`,
       () => {}
     )
   })
