@@ -13,8 +13,8 @@ service could send a `url` parameter. In version 3.0, that was deprecated in
 favor of a `service` parameter. This server does not recognize the `url`
 parameter at all.
 
-[cas]: http://jasig.github.io/cas/4.1.x/index.html
-[casp]: https://github.com/Jasig/cas/blob/master/cas-server-documentation/protocol/CAS-Protocol-Specification.md
+[cas]: http://apereo.github.io/cas/4.1.x/index.html
+[casp]: https://apereo.github.io/cas/4.1.x/protocol/CAS-Protocol-Specification.html
 
 ### API Stability Notice
 
