@@ -459,3 +459,67 @@ test('generates a service ticket for a good ticket granting ticket', (t) => {
       .catch(t.threw)
   })
 })
+
+test('generates a SAML ticket for a SAML request', (t) => {
+  t.plan(8)
+  const options = {
+    cookie: {
+      expires: 1000
+    }
+  }
+  const server = clone(serverProto)
+  server.jscasInterface = {
+    createServiceTicket: async function (tgtId) {
+      t.is(tgtId, '654321')
+      return {tid: '67890'}
+    },
+
+    getService: async function (url) {
+      t.is(url, 'http://example.com')
+      return {name: 'foo', url: 'http://example.com'}
+    },
+
+    getTicketGrantingTicket: async function (tid) {
+      t.is(tid, '654321')
+      return {expired: false, tid}
+    }
+  }
+
+  plugin(server, options, () => {
+    const req = {
+      query: {
+        TARGET: 'http://example.com',
+        renew: undefined
+      },
+      session: {isAuthenticated: true},
+      cookies: {'tgt-cookie': '654321'},
+      log: nullLogger
+    }
+    const reply = {
+      type (val) {
+        t.is(val, 'text/html')
+        return this
+      },
+
+      code (num) {
+        t.is(num, 303)
+        return this
+      },
+
+      redirect (url) {
+        t.is(url, 'http://example.com?SAMLart=67890')
+        return 'redirect'
+      },
+
+      setCookie () {
+        t.pass()
+      }
+    }
+
+    server.getLogin(req, reply)
+      .then((result) => {
+        t.is(result, 'redirect')
+      })
+      .catch(t.threw)
+  })
+})

@@ -430,6 +430,85 @@ test('successfully authenticates and redirects for renewal', (t) => {
   })
 })
 
+test('successfully authenticates and redirects for SAML authentications', (t) => {
+  t.plan(15)
+  const server = clone(serverProto)
+  server.jscasInterface = {
+    createServiceTicket: async function (tgtId, name) {
+      t.is(tgtId, '123456')
+      t.is(name, 'foo')
+      return {tid: '67890'}
+    },
+
+    createTicketGrantingTicket: async function (username) {
+      t.is(username, 'foo')
+      return {tid: '123456'}
+    },
+
+    getService: async function (serviceUrl) {
+      t.is(serviceUrl, 'http://example.com')
+      return {name: 'foo', url: serviceUrl}
+    }
+  }
+  server.jscasPlugins.auth.push({
+    validate: async function (username, password) {
+      t.is(username, 'foo')
+      t.is(password, '123456')
+      return true
+    }
+  })
+
+  plugin(server, {cookie: {a: 'b', expires: 1000}}, () => {
+    const req = {
+      body: {
+        service: 'http://example.com',
+        csrfToken: 'csrf123',
+        username: 'foo',
+        password: '123456'
+      },
+      session: {
+        renewal: false,
+        samlConversation: true
+      },
+      log: nullLogger,
+      isValidCsrfToken (token) {
+        t.is(token, 'csrf123')
+        return true
+      }
+    }
+    const reply = {
+      type (val) {
+        t.is(val, 'text/html')
+        return this
+      },
+
+      code (num) {
+        t.is(num, 303)
+        return this
+      },
+
+      redirect (url) {
+        t.is(url, 'http://example.com?SAMLart=67890')
+        t.is(req.session.isAuthenticated, true)
+        return 'redirect'
+      },
+
+      setCookie (name, value, options) {
+        t.is(name, 'tgt-cookie')
+        t.is(value, '123456')
+        t.is(options.a, 'b')
+        return this
+      }
+    }
+
+    server.postLogin(req, reply)
+      .then((result) => {
+        t.is(result, 'redirect')
+      })
+      .catch(t.threw)
+  })
+})
+
 test('returns server error when ticket access fails', (t) => {
   t.plan(11)
   const server = clone(serverProto)

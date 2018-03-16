@@ -30,7 +30,7 @@ test('authenticates a user using protocol v3', {timeout: 5000}, (t) => {
     const server = fork(serverPath, [], {
       env,
       cwd: serverCWD,
-      silent: true
+      silent: false
     })
 
     t.tearDown(() => {

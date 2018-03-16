@@ -1,5 +1,7 @@
 'use strict'
 
+Error.stackTraceLimit = 100
+
 require('make-promises-safe')
 const path = require('path')
 const config = require('./lib/config')
@@ -88,7 +90,6 @@ server
   .register(resolvePlugin('~/casInterfacePlugin'))
   .register(resolvePlugin('~/csrf'))
   .register(resolvePlugin('~/ticketUtils'))
-  .register(resolvePlugin('~/aliasParameters'))
   .register(require('./lib/routes/login'), {cookie: config.get('cookie')})
   .register(require('./lib/routes/logout'), {cookie: config.get('cookie')})
   .register(require('./lib/routes/serviceValidate'), {useV3: config.get('v3overv2')})
