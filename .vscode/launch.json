@@ -66,6 +66,7 @@
       "request": "launch",
       "name": "Run Server",
       "program": "${workspaceFolder}/server.js",
+      "outputCapture": "std",
       "env": {
         "nixconfig_config_home": "${workspaceFolder}/test/integration",
         "jscas_server_port": "9000",
