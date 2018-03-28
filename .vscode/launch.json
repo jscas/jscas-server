@@ -64,6 +64,13 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "Test: serviceValidate > v2",
+      "program": "${workspaceFolder}/test/lib/routes/serviceValidate/v2.test.js"
+    },
+
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Run Server",
       "program": "${workspaceFolder}/server.js",
       "outputCapture": "std",

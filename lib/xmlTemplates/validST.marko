@@ -1,18 +1,18 @@
 <!-- Successful Service Ticket Validation 2.0/3.0 -->
 <cas:serviceResponse xmlns:cas="http://www.yale.edu/tp/cas">
- <cas:authenticationSuccess>
-  <cas:user>${input.username}</cas:user>
-  <!--<cas:proxyGrantingTicket>PGTIOU-84678-8a9d...</cas:proxyGrantingTicket>-->
+  <cas:authenticationSuccess>
+    <cas:user>${input.username}</cas:user>
+    <!--<cas:proxyGrantingTicket>PGTIOU-84678-8a9d...</cas:proxyGrantingTicket>-->
 
-  <cas:attributes if(input.attributes)>
-    <for(name,value in input.attributes)>
-      <if(name === 'memberOf')>
-        <cas:memberOf for(group in value)>${group}</cas:memberOf>
-      </if>
-      <else>
-        <cas:${name}>${value}</cas:${name}>
-      </else>
-    </for>
-  </cas:attributes>
- </cas:authenticationSuccess>
+    <cas:attributes if(input.attributes)>
+      <for(name,value in input.attributes)>
+        <if(Array.isArray(value))>
+          <cas:${name} for(ele in value)>${ele}</cas:${name}>
+        </if>
+        <else>
+          <cas:${name}>${value}</cas:${name}>
+        </else>
+      </for>
+    </cas:attributes>
+  </cas:authenticationSuccess>
 </cas:serviceResponse>

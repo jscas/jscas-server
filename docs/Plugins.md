@@ -6,6 +6,8 @@ to handle the rest. Plugins fit within one of a few categories:
 
 + [`auth`](#auth-plugins): provides an object that can be used to validate
 credentials (username and password)
++ [`attributeResolver`](#attribute-resolver-plugins): provides an object that
+can be used to retrieve extended attributes for a given user
 + [`misc`](#misc-plugins): provides various add-on functionality that isn't
 necessarily specific to the CAS protocol
 + [`serviceRegistry`](#service-registry-plugins): provides functionality to
@@ -20,6 +22,7 @@ Each *JSCAS* instance requires:
 + At *most* one `theme` plugin
 + At *most* one `ticketRegistry` plugin
 + At *most* one `serviceRegistry` plugin
++ At *most* one `attributeResolver` plugin
 + At least one `auth` plugin
 
 *JSCAS* plugins are actually [Fastify plugins][fastifyplugins] with an
@@ -78,6 +81,22 @@ Note: thrown errors and `false` results are ignored. An `error` level log will
 be registered for each failed authenticator, but no other action is taken.
 
 Reference implementation: [/lib/plugins/jsIdP](/lib/plugins/jsIdP/index.js)
+
+<a id="attribute-resolver-plugins"></a>
+## `attributeResolver` Plugins
+
+During service ticket validation it is possible for extended user attributes
+to be returned along with a successful ticket validation. In order for these
+attributes to be added to the response there must be an `attributeResolver`
+plugin registered with the *JSCAS* server. Such a plugin is merely an object
+with a single method: `async function attributesFor (username) {}`.
+
+The `attributesFor` method must return an empty object, `{}`, if no attributes
+for the specified user could be found. Otherwise, it should return an object
+with keys that represent the attribute names and values the attribute values.
+
+If a user is a member of a set of groups, it is recommended that the attribute
+name be `memberOf`.
 
 <a id="misc-plugins"></a>
 ## `misc` Plugins

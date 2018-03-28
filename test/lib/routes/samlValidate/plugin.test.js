@@ -13,6 +13,7 @@ const validPostBody = fs.readFileSync(
 
 const serverProto = {
   jscasInterface: {},
+  jscasPlugins: {},
   parsers: {},
   plugins: [],
   req: {
@@ -53,16 +54,14 @@ test('regiseters parser for all xml mimetypes', (t) => {
 test('issues a valid response', (t) => {
   t.plan(13)
   const server = clone(serverProto)
-  server.jscasHooks = {
-    userAttributes: [
-      async function (userId) {
-        t.is(userId, 'foo')
-        return {
-          memberOf: ['group1', 'group2'],
-          sAMAccountName: 'foo'
-        }
+  server.jscasPlugins.attributesResolver = {
+    async attributesFor (userId) {
+      t.is(userId, 'foo')
+      return {
+        memberOf: ['group1', 'group2'],
+        sAMAccountName: 'foo'
       }
-    ]
+    }
   }
   server.validateService = async function (url) {
     t.is(url, 'http://example.com')
@@ -113,16 +112,14 @@ test('issues a valid response', (t) => {
 test('issues a invalid response when cannot find tgt', (t) => {
   t.plan(8)
   const server = clone(serverProto)
-  server.jscasHooks = {
-    userAttributes: [
-      async function (userId) {
-        t.is(userId, 'foo')
-        return {
-          memberOf: ['group1', 'group2'],
-          sAMAccountName: 'foo'
-        }
+  server.jscasPlugins.attributesResolver = {
+    async attributesFor (userId) {
+      t.is(userId, 'foo')
+      return {
+        memberOf: ['group1', 'group2'],
+        sAMAccountName: 'foo'
       }
-    ]
+    }
   }
   server.validateService = async function (url) {
     t.is(url, 'http://example.com')
@@ -167,16 +164,14 @@ test('issues a invalid response when cannot find tgt', (t) => {
 test('issues a invalid response when cannot invalidate service ticket', (t) => {
   t.plan(7)
   const server = clone(serverProto)
-  server.jscasHooks = {
-    userAttributes: [
-      async function (userId) {
-        t.is(userId, 'foo')
-        return {
-          memberOf: ['group1', 'group2'],
-          sAMAccountName: 'foo'
-        }
+  server.jscasPlugins.attributesResolver = {
+    async attributesFor (userId) {
+      t.is(userId, 'foo')
+      return {
+        memberOf: ['group1', 'group2'],
+        sAMAccountName: 'foo'
       }
-    ]
+    }
   }
   server.validateService = async function (url) {
     t.is(url, 'http://example.com')
@@ -217,16 +212,14 @@ test('issues a invalid response when cannot invalidate service ticket', (t) => {
 test('issues a invalid response when cannot validate service', (t) => {
   t.plan(6)
   const server = clone(serverProto)
-  server.jscasHooks = {
-    userAttributes: [
-      async function (userId) {
-        t.is(userId, 'foo')
-        return {
-          memberOf: ['group1', 'group2'],
-          sAMAccountName: 'foo'
-        }
+  server.jscasPlugins.attributesResolver = {
+    async attributesFor (userId) {
+      t.is(userId, 'foo')
+      return {
+        memberOf: ['group1', 'group2'],
+        sAMAccountName: 'foo'
       }
-    ]
+    }
   }
   server.validateService = async function (url) {
     t.is(url, 'http://example.com')

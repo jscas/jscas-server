@@ -17,6 +17,8 @@ following methods:
 
 + `function registerAuthenticator (authenticator) {}`: adds an authenticator
 object to the list of available authenticators.
++ `function registerAttributeResolver (resolver) {}`: add an attribute resolver
+object to the server.
 + `function registerHook (hookName, fn) {}`: adds a hook to be invoked during
 certain operations. See the [Hooks](/docs/Hooks.md) document for more information.
 + `function registerMiscPlugin (obj) {}`: adds a miscellaneous functionality

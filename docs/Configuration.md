@@ -186,6 +186,9 @@ module.
 
 This parameter accepts an object with the following properties:
 
++ `attributesResolver` (Default: `~/jsAttributesResolver`): name of the module
+that provides an attributes resolver plugin. This plugin is required to properly
+support CAS protocol version 3.0, but is otherwise optional.
 + `theme` (Default: `~/basicTheme`): name of the module that provides the
 user interface. This is a **required** plugin.
 + `serviceRegistry` (Default: `~/jsServiceRegistry`): name of the module that

@@ -57,6 +57,7 @@ v3overv2: false
 # These plugins should be swapped out for ones useful in production.
 plugins:
   theme: ~/basicTheme
+  attributeResolver: ~/jsAttributeResolver
   serviceRegistry: ~/jsServiceRegistry
   ticketRegistry: ~/jsTicketRegistry
   auth:

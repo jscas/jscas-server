@@ -5,17 +5,11 @@ const clone = require('clone')
 const plugin = require('../../../lib/plugins/jsIdP')
 
 const serverProto = {
-  jscasHooks: {
-    userAttributes: []
-  },
   jscasPlugins: {
     auth: []
   },
   registerAuthenticator (obj) {
     this.jscasPlugins.auth.push(obj)
-  },
-  registerHook (name, fn) {
-    this.jscasHooks[name].push(fn)
   }
 }
 
@@ -41,31 +35,5 @@ test('overwrites default config', (t) => {
   plugin(server, opts, async () => {
     const result = await server.jscasPlugins.auth[0].validate('fuser', '654321')
     t.is(result, true)
-  })
-})
-
-test('userAttributes hook returns unique attributes object', (t) => {
-  t.plan(1)
-  const server = clone(serverProto)
-  plugin(server, {}, async () => {
-    const attrs = await server.jscasHooks.userAttributes[0]('fuser')
-    t.strictDeepEqual(attrs, {
-      firstName: 'Foo',
-      surname: 'User',
-      email: 'fuser@example.com',
-      memberOf: [
-        'group1',
-        'group2'
-      ]
-    })
-  })
-})
-
-test('userAttributes hook return empty object for non-existent user', (t) => {
-  t.plan(1)
-  const server = clone(serverProto)
-  plugin(server, {}, async () => {
-    const attrs = await server.jscasHooks.userAttributes[0]('none')
-    t.strictDeepEqual(attrs, {})
   })
 })

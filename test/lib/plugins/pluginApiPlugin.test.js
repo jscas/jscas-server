@@ -9,6 +9,7 @@ const serverProto = {
     Object.defineProperty(this, name, {value: val})
   },
   jscasPlugins: {
+    attributeResolver: {},
     ticketRegistry: {},
     serviceRegistry: {},
     theme: {},
@@ -39,8 +40,26 @@ test('registers authenticators', (t) => {
   })
 })
 
+test('registers attribute resolvers', (t) => {
+  t.plan(4)
+  const server = clone(serverProto)
+  plugin(server, {}, () => {
+    server.registerAttributeResolver({
+      async attributesFor (username) {
+        t.is(username, 'foo')
+        return {
+          cn: username
+        }
+      }
+    })
+    t.type(server.jscasPlugins.attributeResolver, Object)
+    t.type(server.jscasPlugins.attributeResolver.attributesFor, Function)
+    server.jscasPlugins.attributeResolver.attributesFor('foo').then(t.pass).catch(t.threw)
+  })
+})
+
 test('registers hook functions', (t) => {
-  t.plan(12)
+  t.plan(8)
   const server = clone(serverProto)
   plugin(server, {}, async () => {
     server.registerHook('preAuth', async function (username, password, serviceUrl, session) {
@@ -57,15 +76,6 @@ test('registers hook functions', (t) => {
     t.type(preAuthResult, 'boolean')
     t.is(preAuthResult, true)
     t.strictDeepEqual(hookSession, {foo: 'foo'})
-
-    server.registerHook('userAttributes', async function (username) {
-      t.is(username, 'foo')
-      return {foo: true}
-    })
-    t.is(server.jscasHooks.userAttributes.length, 1)
-    const userAttrResult = await server.jscasHooks.userAttributes[0]('foo')
-    t.type(userAttrResult, Object)
-    t.is(userAttrResult.foo, true)
   })
 })
 

@@ -8,6 +8,7 @@ const plugin = require('../../../../lib/routes/serviceValidate')
 
 const serverProto = {
   jscasInterface: {},
+  jscasPlugins: {},
   req: {},
   register (obj) {},
   decorateRequest (name, val) {
@@ -256,8 +257,8 @@ test('returns valid xml with attributes for v3-over-v2', (t) => {
     return {tid, userId: 'foo'}
   }
   server.trackService = async function () {}
-  server.jscasHooks = {
-    userAttributes: [async function (id) {
+  server.jscasPlugins.attributesResolver = {
+    async attributesFor (id) {
       return {
         email: 'foo@example.com',
         memberOf: [
@@ -265,7 +266,7 @@ test('returns valid xml with attributes for v3-over-v2', (t) => {
           'group2'
         ]
       }
-    }]
+    }
   }
   const req = {
     log: nullLogger,
