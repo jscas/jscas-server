@@ -1,6 +1,6 @@
 {
   "name": "cas-server",
-  "version": "1.0.0-rc.8",
+  "version": "1.0.0-rc.9",
   "description": "An implementation of Apereo's CAS protocol",
   "main": "server.js",
   "nixconfigPrefix": "jscas_",
