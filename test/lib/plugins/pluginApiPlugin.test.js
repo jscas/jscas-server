@@ -9,7 +9,7 @@ const serverProto = {
     Object.defineProperty(this, name, {value: val})
   },
   jscasPlugins: {
-    attributeResolver: {},
+    attributesResolver: {},
     ticketRegistry: {},
     serviceRegistry: {},
     theme: {},
@@ -44,7 +44,7 @@ test('registers attribute resolvers', (t) => {
   t.plan(4)
   const server = clone(serverProto)
   plugin(server, {}, () => {
-    server.registerAttributeResolver({
+    server.registerAttributesResolver({
       async attributesFor (username) {
         t.is(username, 'foo')
         return {
@@ -52,9 +52,9 @@ test('registers attribute resolvers', (t) => {
         }
       }
     })
-    t.type(server.jscasPlugins.attributeResolver, Object)
-    t.type(server.jscasPlugins.attributeResolver.attributesFor, Function)
-    server.jscasPlugins.attributeResolver.attributesFor('foo').then(t.pass).catch(t.threw)
+    t.type(server.jscasPlugins.attributesResolver, Object)
+    t.type(server.jscasPlugins.attributesResolver.attributesFor, Function)
+    server.jscasPlugins.attributesResolver.attributesFor('foo').then(t.pass).catch(t.threw)
   })
 })
 

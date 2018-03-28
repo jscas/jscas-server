@@ -44,7 +44,7 @@ server
     preAuth: []
   })
   .decorate('jscasPlugins', {
-    attributeResolver: {
+    attributesResolver: {
       async attributesFor (username) {
         return undefined
       }
@@ -80,7 +80,7 @@ function resolvePlugin (inputName) {
   }
   return require(inputName)
 }
-const attributeResolverPlugin = resolvePlugin(pluginsToLoad.attributesResolver)
+const attributesResolverPlugin = resolvePlugin(pluginsToLoad.attributesResolver)
 const ticketRegistryPlugin = resolvePlugin(pluginsToLoad.ticketRegistry)
 const serviceRegistryPlugin = resolvePlugin(pluginsToLoad.serviceRegistry)
 const themePlugin = resolvePlugin(pluginsToLoad.theme)
@@ -89,7 +89,7 @@ const themePlugin = resolvePlugin(pluginsToLoad.theme)
 // being present, and we want our routes added before miscellaneous plugins.
 server
   .register(resolvePlugin('~/pluginApiPlugin'))
-  .register(attributeResolverPlugin, pluginsConf[attributeResolverPlugin.pluginName])
+  .register(attributesResolverPlugin, pluginsConf[attributesResolverPlugin.pluginName])
   .register(ticketRegistryPlugin, pluginsConf[ticketRegistryPlugin.pluginName])
   .register(serviceRegistryPlugin, pluginsConf[serviceRegistryPlugin.pluginName])
   .register(themePlugin, pluginsConf[themePlugin.pluginName])

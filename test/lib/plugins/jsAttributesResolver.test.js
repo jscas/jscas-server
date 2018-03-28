@@ -6,10 +6,10 @@ const plugin = require('../../../lib/plugins/jsAttributesResolver')
 
 const serverProto = {
   jscasPlugins: {
-    attributeResolver: {}
+    attributesResolver: {}
   },
-  registerAttributeResolver (obj) {
-    this.jscasPlugins.attributeResolver = obj
+  registerAttributesResolver (obj) {
+    this.jscasPlugins.attributesResolver = obj
   }
 }
 
@@ -17,7 +17,7 @@ test('returns attributes for default user', (t) => {
   t.plan(1)
   const server = clone(serverProto)
   plugin(server, {}, async () => {
-    const result = await server.jscasPlugins.attributeResolver.attributesFor('fuser')
+    const result = await server.jscasPlugins.attributesResolver.attributesFor('fuser')
     t.strictDeepEqual(result, {
       firstName: 'Foo',
       surname: 'User',
@@ -39,7 +39,7 @@ test('overwrites default config', (t) => {
     }
   }
   plugin(server, opts, async () => {
-    const result = await server.jscasPlugins.attributeResolver.attributesFor('fuser')
+    const result = await server.jscasPlugins.attributesResolver.attributesFor('fuser')
     t.is(result.firstName, 'bar')
   })
 })
@@ -48,7 +48,7 @@ test('returns empty object for non-existent user', (t) => {
   t.plan(1)
   const server = clone(serverProto)
   plugin(server, {}, async () => {
-    const attrs = await server.jscasPlugins.attributeResolver.attributesFor('none')
+    const attrs = await server.jscasPlugins.attributesResolver.attributesFor('none')
     t.strictDeepEqual(attrs, {})
   })
 })

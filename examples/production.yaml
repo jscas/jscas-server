@@ -59,7 +59,7 @@ saml11Banner9Hack: false
 # These plugins should be swapped out for ones useful in production.
 plugins:
   theme: ~/basicTheme
-  attributeResolver: ~/jsAttributeResolver
+  attributesResolver: ~/jsAttributesResolver
   serviceRegistry: ~/jsServiceRegistry
   ticketRegistry: ~/jsTicketRegistry
   auth:
