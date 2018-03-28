@@ -40,7 +40,7 @@ const serverProto = {
   }
 }
 
-test('regiseters parser for all xml mimetypes', (t) => {
+test('registers parser for all xml mimetypes', (t) => {
   t.plan(4)
   const server = clone(serverProto)
   plugin(server, {}, () => {
@@ -106,6 +106,65 @@ test('issues a valid response', (t) => {
     t.match(response, /Audience>http:\/\/example\.com/)
     t.match(response, /group1/)
     t.match(response, /group2/)
+  })
+})
+
+test('returns UDC_IDENTIFIER attribute when Banner 9 hack enabled', (t) => {
+  t.plan(14)
+  const server = clone(serverProto)
+  server.jscasPlugins.attributesResolver = {
+    async attributesFor (userId) {
+      t.is(userId, 'foo')
+      return {
+        memberOf: ['group1', 'group2'],
+        sAMAccountName: 'foo'
+      }
+    }
+  }
+  server.validateService = async function (url) {
+    t.is(url, 'http://example.com')
+    return {}
+  }
+  server.validateST = async function (tid) {
+    t.is(tid, 'ST-1-u4hrm3td92cLxpCvrjylcas.example.com')
+    return {}
+  }
+  server.invalidateST = async function (tid) {
+    t.pass()
+    return {}
+  }
+  server.getTGT = async function (stId) {
+    t.pass()
+    return {
+      userId: 'foo'
+    }
+  }
+  server.trackService = async function (st, tgt, serviceUrl) {
+    t.pass()
+    return {}
+  }
+
+  const req = {
+    query: {
+      TARGET: 'http://example.com'
+    }
+  }
+  const reply = {
+    type (input) {
+      t.is(input, 'text/xml')
+      return this
+    }
+  }
+
+  plugin(server, {banner9Hack: true}, async () => {
+    const response = await server.samlValidate(req, reply, validPostBody)
+    t.ok(response)
+    t.type(response, 'string')
+    t.match(response, /AssertionID="[a-z0-9]+"/)
+    t.match(response, /Audience>http:\/\/example\.com/)
+    t.match(response, /group1/)
+    t.match(response, /group2/)
+    t.match(response, /AttributeName="UDC_IDENTIFIER"/)
   })
 })
 

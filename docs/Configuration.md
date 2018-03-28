@@ -160,6 +160,19 @@ This parameter toggles the ability to serve CAS protocol version 3 attributes
 to services via the CAS protocol version 2 endpoints. This parameter is a
 boolean that defaults to `false`.
 
+<a id="saml11Banner9Hack"></a>
+### `saml11Banner9Hack`
+
+This parameter toggles inclusion of a `UDC_IDENTIFIER` attribute in
+`/samlValidate` responses. This is to enable compliance with the SIS product
+Banner 9. The value of the attribute will be set to the same value as the
+regular CAS `user` property, i.e. the "username".
+
+This parameter is a boolean that defaults to `false`.
+
+Note: the value of `UDC_IDENTFIER` gets mapped to a value in Banner's
+`general.gobumap` table.
+
 <a id="plugins"></a>
 ### `plugins`
 

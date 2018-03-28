@@ -104,6 +104,7 @@ server
   .register(require('./lib/routes/success'))
   .register(require('./lib/routes/validate'))
   .register(require('./lib/routes/samlValidate'), {
+    banner9Hack: config.get('saml11Banner9Hack'),
     sessionMaxAge: config.get('session.sessionMaxAge')
   })
 

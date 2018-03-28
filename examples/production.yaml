@@ -54,6 +54,8 @@ tickets:
 
 v3overv2: false
 
+saml11Banner9Hack: false
+
 # These plugins should be swapped out for ones useful in production.
 plugins:
   theme: ~/basicTheme
