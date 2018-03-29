@@ -1,5 +1,5 @@
 {
-  "name": "cas-server",
+  "name": "jscas-server",
   "version": "1.0.0-rc.10",
   "description": "An implementation of Apereo's CAS protocol",
   "main": "server.js",
@@ -24,11 +24,11 @@
     "apereo",
     "jasig"
   ],
-  "homepage": "https://github.com/jscas/cas-server",
-  "bugs": "https://github.com/jscas/cas-server/issues",
+  "homepage": "https://github.com/jscas/jscas-server",
+  "bugs": "https://github.com/jscas/jscas-server/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jscas/cas-server.git"
+    "url": "https://github.com/jscas/jscas-server.git"
   },
   "author": "James Sumners",
   "license": "MIT",

@@ -28,8 +28,8 @@ parameter at all.
 A demonstration deployment of the server, and a sample application, ships
 with the server. To try it out:
 
-1. Clone the repository: `git clone https://github.com/jscas/cas-server.git`
-1. Navigate to the directory: `cd cas-server`
+1. Clone the repository: `git clone https://github.com/jscas/jscas-server.git`
+1. Navigate to the directory: `cd jscas-server`
 1. Update hosts file: `echo '127.0.0.1 app.example.com cas.example.com' >> /etc/hosts`
 1. Run [docker-compose][docker-compose]: `docker-compose up`
 1. Navigate to `http://app.example.com:3000` in a web browser
@@ -45,8 +45,8 @@ since Chrome doesn't work correctly with local test URLs otherwise.
 ### Via Git
 
 ```sh
-$ git clone https://github.com/jscas/cas-server
-$ cd cas-server
+$ git clone https://github.com/jscas/jscas-server
+$ cd jscas-server
 $ npm install --production
 $ npx jscas-server -s > jscas.yaml
 $ npm install --production abstract-cache-redis
@@ -62,7 +62,7 @@ instance:
 ```sh
 $ mkdir my-cas-server && cd my-cas-server
 $ echo "{}" > package.json
-$ npm install --save cas-server
+$ npm install --save jscas-server
 ```
 
 At this point a configuration will be needed. So let's use the included
