@@ -1,7 +1,5 @@
 'use strict'
 
-Error.stackTraceLimit = 100
-
 require('make-promises-safe')
 const path = require('path')
 const config = require('./lib/config')
