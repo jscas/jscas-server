@@ -7,6 +7,8 @@ const path = require('path')
 const config = require('./lib/config')
 const log = require('./lib/logger')()
 
+log.trace(config.config, 'parsed configuration')
+
 const server = require('fastify')({logger: log})
 const fastifyCaching = require('fastify-caching')
 

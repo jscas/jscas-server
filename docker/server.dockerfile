@@ -1,6 +1,6 @@
 FROM node:8-alpine
 
-COPY docker/jscas.json /etc
+COPY docker/jscas.toml /etc
 WORKDIR /app
 EXPOSE 9000
 

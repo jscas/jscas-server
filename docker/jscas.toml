@@ -1,0 +1,42 @@
+[logger]
+level = "trace"
+prettyPrint = true
+
+[server]
+address = "0.0.0.0"
+
+[cookie]
+domain = ".cas.example.com"
+path = "/"
+expires = 3600000
+secure = false
+sameSite = "lax"
+httpOnly = true
+
+[session]
+secretKey = "12345678901234567890123456789012"
+sessionMaxAge = 3600000
+
+[session.cookie]
+domain = ".cas.example.com"
+path = "/"
+expires = 3600000
+secure = false
+sameSite = "lax"
+httpOnly = true
+
+[pluginsConf]
+
+[pluginsConf.jsIdP.auser]
+password = "123456"
+
+[pluginsConf.jsAttributesResolver.auser]
+firstName = "A"
+surname = "User"
+email = "auser@example.com"
+memberOf = ["group1", "group2"]
+
+[pluginsConf.jsServiceRegistry]
+services = [
+  { name = "app", url = "http://app.example.com:3000/casauth" }
+]
