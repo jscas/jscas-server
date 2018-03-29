@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Body>
+    <saml1p:Response
+      xmlns:saml1p="urn:oasis:names:tc:SAML:1.0:protocol"
+      InResponseTo="${input.requestId}"
+      IssueInstant="${input.issued}"
+      MajorVersion="1"
+      MinorVersion="1"
+      ResponseID="${input.responseId}"
+    >
+      <saml1p:Status>
+        <saml1p:StatusCode Value="saml1p:Success" />
+      </saml1p:Status>
+
+      <saml1:Assertion
+        xmlns:saml1="urn:oasis:names:tc:SAML:1.0:assertion"
+        AssertionID="${input.assertionId}"
+        IssueInstant="${input.issued}"
+        Issuer="jscas"
+        MajorVersion="1"
+        MinorVersion="1"
+      >
+        <saml1:Conditions
+          NotBefore="${input.issued}"
+          NotOnOrAfter="${input.expires}"
+        >
+          <saml1:AudienceRestrictionCondition>
+            <saml1:Audience>${input.serviceUrl}</saml1:Audience>
+          </saml1:AudienceRestrictionCondition>
+        </saml1:Conditions>
+
+        <saml1:AuthenticationStatement AuthenticationInstant="${input.issued}" AuthenticationMethod="urn:ietf:rfc:2246">
+          <saml1:Subject>
+            <saml1:NameIdentifier>${input.username}</saml1:NameIdentifier>
+            <saml1:SubjectConfirmation>
+              <saml1:ConfirmationMethod>urn:oasis:names:tc:SAML:1.0:cm:artifact</saml1:ConfirmationMethod>
+            </saml1:SubjectConfirmation>
+          </saml1:Subject>
+        </saml1:AuthenticationStatement>
+
+        <saml1:AttributeStatement>
+          <saml1:Subject>
+            <saml1:NameIdentifier>${input.username}</saml1:NameIdentifier>
+            <saml1:SubjectConfirmation>
+              <saml1:ConfirmationMethod>urn:oasis:names:tc:SAML:1.0:cm:artifact</saml1:ConfirmationMethod>
+            </saml1:SubjectConfirmation>
+          </saml1:Subject>
+
+          <for(name,value in input.attributes) if(input.attributes)>
+            <if(name === 'memberOf')>
+              <saml1:Attribute AttributeName="memberOf" AttributeNamespace="cas">
+                <saml1:AttributeValue for(group in value)>${group}</saml1:AttributeValue>
+              </saml1:Attribute>
+            </if>
+            <else>
+              <saml1:Attribute AttributeName="${name}" AttributeNamespace="cas">
+                <saml1:AttributeValue>${value}</saml1:AttributeValue>
+              </saml1:Attribute>
+            </else>
+          </for>
+
+          <saml1:Attribute AttributeName="samlAuthenticationStatementAuthMethod" AttributeNamespace="cas">
+            <saml1:AttributeValue>urn:ietf:rfc:2246</saml1:AttributeValue>
+          </saml1:Attribute>
+
+        </saml1:AttributeStatement>
+      </saml1:Assertion>
+    </saml1p:Response>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

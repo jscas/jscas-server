@@ -1,0 +1,6 @@
+{
+  "logger": {
+    "level": "debug",
+    "prettyPrint": true
+  }
+}

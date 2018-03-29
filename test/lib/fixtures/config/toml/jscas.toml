@@ -1,0 +1,5 @@
+# toml config fixture
+
+[logger]
+level = "toml"
+prettyPrint = true

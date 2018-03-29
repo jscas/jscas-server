@@ -1,50 +1,18 @@
 <!-- Successful Service Ticket Validation 2.0/3.0 -->
 <cas:serviceResponse xmlns:cas="http://www.yale.edu/tp/cas">
- <cas:authenticationSuccess>
-  <cas:user>${data.username}</cas:user>
-  <!--<cas:proxyGrantingTicket>PGTIOU-84678-8a9d...</cas:proxyGrantingTicket>-->
+  <cas:authenticationSuccess>
+    <cas:user>${input.username}</cas:user>
+    <!--<cas:proxyGrantingTicket>PGTIOU-84678-8a9d...</cas:proxyGrantingTicket>-->
 
-  <cas:attributes if(data.attributes)>
-    <if(data.attributes.standardAttributes)>
-      <!--
-         These attributes are all of the attributes other than the 'any' type
-         as defined in the schema. `standardAttributes` should be an object
-         with key names matching the element names in the schema.
-      -->
-      <!-- This floating $ denotes a JS block in Marko v4 -->
-      $ let attrs=data.attributes.standardAttributes
-      <cas:authenticationDate if(attrs.authenticationDate)>${attrs.authenticationDate}</cas:authenticationDate>
-      <cas:longTermAuthenticationRequestTokenUsed if(attrs.longTermAuthenticationRequestTokenUsed)>
-        ${attrs.longTermAuthenticationRequestTokenUsed}
-      </cas:longTermAuthenticationRequestTokenUsed>
-      <cas:isFromNewLogin if(attrs.isFromNewLogin)>${attrs.isFromNewLogin}</cas:isFromNewLogin>
-      <if(attrs.memberOf)>
-        <cas:memberOf for(group in attrs.memberOf)>${group}</cas:memberOf>
-      </if>
-    </if>
-
-    <if(data.attributes.extraAttributes)>
-      <!--
-        These attributes are the 'any' attribute as allowed by the schema.
-        It should be an object of names and values. e.g.:
-          {
-            firstName: 'James',
-            lastName: 'Sumners'
-          }
-
-        Which will result in:
-          <cas:firstName>James</cas:firstName>
-          <cas:lastName>Sumners</cas:lastName>
-       -->
-       <for(name,value in data.attributes.extraAttributes)>
-        <if(name === 'memberOf')>
-          <cas:memberOf for(group in value)>${group}</cas:memberOf>
+    <cas:attributes if(input.attributes)>
+      <for(name,value in input.attributes)>
+        <if(Array.isArray(value))>
+          <cas:${name} for(ele in value)>${ele}</cas:${name}>
         </if>
         <else>
           <cas:${name}>${value}</cas:${name}>
         </else>
-       </for>
-    </if>
-  </cas:attributes>
- </cas:authenticationSuccess>
+      </for>
+    </cas:attributes>
+  </cas:authenticationSuccess>
 </cas:serviceResponse>

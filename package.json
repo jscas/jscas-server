@@ -1,55 +1,83 @@
 {
-  "name": "cas-server",
-  "version": "0.15.2",
+  "name": "jscas-server",
+  "version": "1.0.0-rc.10",
   "description": "An implementation of Apereo's CAS protocol",
   "main": "server.js",
+  "nixconfigPrefix": "jscas_",
   "scripts": {
     "test": "tap --no-cov 'test/**/*.test.js'",
-    "lint": "standard | snazzy"
+    "test-ci": "tap --cov 'test/**/*.test.js'",
+    "lint": "standard | snazzy",
+    "lint-ci": "standard",
+    "todo": "npx leasot -i './**/node_modules/**/*' './**/*.js' || true",
+    "docs": "npx aliv"
   },
   "precommit": [
     "lint",
     "test"
   ],
+  "bin": {
+    "jscas-server": "./bin.js"
+  },
   "keywords": [
     "cas",
     "apereo",
     "jasig"
   ],
-  "homepage": "https://github.com/jscas/cas-server",
-  "bugs": "https://github.com/jscas/cas-server/issues",
+  "homepage": "https://github.com/jscas/jscas-server",
+  "bugs": "https://github.com/jscas/jscas-server/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jscas/cas-server.git"
+    "url": "https://github.com/jscas/jscas-server.git"
   },
   "author": "James Sumners",
   "license": "MIT",
   "dependencies": {
-    "bluebird": "^3.5.0",
-    "bluebird-co": "^2.2.0",
-    "boom": "^4.3.1",
-    "hapi": "^16.1.1",
-    "hapi-easy-session": "^1.0.0",
-    "hapi-pino": "^1.4.1",
-    "hoek": "^4.1.1",
-    "introduce": "^0.2.0",
-    "iron": "^4.0.4",
-    "is-promise": "^2.1.0",
-    "laic": "^0.3.4",
-    "marko": "^4.2.8",
-    "opbeat": "^4.13.1",
-    "pino": "^4.5.2",
+    "abstract-cache": "^1.0.1",
+    "clone": "^2.1.1",
+    "conflate": "^1.4.0",
+    "csrf": "^3.0.6",
+    "fastify": "^1.2.0",
+    "fastify-caching": "^3.0.0",
+    "fastify-cookie": "^2.0.0",
+    "fastify-formbody": "^2.0.0",
+    "fastify-helmet": "^1.0.3",
+    "fastify-mongodb": "^0.5.0",
+    "fastify-no-icon": "^2.0.0",
+    "fastify-plugin": "^0.2.2",
+    "fastify-postgres": "^1.0.0",
+    "fastify-redis": "^0.4.0",
+    "fastify-server-session": "^2.0.0",
+    "fastify-url-data": "^2.0.0",
+    "getopts": "^2.0.5",
+    "isdebug": "^1.0.0",
+    "lru_map": "^0.3.3",
+    "make-promises-safe": "^1.1.0",
+    "marko": "^4.9.4",
+    "merge-options": "^1.0.0",
+    "nixconfig": "^1.1.0",
+    "nixconfig-toml": "^1.0.0",
+    "nixconfig-yaml": "^1.0.0",
+    "pino": "^4.15.3",
     "request": "^2.81.0",
-    "uuid": "^3.0.1"
+    "rndm": "^1.2.0",
+    "uid-generator": "^1.0.0",
+    "uid-safe": "^2.1.5",
+    "xml-js": "^1.6.2"
   },
   "devDependencies": {
     "abstract-logging": "^1.0.0",
+    "aliv": "^1.9.1",
     "cheerio": "^0.22.0",
-    "hapi-cas": "^0.8.0",
+    "clear-require": "^2.0.0",
+    "flush-write-stream": "^1.0.3",
+    "get-port": "^3.2.0",
+    "leasot": "^5.0.0",
+    "mock-require": "^3.0.2",
+    "nock": "^9.2.3",
     "pre-commit": "^1.2.2",
-    "rimraf": "^2.6.1",
-    "snazzy": "^7.0.0",
-    "standard": "^10.0.2",
-    "tap": "^10.3.2"
+    "snazzy": "^7.1.1",
+    "standard": "^11.0.1",
+    "tap": "^11.1.3"
   }
 }

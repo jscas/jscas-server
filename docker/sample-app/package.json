@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "fastify": "^1.1.1",
+    "fastify-caching": "^3.0.0",
+    "fastify-cas": "^2.0.0",
+    "fastify-cookie": "^2.0.0",
+    "fastify-server-session": "^2.0.0"
+  }
+}

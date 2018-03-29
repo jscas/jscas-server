@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>JSCAS Demo Theme</title>
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+  <style media="screen">
+    .mainWrapper {
+      height: 100vh;
+      margin: 0;
+    }
+    .shadowWrapper {
+      box-shadow: 0px 0px 65px 35px rgba(0, 0, 0, .2);
+      padding: 0px !important;
+    }
+    .shadowWrapper>div {
+      padding:25px;
+    }
+  </style>
+</head>
+<body class="bg-secondary">
+  <main class="mainWrapper row align-items-center">
+    <div class="container-fluid d-flex align-items-stretch">
+      <div class="shadowWrapper row col col-md-8 offset-md-2">
+        <include(input.renderBody, input.context) />
+        <div class="w-100"></div>
+        <div class="text-white col col-md-8 offset-2 text-center">
+          <p><a href="https://github.com/jscas/">JSCAS at GitHub</a></p>
+          <p><a href="https://www.freepik.com/free-photos-vectors/technology">Technology vector created by Freepik</a></p>
+          <p>Designed by <span class=""><a href="http://vonbaldwin.com" alt="Link to Designer's Site">Von Baldwin Designs</a></span></p>
+        </div>
+      </div> <!--end: shadowWrapper-->
+    </div> <!--end: container-fluid-->
+  </main>
+  <site-footer />
+</body>
+</html>

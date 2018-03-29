@@ -1,0 +1,11 @@
+<div class="col col-xs-8 col-md-6 bg-dark h-100 text-white">
+  <logo />
+</div>
+<div class="col col-xs-8 col-md-6 bg-light h-100">
+  <h2>Oops!</h2>
+  <p>We encountered an error we didn't expect.</p>
+  <p>Error message: ${input.error.message}</p>
+  <p if(input.isdebug)>
+    <code><pre>${input.error.stack}</pre></code>
+  </p>
+</div>

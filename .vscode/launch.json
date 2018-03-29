@@ -1,0 +1,84 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Test: aliasParameters",
+      "program": "${workspaceFolder}/test/lib/plugins/aliasParameters.test.js"
+    },
+
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Test: basicTheme",
+      "program": "${workspaceFolder}/test/lib/plugins/basicTheme.test.js"
+    },
+
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Test: /login GET",
+      "program": "${workspaceFolder}/test/lib/routes/login/get.test.js"
+    },
+
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Test: /login POST",
+      "program": "${workspaceFolder}/test/lib/routes/login/post.test.js"
+    },
+
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Test: jsTicketRegistry: generateServiceTicket",
+      "program": "${workspaceFolder}/test/lib/plugins/jsTicketRegistry/generateServiceTicket.test.js"
+    },
+
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Test: integration",
+      "program": "${workspaceFolder}/test/integration/v3server.test.js"
+    },
+
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Test: samlValidate > contentTypeParser",
+      "program": "${workspaceFolder}/test/lib/routes/samlValidate/contentTypeParser.test.js"
+    },
+
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Test: samlValidate > plugin",
+      "program": "${workspaceFolder}/test/lib/routes/samlValidate/plugin.test.js"
+    },
+
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Test: serviceValidate > v2",
+      "program": "${workspaceFolder}/test/lib/routes/serviceValidate/v2.test.js"
+    },
+
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run Server",
+      "program": "${workspaceFolder}/server.js",
+      "outputCapture": "std",
+      "env": {
+        "nixconfig_config_home": "${workspaceFolder}/test/integration",
+        "jscas_server_port": "9000",
+        "jscas_domain": "cas.example.com"
+      }
+    }
+  ]
+}

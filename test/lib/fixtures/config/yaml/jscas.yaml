@@ -1,0 +1,6 @@
+---
+# yaml config fixture
+
+logger:
+  level: yaml
+  prettyPrint: true
