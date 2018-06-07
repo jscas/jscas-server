@@ -50,7 +50,7 @@ $ cd jscas-server
 $ npm install --production
 $ npx jscas-server -s > jscas.yaml
 $ npm install --production abstract-cache-redis
-$ nixconfig_config_home=$(pwd) npx jscas-server
+$ NODE_PATH=$(pwd)/node_modules nixconfig_config_home=$(pwd) npx jscas-server
 ```
 
 ### As A Dependency
@@ -83,7 +83,7 @@ $ npm install --save abstract-cache-redis
 And now, the server is ready to start:
 
 ```sh
-$ NODE_PATH=$(pwd)/node_modules nixconfig_config_home=$pwd npx jscas-server
+$ NODE_PATH=$(pwd)/node_modules nixconfig_config_home=$(pwd) npx jscas-server
 ```
 
 At this point the server is listening on port `9000` with a very basic,
