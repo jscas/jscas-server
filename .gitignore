@@ -53,3 +53,8 @@ profile-*
 
 # vscode
 .vscode/
+
+# editor backup and lock files
+*~
+*.swp
+*.swo
