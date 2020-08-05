@@ -37,7 +37,7 @@
     "clone": "^2.1.1",
     "conflate": "^1.4.0",
     "csrf": "^3.0.6",
-    "fastify": "^1.2.0",
+    "fastify": "^2.15.1",
     "fastify-caching": "^3.0.0",
     "fastify-cookie": "^2.0.0",
     "fastify-formbody": "^2.0.0",
