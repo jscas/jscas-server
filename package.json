@@ -46,7 +46,7 @@
     "fastify-no-icon": "^2.0.0",
     "fastify-plugin": "^0.2.2",
     "fastify-postgres": "^1.0.0",
-    "fastify-redis": "^0.4.0",
+    "fastify-redis": "^1.0.0",
     "fastify-server-session": "^2.0.0",
     "fastify-url-data": "^2.0.0",
     "getopts": "^2.0.5",
